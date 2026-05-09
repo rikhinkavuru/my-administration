@@ -12,27 +12,33 @@ export default function ExecutivePage() {
       <Hero
         eyebrow="Executive Branch"
         title="A government that serves."
-        subtitle="A bureaucratic vision and fifteen confirmable cabinet nominees, each chosen for substance and for the realistic prospect of Senate confirmation."
+        subtitle="A bureaucratic vision and fifteen confirmable cabinet nominees — each chosen for substance and the realistic prospect of Senate confirmation."
       />
 
-      <section className="max-w-[1200px] mx-auto px-6 py-20">
+      <section className="container-page py-20 md:py-24">
         <SectionReveal>
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-8 md:p-12">
-            <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Bureaucratic Vision</div>
-            <p className="mt-4 text-xl md:text-2xl leading-relaxed text-[var(--fg)]">{bureaucraticVision}</p>
+          <div className="grid gap-x-12 gap-y-6 md:grid-cols-12 items-baseline">
+            <div className="smallcaps md:col-span-3">Bureaucratic Vision</div>
+            <p className="font-display md:col-span-9 text-2xl md:text-3xl tracking-[-0.01em] leading-[1.4] text-[var(--ink)] max-w-[42ch]">
+              {bureaucraticVision}
+            </p>
           </div>
         </SectionReveal>
       </section>
 
-      <section className="max-w-[1200px] mx-auto px-6 pb-24">
-        <SectionReveal>
-          <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">The Cabinet</div>
-          <h2 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight">Fifteen confirmable nominees.</h2>
-        </SectionReveal>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {cabinet.map((c, i) => (
-            <CabinetCard key={c.department} pick={c} index={i} />
-          ))}
+      <section className="border-t border-[var(--hairline)]">
+        <div className="container-page py-20 md:py-24">
+          <SectionReveal>
+            <div className="grid gap-x-12 gap-y-4 md:grid-cols-12 items-baseline">
+              <div className="smallcaps md:col-span-3">The Cabinet</div>
+              <h2 className="font-display md:col-span-9 text-3xl md:text-5xl tracking-tight font-medium leading-[1.1] max-w-[22ch]">Fifteen confirmable nominees.</h2>
+            </div>
+          </SectionReveal>
+          <div className="mt-14 border-t border-l border-[var(--hairline)] grid sm:grid-cols-2 lg:grid-cols-3">
+            {cabinet.map((c, i) => (
+              <CabinetCard key={c.department} pick={c} index={i} />
+            ))}
+          </div>
         </div>
       </section>
     </div>

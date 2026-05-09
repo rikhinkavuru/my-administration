@@ -13,20 +13,21 @@ export function useTheme() {
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const stored = (typeof window !== "undefined" && localStorage.getItem("theme")) as Theme | null;
-    if (stored === "light" || stored === "dark") {
-      setTheme(stored);
-    }
+    if (stored === "light" || stored === "dark") setTheme(stored);
+    setMounted(true);
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     const root = document.documentElement;
     if (theme === "light") root.classList.add("theme-light");
     else root.classList.remove("theme-light");
     localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   return (
     <ThemeCtx.Provider value={{ theme, toggle: () => setTheme(theme === "dark" ? "light" : "dark") }}>

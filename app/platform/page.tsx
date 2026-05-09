@@ -11,11 +11,11 @@ export default function PlatformPage() {
       <Hero
         eyebrow="The Platform"
         title="Twelve serious positions."
-        subtitle="No focus-grouped pablum, no populist theater. Twelve positions, written plainly, that together describe how this administration would govern."
+        subtitle="No focus-grouped pablum. No populist theater. Twelve positions, written plainly, that together describe how this administration would govern."
       />
-      <section className="max-w-[1200px] mx-auto px-6 py-20">
+      <section className="container-page py-20">
         <SectionReveal>
-          <div className="grid gap-4 md:gap-5">
+          <div className="border-t border-[var(--hairline)]">
             {platform.map((issue, i) => (
               <IssueCard key={issue.id} issue={issue} index={i} />
             ))}

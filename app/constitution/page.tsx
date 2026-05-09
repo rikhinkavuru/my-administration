@@ -13,37 +13,50 @@ export default function ConstitutionPage() {
         subtitle="Two amendments to send to the states, and three civil liberties this administration will defend without apology."
       />
 
-      <section className="max-w-[1200px] mx-auto px-6 py-20">
+      <section className="container-page py-20 md:py-28">
         <SectionReveal>
-          <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Proposed Amendments</div>
-          <h2 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight">Two amendments. Both overdue.</h2>
+          <div className="grid gap-x-12 gap-y-4 md:grid-cols-12 items-baseline">
+            <div className="smallcaps md:col-span-3">Proposed Amendments</div>
+            <h2 className="font-display md:col-span-9 text-3xl md:text-5xl tracking-tight font-medium leading-[1.1] max-w-[22ch]">Two amendments. Both overdue.</h2>
+          </div>
         </SectionReveal>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+
+        <div className="mt-14 border-t border-[var(--hairline)]">
           {amendments.map((a, i) => (
-            <SectionReveal key={a.title} delay={i * 0.08}>
-              <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-8 h-full">
-                <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-[var(--accent)]">Amendment {i + 1}</div>
-                <div className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight">{a.title}</div>
-                <p className="mt-5 text-[var(--fg)] leading-relaxed">{a.text}</p>
-                <p className="mt-4 text-sm text-[var(--fg-muted)] leading-relaxed"><span className="text-[var(--accent)] font-mono uppercase tracking-wider text-[10px] mr-2">Why</span>{a.rationale}</p>
-              </div>
+            <SectionReveal key={a.title} delay={i * 0.06}>
+              <article className="py-12 md:py-16 grid gap-x-12 gap-y-6 md:grid-cols-12 border-b border-[var(--hairline)]">
+                <div className="md:col-span-3">
+                  <div className="font-mono text-xs text-[var(--ink-faint)] tabular-nums">Amendment 0{i + 1}</div>
+                  <div className="smallcaps mt-3">Why</div>
+                  <p className="mt-2 text-sm text-[var(--ink-muted)] leading-relaxed">{a.rationale}</p>
+                </div>
+                <div className="md:col-span-9">
+                  <h3 className="font-display text-3xl md:text-4xl tracking-tight font-medium leading-tight">{a.title}</h3>
+                  <p className="mt-6 font-display text-xl md:text-2xl text-[var(--ink)] leading-[1.45] max-w-3xl italic">
+                    “{a.text}”
+                  </p>
+                </div>
+              </article>
             </SectionReveal>
           ))}
         </div>
       </section>
 
-      <section className="border-t border-[var(--border)] bg-[var(--bg-elev)]/30">
-        <div className="max-w-[1200px] mx-auto px-6 py-20">
+      <section className="border-t border-[var(--hairline)]">
+        <div className="container-page py-20 md:py-28">
           <SectionReveal>
-            <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Most-Cherished Civil Liberties</div>
-            <h2 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight">Three rights. No retreat.</h2>
+            <div className="grid gap-x-12 gap-y-4 md:grid-cols-12 items-baseline">
+              <div className="smallcaps md:col-span-3">Civil Liberties</div>
+              <h2 className="font-display md:col-span-9 text-3xl md:text-5xl tracking-tight font-medium leading-[1.1] max-w-[24ch]">Three rights. No retreat.</h2>
+            </div>
           </SectionReveal>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-14 grid gap-px bg-[var(--hairline)] border border-[var(--hairline)] md:grid-cols-3">
             {liberties.map((l, i) => (
-              <SectionReveal key={l.title} delay={i * 0.08}>
-                <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-7 h-full">
-                  <div className="text-xl font-semibold tracking-tight">{l.title}</div>
-                  <p className="mt-4 text-sm text-[var(--fg-muted)] leading-relaxed">{l.body}</p>
+              <SectionReveal key={l.title} delay={i * 0.06}>
+                <div className="bg-[var(--bg)] p-8 md:p-10 h-full">
+                  <div className="font-mono text-xs text-[var(--ink-faint)] tabular-nums">0{i + 1}</div>
+                  <div className="font-display mt-4 text-2xl tracking-tight font-medium leading-tight">{l.title}</div>
+                  <p className="mt-5 text-[15px] text-[var(--ink-muted)] leading-relaxed">{l.body}</p>
                 </div>
               </SectionReveal>
             ))}

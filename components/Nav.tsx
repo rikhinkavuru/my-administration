@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
 import { Sun, Moon, Menu, X } from "./Icons";
+import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
-  { href: "/", label: "Home" },
   { href: "/platform", label: "Platform" },
   { href: "/strategy", label: "Strategy" },
   { href: "/constitution", label: "Constitution" },
@@ -21,13 +21,31 @@ export default function Nav() {
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-[color-mix(in_oklab,var(--bg)_80%,transparent)] border-b border-[var(--border)]">
-      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="group flex items-center gap-2">
-          <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-[var(--fg-muted)] group-hover:text-[var(--accent)] transition">2028</span>
-          <span className="font-semibold tracking-tight">Sackett &middot; Kavuru</span>
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "backdrop-blur-md bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] border-b border-[var(--hairline)]"
+          : "bg-transparent border-b border-transparent"
+      }`}
+    >
+      <div className="container-page flex items-center justify-between h-16">
+        <Link href="/" className="group flex items-baseline gap-2">
+          <span className="font-display text-lg tracking-tight text-[var(--ink)]">
+            Sackett <span className="text-[var(--ink-muted)]">/</span> Kavuru
+          </span>
+          <span className="text-[10px] tabular-nums tracking-[0.18em] text-[var(--ink-muted)] uppercase">
+            2028
+          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
@@ -37,53 +55,71 @@ export default function Nav() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`px-3 py-1.5 text-sm rounded-md transition ${
-                  active
-                    ? "text-[var(--accent)]"
-                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
-                }`}
+                className="relative px-3 py-1.5 text-sm transition"
               >
-                {l.label}
+                <span
+                  className={
+                    active ? "text-[var(--ink)]" : "text-[var(--ink-muted)] hover:text-[var(--ink)]"
+                  }
+                >
+                  {l.label}
+                </span>
+                {active && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute left-3 right-3 -bottom-[1px] h-px bg-[var(--accent)]"
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <button
             onClick={toggle}
             aria-label="Toggle theme"
-            className="p-2 rounded-md border border-[var(--border)] hover:border-[var(--accent)] transition text-[var(--fg-muted)] hover:text-[var(--accent)]"
+            className="p-2 rounded-[var(--r-md)] text-[var(--ink-muted)] hover:text-[var(--ink)] transition"
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label="Open menu"
-            className="p-2 rounded-md border border-[var(--border)] lg:hidden text-[var(--fg-muted)]"
+            className="p-2 rounded-[var(--r-md)] lg:hidden text-[var(--ink-muted)] hover:text-[var(--ink)]"
           >
             {open ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
       </div>
-      {open && (
-        <div className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]">
-          <div className="max-w-[1200px] mx-auto px-6 py-3 flex flex-col gap-1">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className={`px-2 py-2 text-sm rounded-md ${
-                  pathname === l.href ? "text-[var(--accent)]" : "text-[var(--fg-muted)]"
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden lg:hidden border-t border-[var(--hairline)] bg-[var(--bg)]"
+          >
+            <div className="container-page py-3 flex flex-col">
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={`px-1 py-2.5 text-sm border-b border-[var(--hairline)] last:border-0 ${
+                    pathname === l.href ? "text-[var(--accent)]" : "text-[var(--ink-muted)]"
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

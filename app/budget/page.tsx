@@ -11,20 +11,22 @@ export default function BudgetPage() {
       <Hero
         eyebrow="Federal Budget"
         title="Honest math. Honest priorities."
-        subtitle="The current federal budget, the Sackett / Kavuru proposed budget, and a clear explanation of what changes and why."
+        subtitle="The current federal budget, the Sackett / Kavuru proposed budget, and a plain explanation of what changes and why."
       />
 
-      <section className="max-w-[1200px] mx-auto px-6 py-16">
+      <section className="container-page py-16">
         <SectionReveal>
           <BudgetCharts />
         </SectionReveal>
       </section>
 
-      <section className="max-w-[1000px] mx-auto px-6 pb-24">
+      <section className="container-page pb-24">
         <SectionReveal>
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-8 md:p-12">
-            <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Commentary</div>
-            <p className="mt-4 text-lg md:text-xl leading-relaxed text-[var(--fg)]">{budgetCommentary}</p>
+          <div className="grid gap-x-12 gap-y-6 md:grid-cols-12 items-baseline border-t border-[var(--hairline)] pt-12">
+            <div className="smallcaps md:col-span-3">Commentary</div>
+            <p className="font-display md:col-span-9 text-xl md:text-2xl tracking-[-0.005em] leading-[1.55] text-[var(--ink)] max-w-[62ch]">
+              {budgetCommentary}
+            </p>
           </div>
         </SectionReveal>
       </section>

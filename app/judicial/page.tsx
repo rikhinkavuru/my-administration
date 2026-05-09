@@ -13,48 +13,55 @@ export default function JudicialPage() {
         subtitle="An originalist and textualist Supreme Court nominee, a clear judicial philosophy, and three honest litmus tests."
       />
 
-      <section className="max-w-[1200px] mx-auto px-6 py-20 grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <section className="container-page py-20 md:py-24">
         <SectionReveal>
-          <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--bg-elev)] p-8 md:p-10 h-full">
-            <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Ideal SCOTUS Nominee</div>
-            <div className="mt-3 text-4xl md:text-5xl font-semibold tracking-tight">{judicial.nominee.name}</div>
-            <div className="mt-2 text-[var(--fg-muted)]">{judicial.nominee.court}</div>
-            <ul className="mt-8 space-y-4">
-              {judicial.nominee.bio.map((b, i) => (
-                <li key={i} className="flex gap-3 text-[var(--fg-muted)] leading-relaxed">
-                  <span className="font-mono text-[var(--accent)] shrink-0">0{i + 1}</span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="grid gap-x-12 gap-y-6 md:grid-cols-12 items-baseline">
+            <div className="smallcaps md:col-span-3">Ideal SCOTUS Nominee</div>
+            <div className="md:col-span-9">
+              <div className="font-display text-5xl md:text-7xl tracking-[-0.02em] font-medium leading-[0.95]">{judicial.nominee.name}</div>
+              <div className="mt-4 text-[var(--ink-muted)]">{judicial.nominee.court}</div>
+            </div>
           </div>
         </SectionReveal>
 
-        <div className="flex flex-col gap-6">
-          <SectionReveal delay={0.1}>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-8 h-full">
-              <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Judicial Philosophy</div>
-              <div className="mt-3 text-2xl font-semibold tracking-tight">{judicial.philosophy.title}</div>
-              <ul className="mt-5 space-y-3 text-sm text-[var(--fg-muted)] leading-relaxed">
-                {judicial.philosophy.points.map((p, i) => (
-                  <li key={i} className="flex gap-2"><span className="text-[var(--accent)]">•</span>{p}</li>
-                ))}
-              </ul>
-            </div>
+        <SectionReveal delay={0.08}>
+          <div className="mt-14 border-t border-[var(--hairline)]">
+            {judicial.nominee.bio.map((b, i) => (
+              <div key={i} className="py-7 grid grid-cols-[3rem_1fr] gap-6 items-baseline border-b border-[var(--hairline)]">
+                <div className="font-mono text-xs text-[var(--ink-faint)] tabular-nums">0{i + 1}</div>
+                <div className="text-[15px] md:text-base text-[var(--ink)] leading-[1.7] max-w-3xl">{b}</div>
+              </div>
+            ))}
+          </div>
+        </SectionReveal>
+      </section>
+
+      <section className="border-t border-[var(--hairline)]">
+        <div className="container-page py-20 md:py-24 grid gap-12 md:gap-20 lg:grid-cols-2">
+          <SectionReveal>
+            <div className="smallcaps">Judicial philosophy</div>
+            <div className="font-display mt-3 text-3xl md:text-4xl tracking-tight font-medium leading-tight">{judicial.philosophy.title}</div>
+            <ul className="mt-8 space-y-5 text-[15px] text-[var(--ink-muted)] leading-[1.7]">
+              {judicial.philosophy.points.map((p, i) => (
+                <li key={i} className="grid grid-cols-[2rem_1fr] gap-2">
+                  <span className="text-[var(--accent)] font-mono text-xs tabular-nums pt-[2px]">0{i + 1}</span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
           </SectionReveal>
 
-          <SectionReveal delay={0.18}>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-8">
-              <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent)]">Litmus Tests</div>
-              <ol className="mt-5 space-y-4 text-sm text-[var(--fg-muted)] leading-relaxed">
-                {judicial.litmusTests.map((t, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="font-mono text-[var(--accent)]">0{i + 1}</span>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+          <SectionReveal delay={0.1}>
+            <div className="smallcaps">Litmus tests</div>
+            <div className="font-display mt-3 text-3xl md:text-4xl tracking-tight font-medium leading-tight max-w-[20ch]">Three. No more, no less.</div>
+            <ol className="mt-8 space-y-5 text-[15px] text-[var(--ink-muted)] leading-[1.7]">
+              {judicial.litmusTests.map((t, i) => (
+                <li key={i} className="grid grid-cols-[2rem_1fr] gap-2">
+                  <span className="text-[var(--accent)] font-mono text-xs tabular-nums pt-[2px]">0{i + 1}</span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ol>
           </SectionReveal>
         </div>
       </section>

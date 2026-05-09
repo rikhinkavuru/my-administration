@@ -2,41 +2,54 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-[var(--border)] bg-[var(--bg)]">
-      <div className="max-w-[1200px] mx-auto px-6 py-12 grid gap-10 md:grid-cols-3">
-        <div>
-          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-[var(--fg-muted)]">2028</div>
-          <div className="mt-2 text-lg font-semibold">Sackett / Kavuru</div>
-          <div className="text-[var(--fg-muted)] text-sm">Renew the Republic.</div>
-        </div>
-        <div className="text-sm text-[var(--fg-muted)] space-y-2">
-          <div className="text-[var(--fg)] font-medium">Pages</div>
-          <div className="grid grid-cols-2 gap-1">
-            <Link href="/platform">Platform</Link>
-            <Link href="/strategy">Strategy</Link>
-            <Link href="/constitution">Constitution</Link>
-            <Link href="/executive">Executive</Link>
-            <Link href="/judicial">Judicial</Link>
-            <Link href="/address">Address</Link>
-            <Link href="/budget">Budget</Link>
-            <Link href="/media">Media</Link>
+    <footer className="mt-32 border-t border-[var(--hairline)]">
+      <div className="container-page py-16">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <div className="font-display text-2xl tracking-tight">
+              Sackett <span className="text-[var(--ink-muted)]">/</span> Kavuru
+            </div>
+            <div className="text-sm text-[var(--ink-muted)] mt-2 max-w-md leading-relaxed">
+              Renew the Republic. A serious agenda for a serious moment.
+            </div>
           </div>
-        </div>
-        <div className="text-sm text-[var(--fg-muted)] space-y-3">
-          <div className="text-[var(--fg)] font-medium">Sources (APA, abbreviated)</div>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Congressional Budget Office. (2025). <em>Budget and Economic Outlook: 2025–2035</em>.</li>
-            <li>U.S. Census Bureau. (2024). <em>Apportionment Population and Number of Representatives</em>.</li>
-            <li>National Review &amp; AEI policy archives, 2020–2026.</li>
-            <li>Office of Management and Budget. (2025). <em>Historical Tables</em>.</li>
-          </ul>
+
+          <div className="md:col-span-3">
+            <div className="smallcaps mb-4">Pages</div>
+            <ul className="space-y-2 text-sm">
+              {[
+                ["/platform", "Platform"],
+                ["/strategy", "Strategy"],
+                ["/constitution", "Constitution"],
+                ["/executive", "Executive"],
+                ["/judicial", "Judicial"],
+                ["/address", "Address"],
+                ["/budget", "Budget"],
+                ["/media", "Media"],
+              ].map(([href, label]) => (
+                <li key={href}>
+                  <Link href={href} className="text-[var(--ink-muted)] hover:text-[var(--ink)] transition">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="md:col-span-4">
+            <div className="smallcaps mb-4">Sources</div>
+            <ul className="space-y-2 text-sm text-[var(--ink-muted)] leading-relaxed">
+              <li>Congressional Budget Office. (2025). <em>Budget and Economic Outlook: 2025–2035.</em></li>
+              <li>U.S. Census Bureau. (2024). <em>Apportionment Population.</em></li>
+              <li>Office of Management and Budget. (2025). <em>Historical Tables.</em></li>
+              <li>National Review &amp; AEI policy archives, 2020–2026.</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="border-t border-[var(--border)]">
-        <div className="max-w-[1200px] mx-auto px-6 py-5 text-xs text-[var(--fg-muted)] flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <div>
-            This is a fictional academic project for AP Government. Not a real political campaign.
-          </div>
+      <div className="border-t border-[var(--hairline)]">
+        <div className="container-page py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-xs text-[var(--ink-muted)]">
+          <div>This is a fictional academic project for AP Government. Not a real political campaign.</div>
           <div>© {new Date().getFullYear()} Renew the Republic Project</div>
         </div>
       </div>

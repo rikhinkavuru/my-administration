@@ -4,27 +4,40 @@ export type BudgetSlice = {
   color: string;
 };
 
+// Editorial palette: oxblood, ink, parchment, plus muted neutrals.
+const PAL = {
+  oxblood: "#7B1E2B",
+  oxbloodLight: "#A04654",
+  ink: "#2A2620",
+  ink2: "#4A4339",
+  parchment: "#C9BFA8",
+  parchment2: "#D8CFB6",
+  bronze: "#8B6F3D",
+  bronze2: "#A8884D",
+  forest: "#3F5942",
+};
+
 export const currentBudget: BudgetSlice[] = [
-  { category: "Social Security", value: 21, color: "#D4AF37" },
-  { category: "Medicare", value: 15, color: "#B8902F" },
-  { category: "Medicaid & Health", value: 14, color: "#9C7B28" },
-  { category: "Defense", value: 13, color: "#4F5BD5" },
-  { category: "Income Security", value: 9, color: "#3D4796" },
-  { category: "Net Interest", value: 13, color: "#8B1A1A" },
-  { category: "Veterans & Federal Retirement", value: 7, color: "#2A6F4D" },
-  { category: "Other Discretionary", value: 8, color: "#5C6470" },
+  { category: "Social Security", value: 21, color: PAL.oxblood },
+  { category: "Medicare", value: 15, color: PAL.oxbloodLight },
+  { category: "Medicaid & Health", value: 14, color: PAL.bronze },
+  { category: "Defense", value: 13, color: PAL.ink },
+  { category: "Income Security", value: 9, color: PAL.bronze2 },
+  { category: "Net Interest", value: 13, color: PAL.ink2 },
+  { category: "Veterans & Federal Retirement", value: 7, color: PAL.parchment },
+  { category: "Other Discretionary", value: 8, color: PAL.parchment2 },
 ];
 
 export const proposedBudget: BudgetSlice[] = [
-  { category: "Social Security", value: 20, color: "#D4AF37" },
-  { category: "Medicare", value: 14, color: "#B8902F" },
-  { category: "Medicaid & Health", value: 12, color: "#9C7B28" },
-  { category: "Defense", value: 15, color: "#4F5BD5" },
-  { category: "Income Security", value: 7, color: "#3D4796" },
-  { category: "Net Interest", value: 13, color: "#8B1A1A" },
-  { category: "Veterans & Federal Retirement", value: 8, color: "#2A6F4D" },
-  { category: "Other Discretionary", value: 7, color: "#5C6470" },
-  { category: "Debt Reduction Set-Aside", value: 4, color: "#0E7C5A" },
+  { category: "Social Security", value: 20, color: PAL.oxblood },
+  { category: "Medicare", value: 14, color: PAL.oxbloodLight },
+  { category: "Medicaid & Health", value: 12, color: PAL.bronze },
+  { category: "Defense", value: 15, color: PAL.ink },
+  { category: "Income Security", value: 7, color: PAL.bronze2 },
+  { category: "Net Interest", value: 13, color: PAL.ink2 },
+  { category: "Veterans & Federal Retirement", value: 8, color: PAL.parchment },
+  { category: "Other Discretionary", value: 7, color: PAL.parchment2 },
+  { category: "Debt Reduction Set-Aside", value: 4, color: PAL.forest },
 ];
 
 export const budgetCommentary =
