@@ -19,7 +19,7 @@ export default function ConstitutionPage() {
       <section className="container-page py-20 md:py-24">
         <SectionReveal>
           <div className="flex items-center gap-4 mb-10">
-            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ A ]</span>
+            <span className="font-mono text-[10px] tabular-nums text-[var(--accent-red)]">[ A ]</span>
             <span className="eyebrow">Proposed Amendments</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>
@@ -38,7 +38,7 @@ export default function ConstitutionPage() {
             <SectionReveal key={a.title} delay={i * 0.06}>
               <div className="bg-[var(--bg)] p-8 md:p-10 h-full flex flex-col">
                 <div className="flex items-baseline justify-between">
-                  <span className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
+                  <span className="font-mono text-[10px] text-[var(--accent-red)] tabular-nums tracking-[0.06em]">
                     AMENDMENT 0{i + 1}
                   </span>
                   <span className="eyebrow !text-[var(--fg-40)]">Proposed</span>
@@ -62,7 +62,7 @@ export default function ConstitutionPage() {
       <section className="container-page py-24">
         <SectionReveal>
           <div className="flex items-center gap-4 mb-10">
-            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ B ]</span>
+            <span className="font-mono text-[10px] tabular-nums text-[var(--accent-red)]">[ B ]</span>
             <span className="eyebrow">Civil Liberties</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>

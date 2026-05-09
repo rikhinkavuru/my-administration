@@ -107,7 +107,7 @@ export default function StrategyPage() {
       <section className="container-page py-24">
         <SectionReveal>
           <div className="flex items-center gap-4 mb-10">
-            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ A ]</span>
+            <span className="font-mono text-[10px] tabular-nums text-[var(--accent-red)]">[ A ]</span>
             <span className="eyebrow">Battlegrounds</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>
@@ -127,7 +127,7 @@ export default function StrategyPage() {
               <div className="bg-[var(--bg)] p-8 md:p-10 h-full">
                 <div className="flex items-baseline justify-between gap-4">
                   <div>
-                    <div className="eyebrow !text-[var(--fg-40)]">Must-win</div>
+                    <div className="eyebrow !text-[var(--accent-red)]">Must-win</div>
                     <div className="font-display mt-4 text-[44px] md:text-[56px] leading-[0.96]">
                       {s.name}
                     </div>
@@ -154,7 +154,7 @@ export default function StrategyPage() {
       <section className="container-page py-24">
         <SectionReveal>
           <div className="flex items-center gap-4 mb-10">
-            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ B ]</span>
+            <span className="font-mono text-[10px] tabular-nums text-[var(--accent-red)]">[ B ]</span>
             <span className="eyebrow">Lean states to lock</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>

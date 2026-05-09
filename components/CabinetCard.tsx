@@ -15,7 +15,7 @@ export default function CabinetCard({ pick, index }: { pick: CabinetPick; index:
         <span className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums">
           {String(index + 1).padStart(2, "0")} / 15
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--fg-60)]">
+        <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent-red)]">
           Nominee
         </span>
       </div>

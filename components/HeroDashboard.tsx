@@ -57,8 +57,8 @@ export default function HeroDashboard() {
       <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--hairline)]">
         <div className="flex items-center gap-2.5">
           <span className="relative inline-flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-[var(--fg)] opacity-50 animate-ping" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--fg)]" />
+            <span className="absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-60 animate-ping" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent-red)]" />
           </span>
           <span className="font-mono text-[10px] tracking-[0.06em] uppercase text-[var(--fg-60)]">
             Live · Campaign HQ

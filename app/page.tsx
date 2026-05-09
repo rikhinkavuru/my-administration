@@ -66,7 +66,7 @@ export default function Home() {
                 className="text-[var(--accent-red)]"
               />
               <span className="block">
-                the <span className="font-serif-italic text-[var(--fg-60)]">Republic.</span>
+                the <span className="font-serif-italic text-[var(--accent-red)]">Republic.</span>
               </span>
             </motion.h1>
 
@@ -131,7 +131,7 @@ export default function Home() {
         </SplitText>
         <p className="font-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] max-w-[18ch]">
           for a serious{" "}
-          <span className="font-serif-italic text-[var(--fg-60)]">moment.</span>
+          <span className="font-serif-italic text-[var(--accent-red)]">moment.</span>
         </p>
 
         <div className="mt-16 grid md:grid-cols-2 gap-px bg-[var(--hairline)] border border-[var(--hairline)]">
@@ -182,7 +182,7 @@ export default function Home() {
           Four ideas, in plain
         </SplitText>
         <p className="font-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px]">
-          <span className="font-serif-italic text-[var(--fg-60)]">language.</span>
+          <span className="font-serif-italic text-[var(--accent-red)]">language.</span>
         </p>
 
         <div className="mt-16 grid md:grid-cols-2 gap-px bg-[var(--hairline)] border border-[var(--hairline)]">
@@ -210,7 +210,7 @@ export default function Home() {
             <div className="eyebrow text-center">Slogan</div>
             <h2 className="font-display block text-center mt-10 text-[64px] sm:text-[112px] md:text-[164px] lg:text-[200px] leading-[0.92]">
               Renew the{" "}
-              <span className="font-serif-italic text-[var(--fg-60)]">Republic.</span>
+              <span className="font-serif-italic text-[var(--accent-red)]">Republic.</span>
             </h2>
             <p className="mt-12 max-w-2xl mx-auto text-center text-[var(--fg-60)] leading-[1.7] text-[15px] md:text-[17px]">
               Not a slogan about grievance. Not a slogan about nostalgia. A slogan about the work — the unromantic, demanding work of running a constitutional republic the way the Founders meant for it to be run.

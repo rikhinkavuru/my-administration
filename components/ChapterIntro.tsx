@@ -40,7 +40,7 @@ export default function ChapterIntro({
           {italicAccent && (
             <>
               {" "}
-              <span className="font-serif-italic text-[var(--fg-60)]">{italicAccent}</span>
+              <span className="font-serif-italic text-[var(--accent-red)]">{italicAccent}</span>
             </>
           )}
         </motion.h1>

@@ -74,7 +74,7 @@ export default function JudicialPage() {
             <div className="eyebrow">Litmus tests</div>
             <div className="font-display mt-6 text-[36px] md:text-[44px] leading-[1] max-w-[20ch]">
               Three. No more,{" "}
-              <span className="font-serif-italic text-[var(--fg-60)]">no less.</span>
+              <span className="font-serif-italic text-[var(--accent-red)]">no less.</span>
             </div>
             <ol className="mt-8 space-y-5 text-[14px] md:text-[15px] text-[var(--fg-60)] leading-[1.7]">
               {judicial.litmusTests.map((t, i) => (

@@ -82,8 +82,8 @@ body {
 }
 
 ::selection {
-  background: var(--fg);
-  color: var(--bg);
+  background: var(--accent-red);
+  color: #fff;
 }
 
 /* =========================================================
@@ -237,7 +237,7 @@ html.lenis, html.lenis body { height: auto; }
    Focus + reduced motion
    ========================================================= */
 :focus-visible {
-  outline: 1px solid var(--fg);
+  outline: 1px solid var(--accent-red);
   outline-offset: 3px;
   border-radius: 0;
 }

@@ -48,9 +48,9 @@ export default function AddressPage() {
             {stateOfTheUnion.themes.map((t, i) => (
               <span
                 key={t}
-                className="text-[11px] text-[var(--fg-60)] border border-[var(--hairline)] rounded-full px-3 py-1.5 font-mono tracking-[0.06em] uppercase"
+                className="text-[11px] text-[var(--fg-60)] border border-[var(--hairline-strong)] rounded-full px-3 py-1.5 font-mono tracking-[0.06em] uppercase"
               >
-                <span className="text-[var(--fg-40)] mr-1.5">0{i + 1}</span>
+                <span className="text-[var(--accent-red)] mr-1.5">0{i + 1}</span>
                 {t}
               </span>
             ))}

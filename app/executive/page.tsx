@@ -32,7 +32,7 @@ export default function ExecutivePage() {
       <section className="container-page py-16 md:py-20">
         <SectionReveal>
           <div className="flex items-center gap-4 mb-10">
-            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ 15 ]</span>
+            <span className="font-mono text-[10px] tabular-nums text-[var(--accent-red)]">[ 15 ]</span>
             <span className="eyebrow">The Cabinet</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>
