@@ -3,7 +3,6 @@ import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
-import Hero3DWrapper from "@/components/Hero3DWrapper";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -27,12 +26,19 @@ export default function Home() {
     <div>
       {/* ================= HERO ================= */}
       <section ref={heroRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
-        {/* 3D centerpiece, contained to right column on desktop */}
+        {/* Ambient bloom on the right — non-figurative replacement for the prior 3D scene */}
         <motion.div
+          aria-hidden
           style={{ scale: heroScale }}
-          className="absolute inset-y-0 right-0 left-0 lg:left-[55%] xl:left-[58%] pointer-events-none opacity-90"
+          className="absolute inset-y-0 right-[-10%] left-[40%] pointer-events-none"
         >
-          <Hero3DWrapper />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(45vw 45vw at 70% 50%, rgba(196,85,97,0.18), transparent 60%)",
+            }}
+          />
         </motion.div>
 
         <div className="container-page relative z-10 pt-24 md:pt-32 pb-16">
