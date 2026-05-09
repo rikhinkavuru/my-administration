@@ -3,6 +3,9 @@ import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
+import SealEmblem from "@/components/SealEmblem";
+import DotGrid from "@/components/DotGrid";
+import StatBadges from "@/components/StatBadges";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -20,55 +23,77 @@ export default function Home() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const emblemY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const emblemRotate = useTransform(scrollYProgress, [0, 1], [0, 25]);
 
   return (
     <div>
       {/* ================= HERO ================= */}
-      <section ref={heroRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
-        <div className="container-page relative z-10 pt-24 md:pt-32 pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-4"
-          >
-            <span className="smallcaps">{candidates.party}</span>
-            <span className="h-px flex-1 max-w-[120px] bg-[var(--hairline-strong)]" />
-            <span className="font-mono text-[10px] tabular-nums tracking-[0.25em] text-[var(--ink-muted)] uppercase">2028 · “Renew the Republic”</span>
-          </motion.div>
+      <section
+        ref={heroRef}
+        className="relative min-h-[100svh] flex items-center overflow-hidden"
+      >
+        {/* Cursor-reactive dot grid — ambient texture across the whole hero */}
+        <DotGrid />
 
-          <motion.div style={{ y: titleY, opacity: titleOpacity }}>
+        <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-28 lg:pt-24 pb-20">
+          {/* LEFT — copy */}
+          <motion.div
+            style={{ y: titleY, opacity: titleOpacity }}
+            className="lg:col-span-7"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-4"
+            >
+              <span className="smallcaps">{candidates.party}</span>
+              <span className="h-px flex-1 max-w-[100px] bg-[var(--hairline-strong)]" />
+              <span className="font-mono text-[10px] tabular-nums tracking-[0.25em] text-[var(--ink-muted)] uppercase">
+                2028 · “Renew the Republic”
+              </span>
+            </motion.div>
+
             <SplitText
               as="h1"
-              className="font-display mt-10 text-[56px] sm:text-[80px] md:text-[112px] lg:text-[128px] leading-[0.92] font-medium tracking-[-0.03em] max-w-[10ch]"
+              className="font-display mt-8 text-[56px] sm:text-[80px] md:text-[96px] lg:text-[112px] xl:text-[128px] leading-[0.92] font-medium tracking-[-0.03em] max-w-[10ch]"
               stagger={0.025}
             >
               Renew the Republic.
             </SplitText>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.95, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-8 max-w-xl text-lg md:text-xl text-[var(--ink-muted)] leading-[1.6]"
+            >
+              {candidates.tagline} Limited government, free markets, strong national defense, and constitutional restoration — the agenda America needs in 2028.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.95, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-10 flex flex-wrap gap-4 items-center"
+            >
+              <MagneticButton href="/platform" variant="primary">
+                Read the platform <ArrowRight size={16} />
+              </MagneticButton>
+              <MagneticButton href="/strategy" variant="ghost" strength={0.25}>
+                See the path to 270
+              </MagneticButton>
+            </motion.div>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-10 max-w-xl text-lg md:text-xl text-[var(--ink-muted)] leading-[1.6]"
-          >
-            {candidates.tagline} Limited government, free markets, strong national defense, and constitutional restoration — the agenda America needs in 2028.
-          </motion.p>
-
+          {/* RIGHT — emblem + floating stat badges */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-12 flex flex-wrap gap-4 items-center"
+            style={{ y: emblemY, rotate: emblemRotate }}
+            className="lg:col-span-5 relative h-[420px] sm:h-[500px] lg:h-[640px] flex items-center justify-center"
           >
-            <MagneticButton href="/platform" variant="primary">
-              Read the platform <ArrowRight size={16} />
-            </MagneticButton>
-            <MagneticButton href="/strategy" variant="ghost" strength={0.25}>
-              See the path to 270
-            </MagneticButton>
+            <SealEmblem />
+            <StatBadges />
           </motion.div>
         </div>
 
@@ -77,7 +102,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-[10px] tracking-[0.4em] uppercase text-[var(--ink-muted)]"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-[10px] tracking-[0.4em] uppercase text-[var(--ink-muted)]"
         >
           Scroll
           <motion.span
