@@ -1,55 +1,57 @@
 @import "tailwindcss";
 
-/* ---------- Design tokens ---------- */
-/* Default = dark editorial. Light mode via .theme-light on <html>. */
+/* =========================================================
+   CIVIC CINEMA — Design Tokens
+   Default = deep cinematic dark. Light mode via .theme-light.
+   ========================================================= */
 :root {
-  /* surfaces */
-  --bg: #0F0E0C;
-  --bg-elev: #16140F;
-  --bg-elev-2: #1D1A14;
+  --bg: #08090F;
+  --bg-elev: #0E1120;
+  --bg-elev-2: #151A2E;
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-strong: rgba(255, 255, 255, 0.16);
 
-  /* ink */
-  --ink: #EFEAD8;
-  --ink-muted: #9A9388;
-  --ink-faint: #5E584F;
+  --ink: #F2EFE6;
+  --ink-muted: #8B8FA1;
+  --ink-faint: #4A4D5A;
 
-  /* accent */
-  --accent: #B8505A;
-  --accent-hover: #C9626C;
-  --accent-ink: #14110E;
+  --accent: #C45561;
+  --accent-2: #C9A227;
+  --accent-glow: rgba(196, 85, 97, 0.45);
+  --accent-ink: #08090F;
 
-  /* hairlines + chrome */
-  --hairline: rgba(239, 234, 216, 0.08);
-  --hairline-strong: rgba(239, 234, 216, 0.16);
+  --hairline: rgba(242, 239, 230, 0.08);
+  --hairline-strong: rgba(242, 239, 230, 0.18);
 
-  /* radii */
   --r-sm: 4px;
-  --r-md: 8px;
-  --r-lg: 12px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 24px;
 
-  /* shadow */
-  --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px -12px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 18px 40px -22px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 30px 60px -28px rgba(0, 0, 0, 0.85);
 }
 
 .theme-light {
-  --bg: #F5F2EA;
+  --bg: #F2EFE6;
   --bg-elev: #FFFFFF;
-  --bg-elev-2: #EFEBDF;
+  --bg-elev-2: #EBE6D7;
+  --bg-glass: rgba(255, 255, 255, 0.5);
+  --glass-border: rgba(8, 9, 15, 0.08);
+  --glass-border-strong: rgba(8, 9, 15, 0.18);
 
-  --ink: #1A1814;
-  --ink-muted: #6B6760;
-  --ink-faint: #A8A299;
+  --ink: #0E1120;
+  --ink-muted: #5A5E70;
+  --ink-faint: #A6A9B6;
 
   --accent: #7B1E2B;
-  --accent-hover: #92263A;
+  --accent-2: #8B6F1A;
+  --accent-glow: rgba(123, 30, 43, 0.30);
   --accent-ink: #FFFFFF;
 
-  --hairline: rgba(26, 24, 20, 0.08);
-  --hairline-strong: rgba(26, 24, 20, 0.18);
-
-  --shadow-sm: 0 1px 0 rgba(26, 24, 20, 0.04);
-  --shadow-md: 0 12px 30px -18px rgba(26, 24, 20, 0.20);
+  --hairline: rgba(8, 9, 15, 0.08);
+  --hairline-strong: rgba(8, 9, 15, 0.18);
 }
 
 @theme inline {
@@ -60,13 +62,15 @@
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
   --color-accent: var(--accent);
-  --color-hairline: var(--hairline);
+  --color-accent-2: var(--accent-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-source-serif);
 }
 
-/* ---------- Base ---------- */
+/* =========================================================
+   Base
+   ========================================================= */
 html {
   background: var(--bg);
   color: var(--ink);
@@ -79,8 +83,12 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv11";
-  transition: background-color 280ms ease, color 280ms ease;
+  transition: background 480ms ease, color 280ms ease;
+  overflow-x: hidden;
+}
+
+@media (pointer: fine) {
+  html { cursor: none; }
 }
 
 ::selection {
@@ -88,115 +96,261 @@ body {
   color: var(--accent-ink);
 }
 
-/* ---------- Typography ---------- */
+/* =========================================================
+   Typography
+   ========================================================= */
 .font-display {
-  font-family: var(--font-source-serif), "Source Serif 4", Georgia, serif;
-  font-feature-settings: "ss01";
-  letter-spacing: -0.01em;
+  font-family: var(--font-source-serif), Georgia, serif;
+  letter-spacing: -0.02em;
 }
 
 .smallcaps {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-muted);
   font-weight: 500;
 }
 
+/* Drop cap */
 .dropcap::first-letter {
   font-family: var(--font-source-serif), Georgia, serif;
   float: left;
-  font-size: 4.6em;
-  line-height: 0.9;
-  padding: 0.05em 0.12em 0 0;
-  font-weight: 600;
+  font-size: 5em;
+  line-height: 0.85;
+  padding: 0.05em 0.14em 0 0;
+  font-weight: 700;
   color: var(--accent);
 }
 
-/* ---------- Layout primitives ---------- */
+/* =========================================================
+   Layout primitives
+   ========================================================= */
 .container-page {
-  max-width: 1180px;
+  max-width: 1240px;
   margin-inline: auto;
   padding-inline: 1.5rem;
 }
+@media (min-width: 1024px) { .container-page { padding-inline: 2rem; } }
 
-.measure {
-  max-width: 62ch;
+/* =========================================================
+   Animated mesh-gradient background
+   ========================================================= */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(60vw 50vh at 12% 18%, rgba(196, 85, 97, 0.28), transparent 60%),
+    radial-gradient(70vw 60vh at 88% 22%, rgba(201, 162, 39, 0.10), transparent 65%),
+    radial-gradient(80vw 70vh at 50% 110%, rgba(56, 78, 156, 0.20), transparent 60%),
+    radial-gradient(40vw 40vh at 80% 80%, rgba(196, 85, 97, 0.14), transparent 65%),
+    var(--bg);
+  animation: meshDrift 28s ease-in-out infinite alternate;
+  filter: saturate(110%);
+}
+.mesh-bg::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.theme-light .mesh-bg {
+  background:
+    radial-gradient(60vw 50vh at 12% 18%, rgba(123, 30, 43, 0.18), transparent 60%),
+    radial-gradient(70vw 60vh at 88% 22%, rgba(139, 111, 26, 0.10), transparent 65%),
+    radial-gradient(80vw 70vh at 50% 110%, rgba(56, 78, 156, 0.10), transparent 60%),
+    radial-gradient(40vw 40vh at 80% 80%, rgba(123, 30, 43, 0.12), transparent 65%),
+    var(--bg);
+}
+@keyframes meshDrift {
+  0% {
+    background-position:
+      0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
+    transform: scale(1);
+  }
+  100% {
+    background-position:
+      8% -10%, -10% 6%, 6% 8%, -8% -6%, 0 0;
+    transform: scale(1.04);
+  }
 }
 
-.hairline {
-  border-color: var(--hairline);
+/* App content sits above mesh */
+.app-stack { position: relative; z-index: 1; }
+
+/* =========================================================
+   Glass surfaces
+   ========================================================= */
+.glass {
+  background: var(--bg-glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-radius: var(--r-lg);
+}
+.glass-strong {
+  background: var(--bg-glass);
+  border: 1px solid var(--glass-border-strong);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border-radius: var(--r-lg);
 }
 
-.divider {
-  height: 1px;
-  width: 100%;
-  background: var(--hairline);
-}
-
-/* ---------- Buttons ---------- */
+/* =========================================================
+   Buttons
+   ========================================================= */
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.1rem;
-  border-radius: var(--r-md);
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
   font-size: 0.92rem;
   font-weight: 500;
   line-height: 1;
-  transition: background-color 200ms ease, color 200ms ease, transform 200ms ease, border-color 200ms ease;
+  letter-spacing: -0.005em;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), background 240ms ease, color 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
   white-space: nowrap;
+  isolation: isolate;
 }
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
+  box-shadow: 0 0 0 0 var(--accent-glow), 0 14px 30px -16px var(--accent-glow);
 }
 .btn-primary:hover {
-  background: var(--accent-hover);
+  box-shadow: 0 0 0 4px var(--accent-glow), 0 20px 50px -12px var(--accent-glow);
 }
 .btn-ghost {
   color: var(--ink);
-  border: 1px solid var(--hairline-strong);
-  background: transparent;
+  border: 1px solid var(--glass-border-strong);
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
 }
 .btn-ghost:hover {
   border-color: var(--ink);
 }
 
-/* ---------- Surfaces ---------- */
-.surface {
-  background: var(--bg-elev);
-  border-radius: var(--r-lg);
+/* =========================================================
+   Custom cursor
+   ========================================================= */
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 100;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform, width, height, opacity;
+  mix-blend-mode: difference;
 }
-.surface-2 {
-  background: var(--bg-elev-2);
-  border-radius: var(--r-lg);
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--ink);
+  border-radius: 999px;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  transition: width 250ms ease, height 250ms ease, opacity 250ms ease;
+}
+.cursor-ring.is-hover {
+  width: 60px; height: 60px;
+}
+@media (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none; }
 }
 
-/* ---------- Scrollbar ---------- */
+/* =========================================================
+   Tilt + parallax helpers
+   ========================================================= */
+.tilt-card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tilt-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.10), transparent 45%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+.tilt-card:hover .tilt-sheen { opacity: 1; }
+
+/* =========================================================
+   Underline / link styles
+   ========================================================= */
+.link-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after { transform: scaleX(1); }
+
+/* =========================================================
+   Scrollbar
+   ========================================================= */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--bg-elev-2); border-radius: 999px; }
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elev-2);
+  border-radius: 999px;
+}
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
 
-/* ---------- Lenis ---------- */
+/* =========================================================
+   Lenis
+   ========================================================= */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* ---------- Focus ring ---------- */
+/* =========================================================
+   Focus + reduced motion
+   ========================================================= */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
-
-/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+  .mesh-bg { animation: none !important; }
+}
+
+/* =========================================================
+   Utility shorthands
+   ========================================================= */
+.text-glow {
+  text-shadow: 0 0 32px rgba(196, 85, 97, 0.45);
+}
+.gradient-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--hairline-strong), transparent);
 }

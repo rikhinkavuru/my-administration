@@ -1,5 +1,6 @@
-import Hero from "@/components/Hero";
+import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
+import TiltCard from "@/components/TiltCard";
 import BudgetCharts from "@/components/BudgetCharts";
 import { budgetCommentary } from "@/lib/data/budget";
 
@@ -8,26 +9,27 @@ export const metadata = { title: "Budget — Sackett / Kavuru 2028" };
 export default function BudgetPage() {
   return (
     <div>
-      <Hero
-        eyebrow="Federal Budget"
+      <ChapterIntro
+        index="07"
+        kicker="Federal Budget"
         title="Honest math. Honest priorities."
-        subtitle="The current federal budget, the Sackett / Kavuru proposed budget, and a plain explanation of what changes and why."
+        lede="The current federal budget, the Sackett / Kavuru proposed budget, and a plain explanation of what changes and why."
       />
 
-      <section className="container-page py-16">
+      <section className="container-page py-12">
         <SectionReveal>
           <BudgetCharts />
         </SectionReveal>
       </section>
 
-      <section className="container-page pb-24">
+      <section className="container-page py-16 pb-28">
         <SectionReveal>
-          <div className="grid gap-x-12 gap-y-6 md:grid-cols-12 items-baseline border-t border-[var(--hairline)] pt-12">
-            <div className="smallcaps md:col-span-3">Commentary</div>
-            <p className="font-display md:col-span-9 text-xl md:text-2xl tracking-[-0.005em] leading-[1.55] text-[var(--ink)] max-w-[62ch]">
+          <TiltCard intensity={3} className="glass-strong p-8 md:p-14">
+            <div className="smallcaps">Commentary</div>
+            <p className="font-display mt-6 text-xl md:text-3xl tracking-[-0.01em] leading-[1.55] text-[var(--ink)] max-w-[58ch]">
               {budgetCommentary}
             </p>
-          </div>
+          </TiltCard>
         </SectionReveal>
       </section>
     </div>

@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import LenisProvider from "@/components/LenisProvider";
 import ThemeProvider from "@/components/ThemeProvider";
 import PageTransition from "@/components/PageTransition";
+import Background from "@/components/Background";
+import Cursor from "@/components/Cursor";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -19,7 +21,7 @@ const sourceSerif = Source_Serif_4({
 export const metadata: Metadata = {
   title: "Sackett / Kavuru 2028 — Renew the Republic",
   description:
-    "A serious agenda for a serious moment. The Sackett / Kavuru 2028 platform: limited government, free markets, strong national defense, and constitutional restoration.",
+    "A serious agenda for a serious moment. Limited government, free markets, strong national defense, and constitutional restoration.",
 };
 
 export default function RootLayout({
@@ -34,11 +36,15 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <ThemeProvider>
           <LenisProvider>
-            <Nav />
-            <PageTransition>
-              <main className="flex-1">{children}</main>
-            </PageTransition>
-            <Footer />
+            <Background />
+            <Cursor />
+            <div className="app-stack flex flex-col min-h-screen">
+              <Nav />
+              <PageTransition>
+                <main className="flex-1">{children}</main>
+              </PageTransition>
+              <Footer />
+            </div>
           </LenisProvider>
         </ThemeProvider>
       </body>

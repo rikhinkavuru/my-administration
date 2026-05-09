@@ -1,6 +1,8 @@
-import Hero from "@/components/Hero";
+import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
+import SplitText from "@/components/SplitText";
 import CabinetCard from "@/components/CabinetCard";
+import TiltCard from "@/components/TiltCard";
 import { cabinet } from "@/lib/data/cabinet";
 import { bureaucraticVision } from "@/lib/data/executive";
 
@@ -9,36 +11,40 @@ export const metadata = { title: "Executive — Sackett / Kavuru 2028" };
 export default function ExecutivePage() {
   return (
     <div>
-      <Hero
-        eyebrow="Executive Branch"
+      <ChapterIntro
+        index="04"
+        kicker="Executive Branch"
         title="A government that serves."
-        subtitle="A bureaucratic vision and fifteen confirmable cabinet nominees — each chosen for substance and the realistic prospect of Senate confirmation."
+        lede="A bureaucratic vision and fifteen confirmable cabinet nominees — each chosen for substance and the realistic prospect of Senate confirmation."
       />
 
-      <section className="container-page py-20 md:py-24">
+      <section className="container-page py-16 md:py-20">
         <SectionReveal>
-          <div className="grid gap-x-12 gap-y-6 md:grid-cols-12 items-baseline">
-            <div className="smallcaps md:col-span-3">Bureaucratic Vision</div>
-            <p className="font-display md:col-span-9 text-2xl md:text-3xl tracking-[-0.01em] leading-[1.4] text-[var(--ink)] max-w-[42ch]">
+          <TiltCard intensity={3} className="glass-strong p-8 md:p-14">
+            <div className="smallcaps">Bureaucratic Vision</div>
+            <p className="font-display mt-6 text-2xl md:text-4xl tracking-[-0.015em] leading-[1.45] text-[var(--ink)] max-w-[44ch]">
               {bureaucraticVision}
             </p>
-          </div>
+          </TiltCard>
         </SectionReveal>
       </section>
 
-      <section className="border-t border-[var(--hairline)]">
-        <div className="container-page py-20 md:py-24">
-          <SectionReveal>
-            <div className="grid gap-x-12 gap-y-4 md:grid-cols-12 items-baseline">
-              <div className="smallcaps md:col-span-3">The Cabinet</div>
-              <h2 className="font-display md:col-span-9 text-3xl md:text-5xl tracking-tight font-medium leading-[1.1] max-w-[22ch]">Fifteen confirmable nominees.</h2>
-            </div>
-          </SectionReveal>
-          <div className="mt-14 border-t border-l border-[var(--hairline)] grid sm:grid-cols-2 lg:grid-cols-3">
-            {cabinet.map((c, i) => (
-              <CabinetCard key={c.department} pick={c} index={i} />
-            ))}
+      <section className="container-page py-16 md:py-20">
+        <SectionReveal>
+          <div className="flex items-center gap-6 mb-12">
+            <span className="font-mono text-xs tabular-nums tracking-[0.25em] text-[var(--accent)]">15</span>
+            <span className="smallcaps">The Cabinet</span>
+            <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>
+          <SplitText as="h2" splitBy="word" stagger={0.05} className="font-display text-4xl md:text-6xl tracking-[-0.025em] font-medium leading-[0.95] max-w-[20ch]">
+            Fifteen confirmable nominees.
+          </SplitText>
+        </SectionReveal>
+
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {cabinet.map((c, i) => (
+            <CabinetCard key={c.department} pick={c} index={i} />
+          ))}
         </div>
       </section>
     </div>

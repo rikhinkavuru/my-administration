@@ -6,23 +6,22 @@ export default function SectionReveal({
   children,
   delay = 0,
   className = "",
-  as: Tag = "div",
+  y = 22,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: "div" | "section" | "article" | "header";
+  y?: number;
 }) {
-  const MotionTag = motion[Tag] as typeof motion.div;
   return (
-    <MotionTag
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
+    <motion.div
+      initial={{ opacity: 0, y, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.95, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
-    </MotionTag>
+    </motion.div>
   );
 }

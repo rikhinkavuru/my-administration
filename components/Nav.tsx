@@ -32,43 +32,33 @@ export default function Nav() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-40 transition-all duration-500 ${
         scrolled
-          ? "backdrop-blur-md bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] border-b border-[var(--hairline)]"
+          ? "backdrop-blur-xl bg-[color-mix(in_oklab,var(--bg)_70%,transparent)] border-b border-[var(--hairline)]"
           : "bg-transparent border-b border-transparent"
       }`}
     >
       <div className="container-page flex items-center justify-between h-16">
         <Link href="/" className="group flex items-baseline gap-2">
           <span className="font-display text-lg tracking-tight text-[var(--ink)]">
-            Sackett <span className="text-[var(--ink-muted)]">/</span> Kavuru
+            Sackett <span className="text-[var(--accent)]">/</span> Kavuru
           </span>
-          <span className="text-[10px] tabular-nums tracking-[0.18em] text-[var(--ink-muted)] uppercase">
-            2028
-          </span>
+          <span className="text-[10px] tabular-nums tracking-[0.25em] text-[var(--ink-muted)] uppercase">2028</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-0.5">
           {links.map((l) => {
             const active = pathname === l.href;
             return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="relative px-3 py-1.5 text-sm transition"
-              >
-                <span
-                  className={
-                    active ? "text-[var(--ink)]" : "text-[var(--ink-muted)] hover:text-[var(--ink)]"
-                  }
-                >
+              <Link key={l.href} href={l.href} className="relative px-3 py-1.5 text-sm transition">
+                <span className={active ? "text-[var(--ink)]" : "text-[var(--ink-muted)] hover:text-[var(--ink)]"}>
                   {l.label}
                 </span>
                 {active && (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute left-3 right-3 -bottom-[1px] h-px bg-[var(--accent)]"
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute left-3 right-3 -bottom-[2px] h-px bg-[var(--accent)]"
+                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   />
                 )}
               </Link>
@@ -77,18 +67,10 @@ export default function Nav() {
         </nav>
 
         <div className="flex items-center gap-1">
-          <button
-            onClick={toggle}
-            aria-label="Toggle theme"
-            className="p-2 rounded-[var(--r-md)] text-[var(--ink-muted)] hover:text-[var(--ink)] transition"
-          >
+          <button onClick={toggle} aria-label="Toggle theme" className="p-2 rounded-full text-[var(--ink-muted)] hover:text-[var(--ink)] transition">
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          <button
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Open menu"
-            className="p-2 rounded-[var(--r-md)] lg:hidden text-[var(--ink-muted)] hover:text-[var(--ink)]"
-          >
+          <button onClick={() => setOpen((o) => !o)} aria-label="Open menu" className="p-2 rounded-full lg:hidden text-[var(--ink-muted)] hover:text-[var(--ink)]">
             {open ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
@@ -100,8 +82,8 @@ export default function Nav() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden lg:hidden border-t border-[var(--hairline)] bg-[var(--bg)]"
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden lg:hidden border-t border-[var(--hairline)] bg-[color-mix(in_oklab,var(--bg)_92%,transparent)] backdrop-blur-xl"
           >
             <div className="container-page py-3 flex flex-col">
               {links.map((l) => (
@@ -109,9 +91,7 @@ export default function Nav() {
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className={`px-1 py-2.5 text-sm border-b border-[var(--hairline)] last:border-0 ${
-                    pathname === l.href ? "text-[var(--accent)]" : "text-[var(--ink-muted)]"
-                  }`}
+                  className={`px-1 py-3 text-base border-b border-[var(--hairline)] last:border-0 ${pathname === l.href ? "text-[var(--accent)]" : "text-[var(--ink-muted)]"}`}
                 >
                   {l.label}
                 </Link>

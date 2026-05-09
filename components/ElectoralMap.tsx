@@ -28,14 +28,14 @@ export default function ElectoralMap() {
   );
 
   return (
-    <div className="surface p-5 md:p-8">
+    <div className="glass p-5 md:p-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
         <div>
           <div className="smallcaps">Path to 270</div>
           <div className="font-display mt-2 text-2xl md:text-3xl tracking-tight font-medium">Electoral College Map</div>
         </div>
         <div className="flex items-baseline gap-3">
-          <div className="font-display text-6xl md:text-7xl text-[var(--accent)] tabular-nums leading-none">{projectedEV}</div>
+          <div className="font-display text-6xl md:text-7xl text-[var(--accent)] tabular-nums leading-none text-glow">{projectedEV}</div>
           <div className="text-sm text-[var(--ink-muted)] max-w-[14ch]">EV with all targets won (270 to win)</div>
         </div>
       </div>
