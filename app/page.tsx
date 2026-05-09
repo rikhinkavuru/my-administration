@@ -1,6 +1,7 @@
 "use client";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
+import RotatingWord from "@/components/RotatingWord";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
 import HeroDashboard from "@/components/HeroDashboard";
@@ -54,13 +55,18 @@ export default function Home() {
               </span>
             </motion.div>
 
-            <SplitText
-              as="h1"
+            <motion.h1
+              initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.95, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="font-display mt-8 text-[56px] sm:text-[80px] md:text-[96px] lg:text-[112px] xl:text-[128px] leading-[0.92] font-medium tracking-[-0.03em] max-w-[10ch]"
-              stagger={0.025}
             >
-              Renew the Republic.
-            </SplitText>
+              <RotatingWord
+                words={["Renew", "Restore", "Rebuild", "Reclaim", "Revive", "Reform"]}
+                className="text-[var(--accent)]"
+              />
+              <span className="block">the Republic.</span>
+            </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 14 }}

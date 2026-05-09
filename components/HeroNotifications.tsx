@@ -45,24 +45,6 @@ export default function HeroNotifications() {
         </AnimatePresence>
       </div>
 
-      {/* Bottom-right counter card */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
-        className="absolute bottom-[8%] -right-[4%]"
-      >
-        <motion.div
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="glass px-4 py-3"
-        >
-          <div className="smallcaps !text-[9px]">Days to Election</div>
-          <div className="font-display mt-1 text-2xl tabular-nums leading-none tracking-tight">
-            487
-          </div>
-        </motion.div>
-      </motion.div>
     </div>
   );
 }

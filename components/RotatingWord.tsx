@@ -1,0 +1,51 @@
+"use client";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+
+export default function RotatingWord({
+  words,
+  interval = 2400,
+  className = "",
+}: {
+  words: string[];
+  interval?: number;
+  className?: string;
+}) {
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (words.length < 2) return;
+    const id = setInterval(() => setI((p) => (p + 1) % words.length), interval);
+    return () => clearInterval(id);
+  }, [words.length, interval]);
+
+  // Invisible placeholder sized to the longest word so layout never jumps.
+  const longest = words.reduce((a, b) => (a.length > b.length ? a : b), "");
+
+  return (
+    <span
+      className={`relative inline-block overflow-hidden align-baseline ${className}`}
+      aria-label={words[i]}
+    >
+      {/* Placeholder reserves width + height */}
+      <span aria-hidden className="invisible whitespace-nowrap">
+        {longest}
+      </span>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={words[i]}
+          aria-hidden
+          className="absolute inset-0 whitespace-nowrap"
+          initial={{ y: "105%", opacity: 0, filter: "blur(10px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-105%", opacity: 0, filter: "blur(10px)" }}
+          transition={{ duration: 0.7, ease: EASE }}
+        >
+          {words[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
