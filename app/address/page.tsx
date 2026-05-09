@@ -38,8 +38,8 @@ export default function AddressPage() {
 
           <SplitText
             as="h1"
-            stagger={0.03}
-            className="font-display mt-10 text-5xl md:text-8xl lg:text-[112px] tracking-[-0.03em] font-medium leading-[0.92] max-w-[12ch] text-glow"
+            stagger={0.025}
+            className="font-display mt-10 text-5xl md:text-7xl lg:text-[96px] tracking-[-0.025em] font-medium leading-[0.96] max-w-[18ch] text-glow"
           >
             My fellow Americans.
           </SplitText>

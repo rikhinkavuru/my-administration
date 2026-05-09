@@ -27,10 +27,10 @@ export default function Home() {
     <div>
       {/* ================= HERO ================= */}
       <section ref={heroRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
-        {/* 3D centerpiece on right */}
+        {/* 3D centerpiece, contained to right column on desktop */}
         <motion.div
           style={{ scale: heroScale }}
-          className="absolute inset-0 lg:left-[40%] pointer-events-none"
+          className="absolute inset-y-0 right-0 left-0 lg:left-[55%] xl:left-[58%] pointer-events-none opacity-90"
         >
           <Hero3DWrapper />
         </motion.div>
@@ -50,7 +50,7 @@ export default function Home() {
           <motion.div style={{ y: titleY, opacity: titleOpacity }}>
             <SplitText
               as="h1"
-              className="font-display mt-10 text-[64px] sm:text-[96px] md:text-[152px] lg:text-[180px] leading-[0.86] font-medium tracking-[-0.035em] max-w-[10ch]"
+              className="font-display mt-10 text-[56px] sm:text-[80px] md:text-[112px] lg:text-[128px] leading-[0.92] font-medium tracking-[-0.03em] max-w-[10ch]"
               stagger={0.025}
             >
               Renew the Republic.
@@ -185,8 +185,8 @@ export default function Home() {
             <div className="smallcaps text-center">Slogan</div>
             <SplitText
               as="h2"
-              className="font-display block text-center mt-8 text-[56px] sm:text-[88px] md:text-[140px] lg:text-[164px] tracking-[-0.035em] font-medium leading-[0.92]"
-              stagger={0.035}
+              className="font-display block text-center mt-8 text-[48px] sm:text-[72px] md:text-[112px] lg:text-[136px] tracking-[-0.03em] font-medium leading-[0.95]"
+              stagger={0.03}
             >
               Renew the Republic.
             </SplitText>

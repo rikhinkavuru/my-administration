@@ -253,17 +253,21 @@ body {
 }
 .cursor-dot {
   width: 6px; height: 6px;
-  background: var(--ink);
+  background: #ffffff;
   border-radius: 999px;
 }
 .cursor-ring {
   width: 36px; height: 36px;
-  border: 1px solid var(--ink);
+  border: 1.25px solid #ffffff;
   border-radius: 999px;
-  transition: width 250ms ease, height 250ms ease, opacity 250ms ease;
+  transition: width 250ms ease, height 250ms ease, opacity 250ms ease, background 250ms ease;
+}
+.cursor-ring.is-hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 .cursor-ring.is-hover {
   width: 60px; height: 60px;
+  background: rgba(255, 255, 255, 0.10);
 }
 @media (pointer: coarse) {
   .cursor-dot, .cursor-ring { display: none; }

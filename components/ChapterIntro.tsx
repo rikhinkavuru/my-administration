@@ -29,7 +29,7 @@ export default function ChapterIntro({
 
         <SplitText
           as="h1"
-          className="font-display mt-10 text-[44px] sm:text-7xl md:text-[112px] leading-[0.92] font-medium tracking-[-0.025em] max-w-[16ch]"
+          className="font-display mt-10 text-[44px] sm:text-6xl md:text-[88px] lg:text-[104px] leading-[0.96] font-medium tracking-[-0.025em] max-w-[18ch]"
           stagger={0.018}
           delay={0.1}
         >
