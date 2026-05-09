@@ -1,0 +1,2 @@
+export const bureaucraticVision =
+  "The federal bureaucracy exists to serve the American people, not itself. This administration will streamline agencies, eliminate redundancies, restore accountability through Schedule F-style reforms applied carefully and constitutionally, and return regulatory authority to elected officials and the states wherever possible. We will respect career civil servants who do their jobs faithfully, while ending the era of unaccountable agency rulemaking.";
