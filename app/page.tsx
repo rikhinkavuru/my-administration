@@ -3,9 +3,9 @@ import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
-import SealEmblem from "@/components/SealEmblem";
-import DotGrid from "@/components/DotGrid";
-import StatBadges from "@/components/StatBadges";
+import HeroDashboard from "@/components/HeroDashboard";
+import HeroNotifications from "@/components/HeroNotifications";
+import GridFloor from "@/components/GridFloor";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -24,7 +24,6 @@ export default function Home() {
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const emblemY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const emblemRotate = useTransform(scrollYProgress, [0, 1], [0, 25]);
 
   return (
     <div>
@@ -33,8 +32,8 @@ export default function Home() {
         ref={heroRef}
         className="relative min-h-[100svh] flex items-center overflow-hidden"
       >
-        {/* Cursor-reactive dot grid — ambient texture across the whole hero */}
-        <DotGrid />
+        {/* Subtle Linear-style grid behind everything */}
+        <GridFloor />
 
         <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-28 lg:pt-24 pb-20">
           {/* LEFT — copy */}
@@ -87,13 +86,13 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — emblem + floating stat badges */}
+          {/* RIGHT — live campaign HQ dashboard + floating notifications */}
           <motion.div
-            style={{ y: emblemY, rotate: emblemRotate }}
-            className="lg:col-span-5 relative h-[420px] sm:h-[500px] lg:h-[640px] flex items-center justify-center"
+            style={{ y: emblemY }}
+            className="lg:col-span-5 relative flex items-center justify-center"
           >
-            <SealEmblem />
-            <StatBadges />
+            <HeroDashboard />
+            <HeroNotifications />
           </motion.div>
         </div>
 
