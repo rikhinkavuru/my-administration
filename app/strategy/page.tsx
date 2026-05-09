@@ -37,7 +37,7 @@ export default function StrategyPage() {
                   cy="140"
                   r="130"
                   fill="none"
-                  stroke="var(--fg)"
+                  stroke="var(--accent-red)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeDasharray={C}

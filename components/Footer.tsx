@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-7">
             <div className="font-display text-[10vw] md:text-[120px] leading-[0.92] font-bold tracking-[-0.04em]">
-              Renew the <span className="font-serif-italic text-[var(--fg-60)]">Republic.</span>
+              Renew the <span className="font-serif-italic text-[var(--accent-red)]">Republic.</span>
             </div>
           </div>
           <div className="md:col-span-3 md:col-start-9">
@@ -38,7 +38,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-[var(--hairline)]">
         <div className="container-page py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-[11px] text-[var(--fg-40)] font-mono uppercase tracking-[0.06em]">
-          <div>© {new Date().getFullYear()} Sackett / Kavuru 2028</div>
+          <div>© {new Date().getFullYear()} Sackett <span className="text-[var(--accent-red)]">/</span> Kavuru 2028</div>
           <div className="flex items-center gap-4">
             <span>Republican — Renew the Republic</span>
           </div>

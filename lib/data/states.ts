@@ -141,6 +141,6 @@ export const classificationMeta: Record<
 > = {
   "safe-r": { label: "Safe Republican", color: "#FFFFFF" },
   "lean-r": { label: "Lean Republican", color: "#9A9A9A" },
-  battleground: { label: "Battleground (Target)", color: "#FFFCF2" },
+  battleground: { label: "Battleground (Target)", color: "#D63D44" },
   "safe-d": { label: "Safe Democrat (Concede)", color: "#262626" },
 };

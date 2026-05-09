@@ -63,6 +63,7 @@ export default function Home() {
               <RotatingWord
                 words={["Renew", "Restore", "Rebuild", "Reclaim", "Revive", "Reform"]}
                 interval={1700}
+                className="text-[var(--accent-red)]"
               />
               <span className="block">
                 the <span className="font-serif-italic text-[var(--fg-60)]">Republic.</span>

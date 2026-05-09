@@ -41,7 +41,7 @@ export default function Nav() {
       <div className="container-page flex items-center justify-between h-16">
         <Link href="/" className="flex items-baseline gap-2 group">
           <span className="font-mono text-[12px] font-semibold tracking-[0.06em] text-[var(--fg)] uppercase">
-            Sackett <span className="text-[var(--fg-40)]">/</span> Kavuru
+            Sackett <span className="text-[var(--accent-red)]">/</span> Kavuru
           </span>
           <span className="font-mono text-[10px] tracking-[0.18em] text-[var(--fg-40)]">
             — 2028

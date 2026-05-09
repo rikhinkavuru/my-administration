@@ -25,7 +25,7 @@ export default function ChapterIntro({
           transition={{ duration: 0.6, ease: EASE }}
           className="flex items-center gap-3"
         >
-          <span className="font-mono text-[11px] tabular-nums text-[var(--fg-40)] tracking-[0.06em]">
+          <span className="font-mono text-[11px] tabular-nums text-[var(--accent-red)] tracking-[0.06em]">
             [{index}]
           </span>
           <span className="eyebrow !text-[var(--fg-60)]">{kicker}</span>

@@ -19,7 +19,7 @@ function Span({ children }: { children: ReactNode }) {
   return (
     <span className="font-display text-[44px] md:text-[64px] tracking-[-0.03em] flex items-center gap-12 shrink-0">
       {children}
-      <span className="text-[var(--fg-40)]">•</span>
+      <span className="text-[var(--accent-red)]">•</span>
     </span>
   );
 }

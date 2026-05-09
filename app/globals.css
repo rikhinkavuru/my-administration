@@ -21,6 +21,8 @@
 
   --warm: #FFFCF2;
   --accent: #FFFFFF;
+  --accent-red: #D63D44;
+  --accent-red-soft: rgba(214, 61, 68, 0.18);
 
   --r-sm: 2px;
   --r-md: 4px;
@@ -44,6 +46,8 @@
 
   --warm: #0A0A0A;
   --accent: #000000;
+  --accent-red: #A8262E;
+  --accent-red-soft: rgba(168, 38, 46, 0.16);
 }
 
 @theme inline {
@@ -52,6 +56,7 @@
   --color-fg-60: var(--fg-60);
   --color-fg-40: var(--fg-40);
   --color-hairline: var(--hairline);
+  --color-accent-red: var(--accent-red);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-kode-mono);
   --font-serif: var(--font-noto-serif);

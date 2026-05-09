@@ -76,7 +76,7 @@ export default function ElectoralMap() {
                           transition: "fill 220ms ease, opacity 220ms ease",
                         },
                         hover: {
-                          fill: "#FFFCF2",
+                          fill: "#D63D44",
                           stroke: "#000",
                           strokeWidth: 1,
                           outline: "none",

@@ -26,7 +26,7 @@ export default function RotatingWord({
 
   return (
     <span
-      className={`relative inline-block overflow-hidden align-baseline ${className}`}
+      className={`relative inline-block overflow-hidden align-baseline text-[var(--accent-red)] ${className}`}
       aria-label={words[i]}
     >
       {/* Placeholder reserves width + height */}

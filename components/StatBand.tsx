@@ -53,7 +53,7 @@ export default function StatBand({
             >
               {context}{" "}
               {italicAccent && (
-                <span className="font-serif-italic text-[var(--fg)]">{italicAccent}</span>
+                <span className="font-serif-italic text-[var(--accent-red)]">{italicAccent}</span>
               )}
             </motion.p>
           </div>

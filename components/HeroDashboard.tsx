@@ -33,8 +33,12 @@ const trendByState: Record<string, { delta: string; trend: "up" | "down" | "flat
 
 function Trend({ trend, delta }: { trend: "up" | "down" | "flat"; delta: string }) {
   const sym = trend === "up" ? "↗" : trend === "down" ? "↘" : "→";
+  const color = trend === "up" ? "var(--accent-red)" : "var(--fg-60)";
   return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-mono tabular-nums text-[var(--fg-60)]">
+    <span
+      className="inline-flex items-center gap-1 text-[11px] font-mono tabular-nums"
+      style={{ color }}
+    >
       <span>{sym}</span>
       <span>{delta}</span>
     </span>
@@ -88,12 +92,12 @@ export default function HeroDashboard() {
           </div>
         </div>
 
-        <div className="mt-6 h-[3px] bg-[var(--hairline)] overflow-hidden">
+        <div className="mt-6 h-[3px] bg-[var(--hairline)] overflow-hidden relative">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${BAR_PCT}%` }}
             transition={{ duration: 1.6, delay: 0.7, ease: EASE }}
-            className="h-full bg-[var(--fg)]"
+            className="h-full bg-[var(--accent-red)]"
           />
         </div>
         <div className="mt-2 font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
