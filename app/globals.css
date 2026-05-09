@@ -144,13 +144,13 @@ body {
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(60vw 50vh at 12% 18%, rgba(196, 85, 97, 0.28), transparent 60%),
-    radial-gradient(70vw 60vh at 88% 22%, rgba(201, 162, 39, 0.10), transparent 65%),
-    radial-gradient(80vw 70vh at 50% 110%, rgba(56, 78, 156, 0.20), transparent 60%),
-    radial-gradient(40vw 40vh at 80% 80%, rgba(196, 85, 97, 0.14), transparent 65%),
+    radial-gradient(55vw 50vh at 18% 22%, rgba(196, 85, 97, 0.20), transparent 65%),
+    radial-gradient(55vw 50vh at 82% 22%, rgba(201, 162, 39, 0.16), transparent 65%),
+    radial-gradient(70vw 60vh at 50% 100%, rgba(56, 78, 156, 0.16), transparent 65%),
+    radial-gradient(45vw 45vh at 50% 55%, rgba(196, 85, 97, 0.10), transparent 70%),
     var(--bg);
-  animation: meshDrift 28s ease-in-out infinite alternate;
-  filter: saturate(110%);
+  animation: meshDrift 32s ease-in-out infinite alternate;
+  filter: saturate(108%);
 }
 .mesh-bg::after {
   content: "";
@@ -163,10 +163,10 @@ body {
 }
 .theme-light .mesh-bg {
   background:
-    radial-gradient(60vw 50vh at 12% 18%, rgba(123, 30, 43, 0.18), transparent 60%),
-    radial-gradient(70vw 60vh at 88% 22%, rgba(139, 111, 26, 0.10), transparent 65%),
-    radial-gradient(80vw 70vh at 50% 110%, rgba(56, 78, 156, 0.10), transparent 60%),
-    radial-gradient(40vw 40vh at 80% 80%, rgba(123, 30, 43, 0.12), transparent 65%),
+    radial-gradient(55vw 50vh at 18% 22%, rgba(123, 30, 43, 0.14), transparent 65%),
+    radial-gradient(55vw 50vh at 82% 22%, rgba(139, 111, 26, 0.10), transparent 65%),
+    radial-gradient(70vw 60vh at 50% 100%, rgba(56, 78, 156, 0.08), transparent 65%),
+    radial-gradient(45vw 45vh at 50% 55%, rgba(123, 30, 43, 0.08), transparent 70%),
     var(--bg);
 }
 @keyframes meshDrift {

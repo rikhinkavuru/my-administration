@@ -26,21 +26,6 @@ export default function Home() {
     <div>
       {/* ================= HERO ================= */}
       <section ref={heroRef} className="relative min-h-[100svh] flex items-center overflow-hidden">
-        {/* Ambient bloom on the right — non-figurative replacement for the prior 3D scene */}
-        <motion.div
-          aria-hidden
-          style={{ scale: heroScale }}
-          className="absolute inset-y-0 right-[-10%] left-[40%] pointer-events-none"
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(45vw 45vw at 70% 50%, rgba(196,85,97,0.18), transparent 60%)",
-            }}
-          />
-        </motion.div>
-
         <div className="container-page relative z-10 pt-24 md:pt-32 pb-16">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
