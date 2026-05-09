@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Serif, Kode_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import LenisProvider from "@/components/LenisProvider";
 import ThemeProvider from "@/components/ThemeProvider";
 import PageTransition from "@/components/PageTransition";
-import Background from "@/components/Background";
-import Cursor from "@/components/Cursor";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
+const notoSerif = Noto_Serif({
+  variable: "--font-noto-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
   style: ["normal", "italic"],
+});
+const kodeMono = Kode_Mono({
+  variable: "--font-kode-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -30,21 +33,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} ${kodeMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <ThemeProvider>
           <LenisProvider>
-            <Background />
-            <Cursor />
-            <div className="app-stack flex flex-col min-h-screen">
-              <Nav />
-              <PageTransition>
-                <main className="flex-1">{children}</main>
-              </PageTransition>
-              <Footer />
-            </div>
+            <Nav />
+            <PageTransition>
+              <main className="flex-1">{children}</main>
+            </PageTransition>
+            <Footer />
           </LenisProvider>
         </ThemeProvider>
       </body>

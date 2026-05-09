@@ -8,7 +8,7 @@ export default function MagneticButton({
   children,
   className = "",
   variant = "primary",
-  strength = 0.35,
+  strength = 0.25,
 }: {
   href?: string;
   children: ReactNode;

@@ -2,10 +2,10 @@
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import RotatingWord from "@/components/RotatingWord";
-import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
 import HeroDashboard from "@/components/HeroDashboard";
-import GridFloor from "@/components/GridFloor";
+import StatBand from "@/components/StatBand";
+import Marquee from "@/components/Marquee";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -18,204 +18,205 @@ const pillars = [
   { i: "04", title: "Constitutional order", body: "Originalist judges. Federalism. A Congress that legislates." },
 ];
 
+const marqueeItems = [
+  "Renew",
+  "Restore",
+  "Rebuild",
+  "Reclaim",
+  "Revive",
+  "Reform",
+  "Republic",
+  "Refound",
+];
+
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const emblemY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const dashY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
     <div>
-      {/* ================= HERO ================= */}
+      {/* ============== HERO ============== */}
       <section
         ref={heroRef}
-        className="relative min-h-[100svh] flex items-center overflow-hidden"
+        className="relative min-h-[100svh] flex items-center overflow-hidden border-b border-[var(--hairline)]"
       >
-        {/* Subtle Linear-style grid behind everything */}
-        <GridFloor />
-
         <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-28 lg:pt-24 pb-20">
-          {/* LEFT — copy */}
-          <motion.div
-            style={{ y: titleY, opacity: titleOpacity }}
-            className="lg:col-span-7"
-          >
+          <motion.div style={{ y: titleY, opacity: titleOpacity }} className="lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-4"
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="eyebrow"
             >
-              <span className="smallcaps">{candidates.party}</span>
-              <span className="h-px flex-1 max-w-[100px] bg-[var(--hairline-strong)]" />
-              <span className="font-mono text-[10px] tabular-nums tracking-[0.25em] text-[var(--ink-muted)] uppercase">
-                2028 · “Renew the Republic”
-              </span>
+              {candidates.party} — 2028 — “Renew the Republic”
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
+              initial={{ opacity: 0, y: 22, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.95, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display mt-8 text-[56px] sm:text-[80px] md:text-[96px] lg:text-[112px] xl:text-[128px] leading-[0.92] font-medium tracking-[-0.03em] max-w-[10ch]"
+              transition={{ duration: 0.95, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display mt-8 text-[60px] sm:text-[88px] md:text-[112px] lg:text-[128px] xl:text-[152px]"
             >
               <RotatingWord
                 words={["Renew", "Restore", "Rebuild", "Reclaim", "Revive", "Reform"]}
                 interval={1700}
-                className="text-[var(--accent)]"
               />
-              <span className="block">the Republic.</span>
+              <span className="block">
+                the <span className="font-serif-italic text-[var(--fg-60)]">Republic.</span>
+              </span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.95, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 max-w-xl text-lg md:text-xl text-[var(--ink-muted)] leading-[1.6]"
+              transition={{ duration: 0.85, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-10 max-w-xl text-[15px] md:text-[17px] text-[var(--fg-60)] leading-[1.6]"
             >
               {candidates.tagline} Limited government, free markets, strong national defense, and constitutional restoration — the agenda America needs in 2028.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.95, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-10 flex flex-wrap gap-4 items-center"
+              transition={{ duration: 0.85, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-10 flex flex-wrap gap-3"
             >
               <MagneticButton href="/platform" variant="primary">
-                Read the platform <ArrowRight size={16} />
+                Read the platform <ArrowRight size={14} />
               </MagneticButton>
-              <MagneticButton href="/strategy" variant="ghost" strength={0.25}>
+              <MagneticButton href="/strategy" variant="ghost" strength={0.18}>
                 See the path to 270
               </MagneticButton>
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — live campaign HQ dashboard */}
-          <motion.div
-            style={{ y: emblemY }}
-            className="lg:col-span-5 relative flex items-center justify-center"
-          >
+          <motion.div style={{ y: dashY }} className="lg:col-span-5">
             <HeroDashboard />
           </motion.div>
         </div>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-[10px] tracking-[0.4em] uppercase text-[var(--ink-muted)]"
-        >
-          Scroll
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            className="h-6 w-px bg-[var(--ink-muted)]"
-          />
-        </motion.div>
       </section>
 
-      {/* ================= TICKET ================= */}
-      <section className="container-page py-32 md:py-40">
+      {/* ============== MARQUEE ============== */}
+      <Marquee items={marqueeItems} />
+
+      {/* ============== STAT BAND ============== */}
+      <StatBand
+        metric={270}
+        label="[ 01 ] The number that matters"
+        context="Two hundred seventy electoral votes is the threshold. Most campaigns drift; few get there. This one has a path —"
+        italicAccent="a serious one."
+      />
+
+      {/* ============== TICKET ============== */}
+      <section className="container-page py-28 md:py-36">
         <SectionReveal>
-          <div className="flex items-center gap-6 mb-16">
-            <span className="font-mono text-xs tabular-nums tracking-[0.25em] text-[var(--accent)]">01</span>
-            <span className="smallcaps">The Ticket</span>
+          <div className="flex items-center gap-4 mb-12">
+            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ 02 ]</span>
+            <span className="eyebrow">The Ticket</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>
         </SectionReveal>
 
         <SplitText
           as="h2"
-          className="font-display text-4xl md:text-7xl tracking-[-0.025em] font-medium leading-[0.95] max-w-[18ch]"
           splitBy="word"
-          stagger={0.06}
+          stagger={0.05}
+          className="font-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] max-w-[18ch]"
         >
-          A serious ticket for a serious moment.
+          A serious ticket
         </SplitText>
+        <p className="font-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] max-w-[18ch]">
+          for a serious{" "}
+          <span className="font-serif-italic text-[var(--fg-60)]">moment.</span>
+        </p>
 
-        <div className="mt-20 grid md:grid-cols-2 gap-6">
+        <div className="mt-16 grid md:grid-cols-2 gap-px bg-[var(--hairline)] border border-[var(--hairline)]">
           <SectionReveal delay={0.05}>
-            <TiltCard intensity={6} className="glass-strong p-10 md:p-12 h-full">
-              <div className="smallcaps">For President</div>
-              <div className="font-display mt-5 text-5xl md:text-6xl tracking-[-0.02em] font-medium leading-[0.95]">{candidates.president.name}</div>
-              <div className="text-[var(--ink-muted)] text-sm mt-3">{candidates.president.state}</div>
-              <p className="mt-8 text-[var(--ink-muted)] leading-[1.7] max-w-prose">{candidates.president.bio}</p>
-            </TiltCard>
+            <div className="bg-[var(--bg)] p-10 md:p-12 h-full">
+              <div className="eyebrow !text-[var(--fg-40)]">For President</div>
+              <div className="font-display mt-6 text-[48px] md:text-[64px] leading-[0.96]">
+                {candidates.president.name}
+              </div>
+              <div className="text-[var(--fg-60)] text-[13px] mt-3 font-mono uppercase tracking-[0.06em]">
+                {candidates.president.state}
+              </div>
+              <p className="mt-8 text-[var(--fg-60)] leading-[1.7] max-w-prose text-[14px] md:text-[15px]">
+                {candidates.president.bio}
+              </p>
+            </div>
           </SectionReveal>
           <SectionReveal delay={0.12}>
-            <TiltCard intensity={6} className="glass-strong p-10 md:p-12 h-full">
-              <div className="smallcaps">For Vice President</div>
-              <div className="font-display mt-5 text-5xl md:text-6xl tracking-[-0.02em] font-medium leading-[0.95]">{candidates.vp.name}</div>
-              <p className="mt-8 text-[var(--ink-muted)] leading-[1.7] max-w-prose">{candidates.vp.bio}</p>
-            </TiltCard>
+            <div className="bg-[var(--bg)] p-10 md:p-12 h-full">
+              <div className="eyebrow !text-[var(--fg-40)]">For Vice President</div>
+              <div className="font-display mt-6 text-[48px] md:text-[64px] leading-[0.96]">
+                {candidates.vp.name}
+              </div>
+              <p className="mt-8 text-[var(--fg-60)] leading-[1.7] max-w-prose text-[14px] md:text-[15px]">
+                {candidates.vp.bio}
+              </p>
+            </div>
           </SectionReveal>
         </div>
       </section>
 
-      {/* ================= PILLARS ================= */}
-      <section className="container-page py-32 md:py-40">
+      {/* ============== PILLARS ============== */}
+      <section className="container-page py-28 md:py-36">
         <SectionReveal>
-          <div className="flex items-center gap-6 mb-16">
-            <span className="font-mono text-xs tabular-nums tracking-[0.25em] text-[var(--accent)]">02</span>
-            <span className="smallcaps">What we believe</span>
+          <div className="flex items-center gap-4 mb-12">
+            <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">[ 03 ]</span>
+            <span className="eyebrow">What we believe</span>
             <span className="flex-1 h-px bg-[var(--hairline)]" />
           </div>
         </SectionReveal>
 
         <SplitText
           as="h2"
-          className="font-display text-4xl md:text-7xl tracking-[-0.025em] font-medium leading-[0.95] max-w-[16ch]"
           splitBy="word"
           stagger={0.05}
+          className="font-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px] max-w-[18ch]"
         >
-          Four ideas, in plain language.
+          Four ideas, in plain
         </SplitText>
+        <p className="font-display text-[44px] sm:text-[64px] md:text-[88px] lg:text-[104px]">
+          <span className="font-serif-italic text-[var(--fg-60)]">language.</span>
+        </p>
 
-        <div className="mt-20 grid md:grid-cols-2 gap-6">
+        <div className="mt-16 grid md:grid-cols-2 gap-px bg-[var(--hairline)] border border-[var(--hairline)]">
           {pillars.map((p, i) => (
             <SectionReveal key={p.title} delay={0.05 * i}>
-              <TiltCard intensity={5} className="glass p-10 h-full">
-                <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-[var(--accent)] text-sm tabular-nums">{p.i}</span>
-                  <span className="flex-1 h-px bg-[var(--hairline)]" />
+              <div className="bg-[var(--bg)] p-10 h-full">
+                <div className="flex items-baseline justify-between">
+                  <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">{p.i} / 04</span>
+                  <span className="eyebrow !text-[var(--fg-40)]">Pillar</span>
                 </div>
-                <div className="font-display mt-8 text-3xl md:text-4xl tracking-[-0.02em] font-medium leading-tight">{p.title}</div>
-                <div className="mt-5 text-[var(--ink-muted)] leading-[1.7] max-w-md">{p.body}</div>
-              </TiltCard>
+                <div className="font-display mt-8 text-[36px] md:text-[44px] leading-[0.98]">{p.title}</div>
+                <div className="mt-5 text-[var(--fg-60)] leading-[1.7] text-[14px] md:text-[15px] max-w-md">
+                  {p.body}
+                </div>
+              </div>
             </SectionReveal>
           ))}
         </div>
       </section>
 
-      {/* ================= SLOGAN ================= */}
-      <section className="relative py-40 md:py-56 overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-90 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(60vw 60vh at 50% 50%, rgba(196,85,97,0.30), transparent 60%)",
-          }}
-        />
-        <div className="container-page relative">
+      {/* ============== SLOGAN ============== */}
+      <section className="py-32 md:py-44 border-y border-[var(--hairline)]">
+        <div className="container-page">
           <SectionReveal>
-            <div className="smallcaps text-center">Slogan</div>
-            <SplitText
-              as="h2"
-              className="font-display block text-center mt-8 text-[48px] sm:text-[72px] md:text-[112px] lg:text-[136px] tracking-[-0.03em] font-medium leading-[0.95]"
-              stagger={0.03}
-            >
-              Renew the Republic.
-            </SplitText>
-            <p className="mt-12 max-w-2xl mx-auto text-center text-[var(--ink-muted)] leading-[1.7] text-lg">
+            <div className="eyebrow text-center">Slogan</div>
+            <h2 className="font-display block text-center mt-10 text-[64px] sm:text-[112px] md:text-[164px] lg:text-[200px] leading-[0.92]">
+              Renew the{" "}
+              <span className="font-serif-italic text-[var(--fg-60)]">Republic.</span>
+            </h2>
+            <p className="mt-12 max-w-2xl mx-auto text-center text-[var(--fg-60)] leading-[1.7] text-[15px] md:text-[17px]">
               Not a slogan about grievance. Not a slogan about nostalgia. A slogan about the work — the unromantic, demanding work of running a constitutional republic the way the Founders meant for it to be run.
             </p>
             <div className="mt-12 flex justify-center">
               <MagneticButton href="/address" variant="primary">
-                Read the State of the Union <ArrowRight size={16} />
+                Read the State of the Union <ArrowRight size={14} />
               </MagneticButton>
             </div>
           </SectionReveal>

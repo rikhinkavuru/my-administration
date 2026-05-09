@@ -28,15 +28,21 @@ export default function ElectoralMap() {
   );
 
   return (
-    <div className="glass p-5 md:p-8">
+    <div className="card p-5 md:p-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
         <div>
-          <div className="smallcaps">Path to 270</div>
-          <div className="font-display mt-2 text-2xl md:text-3xl tracking-tight font-medium">Electoral College Map</div>
+          <div className="eyebrow">Path to 270</div>
+          <div className="font-display mt-3 text-[28px] md:text-[36px] tracking-[-0.025em] leading-[1]">
+            Electoral College Map
+          </div>
         </div>
         <div className="flex items-baseline gap-3">
-          <div className="font-display text-6xl md:text-7xl text-[var(--accent)] tabular-nums leading-none text-glow">{projectedEV}</div>
-          <div className="text-sm text-[var(--ink-muted)] max-w-[14ch]">EV with all targets won (270 to win)</div>
+          <div className="font-display text-[72px] md:text-[88px] tabular-nums leading-none">
+            {projectedEV}
+          </div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--fg-60)] max-w-[14ch]">
+            EV w/ all targets won (270 to win)
+          </div>
         </div>
       </div>
 
@@ -64,14 +70,14 @@ export default function ElectoralMap() {
                       style={{
                         default: {
                           fill,
-                          stroke: "var(--bg)",
+                          stroke: "#000",
                           strokeWidth: 0.8,
                           outline: "none",
-                          transition: "fill 220ms ease",
+                          transition: "fill 220ms ease, opacity 220ms ease",
                         },
                         hover: {
-                          fill: "var(--accent)",
-                          stroke: "var(--bg)",
+                          fill: "#FFFCF2",
+                          stroke: "#000",
                           strokeWidth: 1,
                           outline: "none",
                           cursor: "pointer",
@@ -87,26 +93,34 @@ export default function ElectoralMap() {
         </ComposableMap>
 
         {hover && stateById[hover] && (
-          <div className="absolute top-3 right-3 max-w-xs rounded-[var(--r-md)] border border-[var(--hairline-strong)] bg-[var(--bg-elev-2)] p-4 shadow-md pointer-events-none">
-            <div className="smallcaps">
+          <div className="absolute top-3 right-3 max-w-xs border border-[var(--hairline-strong)] bg-[var(--bg-elev-2)] p-4 pointer-events-none">
+            <div className="eyebrow !text-[var(--fg-60)]">
               {classificationMeta[stateById[hover].classification].label}
             </div>
-            <div className="font-display text-lg mt-1">
-              {stateById[hover].name} <span className="text-[var(--ink-muted)] font-normal tabular-nums">({stateById[hover].ev} EV)</span>
+            <div className="font-display text-[20px] mt-2">
+              {stateById[hover].name}{" "}
+              <span className="text-[var(--fg-60)] font-normal tabular-nums font-mono text-[13px]">
+                ({stateById[hover].ev} EV)
+              </span>
             </div>
             {stateById[hover].reasoning && (
-              <div className="text-[13px] text-[var(--ink-muted)] mt-2 leading-relaxed">{stateById[hover].reasoning}</div>
+              <div className="text-[12px] text-[var(--fg-60)] mt-3 leading-[1.6]">
+                {stateById[hover].reasoning}
+              </div>
             )}
           </div>
         )}
       </div>
 
-      <div className="mt-8 pt-6 border-t border-[var(--hairline)] grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+      <div className="mt-8 pt-6 border-t border-[var(--hairline)] grid grid-cols-2 md:grid-cols-4 gap-4 text-[12px]">
         {(Object.keys(classificationMeta) as Classification[]).map((k) => (
           <div key={k} className="flex items-center gap-3">
-            <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: classificationMeta[k].color }} />
-            <span className="text-[var(--ink-muted)] flex-1">{classificationMeta[k].label}</span>
-            <span className="font-mono text-[var(--ink)] tabular-nums">{evByClass[k]}</span>
+            <span
+              className="inline-block w-3 h-3"
+              style={{ background: classificationMeta[k].color, border: classificationMeta[k].color === "#262626" ? "1px solid var(--hairline-strong)" : "none" }}
+            />
+            <span className="text-[var(--fg-60)] flex-1">{classificationMeta[k].label}</span>
+            <span className="font-mono text-[var(--fg)] tabular-nums">{evByClass[k]}</span>
           </div>
         ))}
       </div>

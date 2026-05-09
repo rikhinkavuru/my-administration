@@ -12,34 +12,29 @@ export default function AddressPage() {
 
   return (
     <div ref={ref}>
-      {/* Reading progress bar */}
       <motion.div
         style={{ scaleX: progress, transformOrigin: "left" }}
-        className="fixed left-0 right-0 top-16 h-[2px] bg-[var(--accent)] z-30 origin-left"
+        className="fixed left-0 right-0 top-16 h-[2px] bg-[var(--fg)] z-30 origin-left"
       />
 
-      <header className="relative pt-28 md:pt-44 pb-16 md:pb-20 overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-80 pointer-events-none"
-          style={{ background: "radial-gradient(40vw 40vh at 20% 30%, rgba(196,85,97,0.22), transparent 60%)" }}
-        />
-        <div className="container-page relative">
+      <header className="relative pt-28 md:pt-40 pb-16 md:pb-20 border-b border-[var(--hairline)]">
+        <div className="container-page">
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="flex items-center gap-4"
+            className="flex items-center gap-3"
           >
-            <span className="font-mono text-xs text-[var(--accent)] tabular-nums tracking-[0.25em]">06</span>
-            <span className="smallcaps">State of the Union, 2029</span>
-            <span className="flex-1 h-px bg-[var(--hairline)] max-w-[200px]" />
+            <span className="font-mono text-[11px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
+              [06]
+            </span>
+            <span className="eyebrow">State of the Union, 2029</span>
           </motion.div>
 
           <SplitText
             as="h1"
             stagger={0.025}
-            className="font-display mt-10 text-5xl md:text-7xl lg:text-[96px] tracking-[-0.025em] font-medium leading-[0.96] max-w-[18ch] text-glow"
+            className="font-display mt-10 text-[56px] md:text-[88px] lg:text-[120px] max-w-[18ch]"
           >
             My fellow Americans.
           </SplitText>
@@ -53,9 +48,9 @@ export default function AddressPage() {
             {stateOfTheUnion.themes.map((t, i) => (
               <span
                 key={t}
-                className="glass text-xs text-[var(--ink-muted)] rounded-full px-4 py-2"
+                className="text-[11px] text-[var(--fg-60)] border border-[var(--hairline)] rounded-full px-3 py-1.5 font-mono tracking-[0.06em] uppercase"
               >
-                <span className="font-mono text-[var(--accent)] mr-2 tabular-nums">0{i + 1}</span>
+                <span className="text-[var(--fg-40)] mr-1.5">0{i + 1}</span>
                 {t}
               </span>
             ))}
@@ -64,7 +59,7 @@ export default function AddressPage() {
       </header>
 
       <section className="container-page py-16 md:py-24">
-        <article className="font-display mx-auto max-w-[64ch] text-[19px] md:text-[21px] leading-[1.85] text-[var(--ink)] space-y-10">
+        <article className="font-serif-italic mx-auto max-w-[64ch] text-[19px] md:text-[21px] leading-[1.85] text-[var(--fg)] space-y-10 not-italic" style={{ fontStyle: "normal", fontFamily: "var(--font-noto-serif), Georgia, serif" }}>
           {stateOfTheUnion.paragraphs.map((p, i) => (
             <SectionReveal key={i} delay={i * 0.04}>
               <p className={i === 0 ? "dropcap" : ""}>{p}</p>
@@ -72,8 +67,8 @@ export default function AddressPage() {
           ))}
           <SectionReveal>
             <div
-              className="pt-12 mt-8 border-t border-[var(--hairline)] text-[var(--ink-muted)] text-sm not-italic"
-              style={{ fontFamily: "var(--font-geist-sans)" }}
+              className="pt-12 mt-8 border-t border-[var(--hairline)] text-[var(--fg-40)] text-[12px] font-mono uppercase tracking-[0.08em]"
+              style={{ fontFamily: "var(--font-kode-mono), monospace" }}
             >
               Delivered to a Joint Session of the 121st Congress.
             </div>

@@ -1,6 +1,5 @@
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
-import TiltCard from "@/components/TiltCard";
 import BudgetCharts from "@/components/BudgetCharts";
 import { budgetCommentary } from "@/lib/data/budget";
 
@@ -12,7 +11,8 @@ export default function BudgetPage() {
       <ChapterIntro
         index="07"
         kicker="Federal Budget"
-        title="Honest math. Honest priorities."
+        title="Honest math."
+        italicAccent="Honest priorities."
         lede="The current federal budget, the Sackett / Kavuru proposed budget, and a plain explanation of what changes and why."
       />
 
@@ -22,14 +22,14 @@ export default function BudgetPage() {
         </SectionReveal>
       </section>
 
-      <section className="container-page py-16 pb-28">
+      <section className="container-page py-16 pb-24">
         <SectionReveal>
-          <TiltCard intensity={3} className="glass-strong p-8 md:p-14">
-            <div className="smallcaps">Commentary</div>
-            <p className="font-display mt-6 text-xl md:text-3xl tracking-[-0.01em] leading-[1.55] text-[var(--ink)] max-w-[58ch]">
+          <div className="card p-10 md:p-14">
+            <div className="eyebrow">Commentary</div>
+            <p className="mt-8 text-[20px] md:text-[28px] tracking-[-0.005em] leading-[1.55] text-[var(--fg)] max-w-[58ch]">
               {budgetCommentary}
             </p>
-          </TiltCard>
+          </div>
         </SectionReveal>
       </section>
     </div>

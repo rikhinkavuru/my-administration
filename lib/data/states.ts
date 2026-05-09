@@ -139,8 +139,8 @@ export const classificationMeta: Record<
   Classification,
   { label: string; color: string }
 > = {
-  "safe-r": { label: "Safe Republican", color: "#7B1E2B" },
-  "lean-r": { label: "Lean Republican", color: "#A04654" },
-  battleground: { label: "Battleground (Target)", color: "#C28A3A" },
-  "safe-d": { label: "Safe Democrat (Concede)", color: "#3A4B6B" },
+  "safe-r": { label: "Safe Republican", color: "#FFFFFF" },
+  "lean-r": { label: "Lean Republican", color: "#9A9A9A" },
+  battleground: { label: "Battleground (Target)", color: "#FFFCF2" },
+  "safe-d": { label: "Safe Democrat (Concede)", color: "#262626" },
 };
