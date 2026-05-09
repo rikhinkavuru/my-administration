@@ -5,7 +5,6 @@ import RotatingWord from "@/components/RotatingWord";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
 import HeroDashboard from "@/components/HeroDashboard";
-import HeroNotifications from "@/components/HeroNotifications";
 import GridFloor from "@/components/GridFloor";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
@@ -63,6 +62,7 @@ export default function Home() {
             >
               <RotatingWord
                 words={["Renew", "Restore", "Rebuild", "Reclaim", "Revive", "Reform"]}
+                interval={1700}
                 className="text-[var(--accent)]"
               />
               <span className="block">the Republic.</span>
@@ -92,13 +92,12 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — live campaign HQ dashboard + floating notifications */}
+          {/* RIGHT — live campaign HQ dashboard */}
           <motion.div
             style={{ y: emblemY }}
             className="lg:col-span-5 relative flex items-center justify-center"
           >
             <HeroDashboard />
-            <HeroNotifications />
           </motion.div>
         </div>
 

@@ -2,28 +2,43 @@
 import { motion } from "framer-motion";
 import Counter from "./Counter";
 import TiltCard from "./TiltCard";
+import { states, evByClass } from "@/lib/data/states";
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
+// Single source of truth pulled from /lib/data/states.ts
+const SAFE_R = evByClass["safe-r"];
+const LEAN_R = evByClass["lean-r"];
+const TARGET = evByClass.battleground;
+const CONCEDE = evByClass["safe-d"];
+const LOCKED = SAFE_R + LEAN_R; // EV without flipping any battleground
+const THRESHOLD = 270;
+const BAR_PCT = Math.min((LOCKED / THRESHOLD) * 100, 100);
+
 const coalitions = [
-  { label: "Safe", value: 209, dot: "#C45561" },
-  { label: "Lean", value: 43, dot: "#E08894" },
-  { label: "Target", value: 50, dot: "#C9A227" },
-  { label: "Concede", value: 236, dot: "#3A4B6B" },
+  { label: "Safe", value: SAFE_R, dot: "#C45561" },
+  { label: "Lean", value: LEAN_R, dot: "#E08894" },
+  { label: "Target", value: TARGET, dot: "#C9A227" },
+  { label: "Concede", value: CONCEDE, dot: "#3A4B6B" },
 ];
 
-const focus = [
-  { name: "Pennsylvania", ev: 19, delta: "+3.2", trend: "up" as const },
-  { name: "Michigan", ev: 15, delta: "+0.4", trend: "flat" as const },
-  { name: "Wisconsin", ev: 10, delta: "+2.1", trend: "up" as const },
-  { name: "Nevada", ev: 6, delta: "-0.3", trend: "down" as const },
-];
+// Focus states = the four battlegrounds, in EV order. Trend deltas are
+// representative campaign-internal numbers (kept stable, not random).
+const battlegrounds = states
+  .filter((s) => s.classification === "battleground")
+  .sort((a, b) => b.ev - a.ev);
+
+const trendByState: Record<string, { delta: string; trend: "up" | "down" | "flat" }> = {
+  PA: { delta: "+3.2", trend: "up" },
+  MI: { delta: "+0.4", trend: "flat" },
+  WI: { delta: "+2.1", trend: "up" },
+  NV: { delta: "-0.3", trend: "down" },
+};
 
 function Trend({ trend, delta }: { trend: "up" | "down" | "flat"; delta: string }) {
   const color =
     trend === "up" ? "#5BC287" : trend === "down" ? "#E08894" : "var(--ink-muted)";
-  const icon =
-    trend === "up" ? "↗" : trend === "down" ? "↘" : "→";
+  const icon = trend === "up" ? "↗" : trend === "down" ? "↘" : "→";
   return (
     <span
       className="inline-flex items-center gap-1.5 text-[11px] font-mono tabular-nums"
@@ -36,7 +51,6 @@ function Trend({ trend, delta }: { trend: "up" | "down" | "flat"; delta: string 
 }
 
 function Sparkline({ color = "var(--accent)" }: { color?: string }) {
-  // deterministic-ish points
   const points = [4, 7, 5, 9, 6, 11, 9, 13, 10, 15];
   const w = 80;
   const h = 22;
@@ -75,7 +89,6 @@ export default function HeroDashboard() {
       data-cursor-hover
     >
       <TiltCard intensity={5} className="glass-strong relative overflow-hidden">
-        {/* gradient sheen */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none"
@@ -104,20 +117,20 @@ export default function HeroDashboard() {
           <div className="flex items-baseline justify-between">
             <span className="smallcaps">Path to 270</span>
             <span className="font-mono text-[11px] tabular-nums text-[var(--ink-muted)]">
-              252 / 270
+              {LOCKED} / {THRESHOLD}
             </span>
           </div>
 
           <div className="mt-4 flex items-end justify-between gap-6">
             <div>
               <Counter
-                to={252}
+                to={LOCKED}
                 duration={1.8}
                 delay={0.6}
                 className="font-display text-[64px] md:text-[80px] leading-none tabular-nums tracking-[-0.03em] text-glow"
               />
               <div className="mt-1 text-[11px] tracking-[0.2em] uppercase text-[var(--ink-muted)]">
-                Projected EV
+                Locked EV
               </div>
             </div>
             <div className="pb-2">
@@ -125,11 +138,10 @@ export default function HeroDashboard() {
             </div>
           </div>
 
-          {/* Progress bar */}
           <div className="mt-5 h-[6px] rounded-full bg-[var(--bg-elev-2)] overflow-hidden relative">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: "93.33%" }}
+              animate={{ width: `${BAR_PCT}%` }}
               transition={{ duration: 1.6, delay: 0.7, ease: EASE }}
               className="h-full rounded-full"
               style={{
@@ -138,8 +150,11 @@ export default function HeroDashboard() {
                 boxShadow: "0 0 12px rgba(196,85,97,0.6)",
               }}
             />
-            {/* 270 mark */}
-            <span className="absolute right-[6.7%] top-[-3px] h-[12px] w-[1.5px] bg-[var(--ink)]" />
+          </div>
+          <div className="mt-2 text-[11px] text-[var(--ink-muted)] tabular-nums">
+            {THRESHOLD - LOCKED > 0
+              ? `${THRESHOLD - LOCKED} more EV needed from ${TARGET} battleground`
+              : `${LOCKED - THRESHOLD} EV cushion above threshold`}
           </div>
         </div>
 
@@ -169,33 +184,36 @@ export default function HeroDashboard() {
           ))}
         </div>
 
-        {/* Focus states */}
+        {/* Focus states (battlegrounds) */}
         <div className="relative px-5 md:px-6 pt-5 pb-5">
           <div className="flex items-baseline justify-between">
             <span className="smallcaps">Focus states</span>
             <span className="font-mono text-[10px] tabular-nums text-[var(--ink-muted)]">
-              Updated 11:47 PM
+              {TARGET} EV · {battlegrounds.length} states
             </span>
           </div>
           <ul className="mt-4 divide-y divide-[var(--hairline)]">
-            {focus.map((f, i) => (
-              <motion.li
-                key={f.name}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 1.2 + i * 0.08, ease: EASE }}
-                className="py-2.5 grid grid-cols-[1fr_auto_auto] items-baseline gap-4"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />
-                  <span className="text-[14px]">{f.name}</span>
-                </div>
-                <span className="font-mono text-[12px] tabular-nums text-[var(--ink-muted)]">
-                  {f.ev} EV
-                </span>
-                <Trend trend={f.trend} delta={f.delta} />
-              </motion.li>
-            ))}
+            {battlegrounds.map((s, i) => {
+              const t = trendByState[s.id] ?? { delta: "+0.0", trend: "flat" as const };
+              return (
+                <motion.li
+                  key={s.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 1.2 + i * 0.08, ease: EASE }}
+                  className="py-2.5 grid grid-cols-[1fr_auto_auto] items-baseline gap-4"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />
+                    <span className="text-[14px]">{s.name}</span>
+                  </div>
+                  <span className="font-mono text-[12px] tabular-nums text-[var(--ink-muted)]">
+                    {s.ev} EV
+                  </span>
+                  <Trend trend={t.trend} delta={t.delta} />
+                </motion.li>
+              );
+            })}
           </ul>
         </div>
       </TiltCard>

@@ -47,7 +47,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-[var(--hairline)]">
         <div className="container-page py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-xs text-[var(--ink-muted)]">
-          <div>This is a fictional academic project for AP Government. Not a real political campaign.</div>
+          <div>Sackett <span className="text-[var(--accent)]">/</span> Kavuru 2028</div>
           <div>© {new Date().getFullYear()} Renew the Republic Project</div>
         </div>
       </div>
