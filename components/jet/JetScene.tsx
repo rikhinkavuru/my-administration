@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import F22 from "./F22";
-import Flag from "./Flag";
+import Banner from "./Banner";
 import EngineTrail from "./EngineTrail";
 import { FLIGHT, type ProgressRef } from "./constants";
 
@@ -46,7 +46,7 @@ export default function JetScene({ progressRef }: { progressRef: ProgressRef }) 
   return (
     <group ref={groupRef}>
       <F22 />
-      <Flag />
+      <Banner />
       <EngineTrail />
     </group>
   );

@@ -1,20 +1,43 @@
 "use client";
+import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
 import * as THREE from "three";
 import { COLORS } from "./constants";
 
 /**
- * Static additive-blended exhaust cones attached to the jet group, so they
- * scale and translate with the jet for free — zero per-frame CPU.
+ * Animated additive-blended exhaust cones attached to the jet group.
  *
- * Replaces three drei <Trail>s, which rebuilt thick-line geometry every
- * frame and were the heaviest CPU cost in the previous setup. Each cone
- * has its apex at the engine nozzle and base extending backward, opening
- * outward to suggest the afterburner plume.
+ * A single useFrame walks the cone children once per frame and writes
+ * scale + material opacity directly to the Object3D / Material instances
+ * (no React state, no re-renders). Each cone gets a unique phase via its
+ * userData.phase so the flicker reads as turbulent flame rather than a
+ * synchronized pulse.
  *
- * Two-layer per nozzle: outer wider orange glow + inner narrower hot core.
+ * Two-layer per nozzle (outer orange plume + inner hot core) plus a long
+ * faint smoke wash trailing further behind.
  */
 export default function EngineTrail() {
-  const sharedAfter = {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    const g = groupRef.current;
+    if (!g) return;
+    for (let i = 0; i < g.children.length; i++) {
+      const child = g.children[i] as THREE.Mesh;
+      const ud = child.userData as { phase?: number; baseOpacity?: number };
+      const phase = ud.phase ?? 0;
+      // Length flicker (faster) + width flicker (slower)
+      const len = 1 + Math.sin(t * 14 + phase) * 0.22 + Math.sin(t * 31 + phase * 1.7) * 0.07;
+      const wid = 1 + Math.sin(t * 9 + phase * 1.7) * 0.10;
+      child.scale.set(wid, len, wid);
+      const mat = child.material as THREE.MeshBasicMaterial;
+      const base = ud.baseOpacity ?? 0.4;
+      mat.opacity = base * (0.78 + Math.sin(t * 18 + phase * 1.3) * 0.22);
+    }
+  });
+
+  const sharedAdd = {
     transparent: true,
     depthWrite: false,
     side: THREE.DoubleSide,
@@ -23,35 +46,55 @@ export default function EngineTrail() {
   } as const;
 
   return (
-    <group>
+    <group ref={groupRef}>
       {/* RIGHT engine: outer orange plume */}
-      <mesh position={[-3.55, -0.05, 0.18]} rotation={[0, 0, -Math.PI / 2]}>
+      <mesh
+        position={[-3.55, -0.05, 0.18]}
+        rotation={[0, 0, -Math.PI / 2]}
+        userData={{ phase: 0.0, baseOpacity: 0.45 }}
+      >
         <coneGeometry args={[0.28, 1.9, 12, 1, true]} />
-        <meshBasicMaterial color={COLORS.afterburnerOrange} opacity={0.42} {...sharedAfter} />
+        <meshBasicMaterial color={COLORS.afterburnerOrange} opacity={0.45} {...sharedAdd} />
       </mesh>
       {/* RIGHT engine: inner hot core */}
-      <mesh position={[-3.05, -0.05, 0.18]} rotation={[0, 0, -Math.PI / 2]}>
+      <mesh
+        position={[-3.05, -0.05, 0.18]}
+        rotation={[0, 0, -Math.PI / 2]}
+        userData={{ phase: 0.9, baseOpacity: 0.72 }}
+      >
         <coneGeometry args={[0.1, 1.1, 8, 1, true]} />
-        <meshBasicMaterial color={COLORS.trailInner} opacity={0.7} {...sharedAfter} />
+        <meshBasicMaterial color={COLORS.trailInner} opacity={0.72} {...sharedAdd} />
       </mesh>
 
       {/* LEFT engine: outer orange plume */}
-      <mesh position={[-3.55, -0.05, -0.18]} rotation={[0, 0, -Math.PI / 2]}>
+      <mesh
+        position={[-3.55, -0.05, -0.18]}
+        rotation={[0, 0, -Math.PI / 2]}
+        userData={{ phase: 1.7, baseOpacity: 0.45 }}
+      >
         <coneGeometry args={[0.28, 1.9, 12, 1, true]} />
-        <meshBasicMaterial color={COLORS.afterburnerOrange} opacity={0.42} {...sharedAfter} />
+        <meshBasicMaterial color={COLORS.afterburnerOrange} opacity={0.45} {...sharedAdd} />
       </mesh>
       {/* LEFT engine: inner hot core */}
-      <mesh position={[-3.05, -0.05, -0.18]} rotation={[0, 0, -Math.PI / 2]}>
+      <mesh
+        position={[-3.05, -0.05, -0.18]}
+        rotation={[0, 0, -Math.PI / 2]}
+        userData={{ phase: 2.4, baseOpacity: 0.72 }}
+      >
         <coneGeometry args={[0.1, 1.1, 8, 1, true]} />
-        <meshBasicMaterial color={COLORS.trailInner} opacity={0.7} {...sharedAfter} />
+        <meshBasicMaterial color={COLORS.trailInner} opacity={0.72} {...sharedAdd} />
       </mesh>
 
-      {/* Long faint smoke wash trailing further behind */}
-      <mesh position={[-4.6, -0.05, 0]} rotation={[0, 0, -Math.PI / 2]}>
+      {/* Long faint smoke wash trailing behind both engines */}
+      <mesh
+        position={[-4.6, -0.05, 0]}
+        rotation={[0, 0, -Math.PI / 2]}
+        userData={{ phase: 3.3, baseOpacity: 0.20 }}
+      >
         <coneGeometry args={[0.55, 2.2, 10, 1, true]} />
         <meshBasicMaterial
           color={COLORS.trailOuter}
-          opacity={0.18}
+          opacity={0.2}
           transparent
           depthWrite={false}
           side={THREE.DoubleSide}
