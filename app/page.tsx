@@ -6,7 +6,7 @@ import MagneticButton from "@/components/MagneticButton";
 import HeroDashboard from "@/components/HeroDashboard";
 import StatBand from "@/components/StatBand";
 import Marquee from "@/components/Marquee";
-import FighterJetFlyby from "@/components/FighterJetFlyby";
+import JetSequence from "@/components/jet/JetSequence";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -39,9 +39,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* One-time fighter-jet flyby fires when the user scrolls past the hero. */}
-      <FighterJetFlyby />
-
       {/* ============== HERO ============== */}
       <section
         ref={heroRef}
@@ -104,18 +101,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============== MARQUEE ============== */}
-      <Marquee items={marqueeItems} />
+      {/* ====== JET FLYBY (scroll-linked) wraps the marquee + stat band + ticket ====== */}
+      <JetSequence>
+        {/* ============== MARQUEE ============== */}
+        <Marquee items={marqueeItems} />
 
-      {/* ============== STAT BAND ============== */}
-      <StatBand
-        metric={270}
-        label="[ 01 ] The number that matters"
-        context="Two hundred seventy electoral votes is the threshold. Most campaigns drift; few get there. This one has a path —"
-        italicAccent="a serious one."
-      />
+        {/* ============== STAT BAND ============== */}
+        <StatBand
+          metric={270}
+          label="[ 01 ] The number that matters"
+          context="Two hundred seventy electoral votes is the threshold. Most campaigns drift; few get there. This one has a path —"
+          italicAccent="a serious one."
+        />
 
-      {/* ============== TICKET ============== */}
+        {/* ============== TICKET ============== */}
       <section className="container-page py-28 md:py-36">
         <SectionReveal>
           <div className="flex items-center gap-4 mb-12">
@@ -166,6 +165,8 @@ export default function Home() {
           </SectionReveal>
         </div>
       </section>
+
+      </JetSequence>
 
       {/* ============== PILLARS ============== */}
       <section className="container-page py-28 md:py-36">
