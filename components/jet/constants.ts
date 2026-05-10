@@ -7,12 +7,14 @@ export const FLIGHT = {
   // X position in scene units across the scroll progress 0..1.
   X_START: -16,
   X_END: 16,
-  // Y climb across the section.
-  Y_START: -2,
-  Y_END: 1.4,
+  // Y climb across the section. Raised so the jet crosses the upper third
+  // of the viewport rather than the lower third.
+  Y_START: -0.4,
+  Y_END: 2.6,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
-  Z_BASE: -3,
-  Z_PEAK: -0.4,
+  // Pushed further back so the jet reads smaller overall.
+  Z_BASE: -3.5,
+  Z_PEAK: -1.0,
   // Static pitch (nose up) as it climbs.
   PITCH: 0.04,
   // Bank wobble amplitude (radians).
@@ -20,7 +22,7 @@ export const FLIGHT = {
   // Yaw range across full progress.
   YAW_RANGE: 0.14,
   // Uniform scale of the jet group. Smaller = jet reads further away.
-  SCALE: 0.5,
+  SCALE: 0.4,
 } as const;
 
 export const CAMERA = {

@@ -63,9 +63,11 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             ease: "none",
             scrollTrigger: {
               trigger: el,
-              start: "top 80%",
-              end: "bottom 20%",
-              scrub: 0.6,
+              // Widened so the user has to scroll a longer distance for the
+              // jet to complete its arc — makes the flyby feel slower.
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.0,
             },
           }
         );
