@@ -85,16 +85,19 @@ export default function EngineTrail() {
         <meshBasicMaterial color={COLORS.trailInner} opacity={0.72} {...sharedAdd} />
       </mesh>
 
-      {/* Long faint smoke wash trailing behind both engines */}
+      {/* Long faint smoke wash trailing behind both engines.
+          Shortened so the cone tip stays clear of the campaign banner that
+          trails further back at local x ≈ -7. Prevents additive-blend
+          flame from bleeding into the cloth. */}
       <mesh
-        position={[-4.6, -0.05, 0]}
+        position={[-4.4, -0.05, 0]}
         rotation={[0, 0, -Math.PI / 2]}
-        userData={{ phase: 3.3, baseOpacity: 0.20 }}
+        userData={{ phase: 3.3, baseOpacity: 0.18 }}
       >
-        <coneGeometry args={[0.55, 2.2, 10, 1, true]} />
+        <coneGeometry args={[0.45, 1.6, 10, 1, true]} />
         <meshBasicMaterial
           color={COLORS.trailOuter}
-          opacity={0.2}
+          opacity={0.18}
           transparent
           depthWrite={false}
           side={THREE.DoubleSide}

@@ -23,7 +23,7 @@ import * as THREE from "three";
 function makeBannerTexture(): THREE.Texture | null {
   if (typeof document === "undefined") return null;
   const canvas = document.createElement("canvas");
-  canvas.width = 2560;
+  canvas.width = 2048;
   canvas.height = 256;
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
@@ -112,21 +112,21 @@ export default function Banner() {
 
   if (!texture) return null;
 
-  // Plane local: 10 wide x 1 tall (10:1, matches the new texture). Leading
-  // edge at local +5 (anchor near jet's tail), trailing edge at local -5.
-  // Lower frequency + lower amplitude than before so the cloth motion
-  // reads as a slow, flowy ripple rather than a choppy wave.
+  // Plane local: 8 wide x 1 tall (8:1, matches the new texture). Leading
+  // edge at local +4 (anchor near jet's tail), trailing edge at local -4.
+  // Lower frequency + lower amplitude so the cloth motion reads as a
+  // slow, flowy ripple rather than a choppy wave.
   const vertexShader = /* glsl */ `
     uniform float uTime;
     varying vec2 vUv;
     void main() {
       vUv = uv;
       vec3 p = position;
-      float t = clamp((5.0 - p.x) / 10.0, 0.0, 1.0);
-      float wave1 = sin(p.x * 1.6 + uTime * 3.2) * 0.10 * t;
-      float wave2 = sin(p.x * 2.6 - uTime * 2.2 + p.y * 2.0) * 0.04 * t;
+      float t = clamp((4.0 - p.x) / 8.0, 0.0, 1.0);
+      float wave1 = sin(p.x * 1.8 + uTime * 3.2) * 0.10 * t;
+      float wave2 = sin(p.x * 2.8 - uTime * 2.2 + p.y * 2.0) * 0.04 * t;
       p.y += wave1 + wave2;
-      p.z += sin(p.x * 1.9 + uTime * 2.6) * 0.13 * t;
+      p.z += sin(p.x * 2.1 + uTime * 2.6) * 0.13 * t;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
     }
   `;
@@ -139,11 +139,14 @@ export default function Banner() {
     }
   `;
 
+  // Banner sits below + further behind the jet so it can't intersect the
+  // engine flame cones, which extend to roughly local x ≈ -5.7 at y ≈ -0.05.
+  // Leading edge at x = -7 (banner center -11, width 8) keeps a clear gap
+  // between the smoke wash and the cloth, eliminating the additive-blend
+  // layering glitch where the banner appeared to bleed into the flame.
   return (
-    <mesh position={[-8, -0.18, 0]}>
-      {/* Higher subdivision count (40 × 12) so the wave reads as a smooth
-          curve rather than the previous polygonal zig-zag. */}
-      <planeGeometry args={[10, 1, 40, 12]} />
+    <mesh position={[-11, -0.42, 0]}>
+      <planeGeometry args={[8, 1, 32, 10]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}
