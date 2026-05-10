@@ -8,11 +8,20 @@ export const FLIGHT = {
   // horizontal frustum for nearly all of progress.
   X_START: -10,
   X_END: 10,
-  // Steeper downward angle: jet drops dramatically from upper-left to
-  // lower-right. Visible Y at the jet's z-plane is about ±6.3, so ±4.5
-  // keeps the silhouette comfortably inside the viewport at both ends.
-  Y_START: 4.5,
-  Y_END: -4.5,
+  // Straight-line screen path. Math derivation:
+  //   - Canvas is position:fixed, so screen_y(t) = camera_project(jet_world_y(t)).
+  //     There is no additional scroll-derived term.
+  //   - Visible scene height at z = -3.5 with camera (z=22, fov=28°):
+  //       distance      = 22 - (-3.5) = 25.5
+  //       visibleHeight = 25.5 * 2 * tan(14°) ≈ 12.7 scene units
+  //     so 1 scene unit ≈ viewport_h / 12.7 (≈ 63 px on a 800-px viewport).
+  //   - For the jet to render as a flat horizontal line in screen space,
+  //     d(screen_y) / d(progress) must equal zero, i.e. Y_START === Y_END.
+  //     Any nonzero gap reintroduces visible vertical motion scaled by
+  //     ~63 px per scene unit, which is what produced the previous
+  //     diagonal sweep.
+  Y_START: 0,
+  Y_END: 0,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
@@ -23,7 +32,8 @@ export const FLIGHT = {
   // Yaw range across full progress.
   YAW_RANGE: 0.14,
   // Uniform scale of the jet group. Smaller = jet reads further away.
-  SCALE: 0.4,
+  // Reduced from 0.4 -> 0.32 (~20 percent smaller silhouette).
+  SCALE: 0.32,
 } as const;
 
 export const CAMERA = {
