@@ -42,12 +42,13 @@ function F22() {
     return s;
   }, []);
 
-  // Shared body material (matte gunmetal with subtle metallic sheen)
+  // Real F-22 livery: "Have Glass V" two-tone gunship gray. Matte fighter
+  // paint, low metalness, fairly rough.
   const bodyMat = (
-    <meshStandardMaterial color="#3A4250" metalness={0.55} roughness={0.42} />
+    <meshStandardMaterial color="#5C6970" metalness={0.22} roughness={0.58} />
   );
   const bodyMatLight = (
-    <meshStandardMaterial color="#4B5360" metalness={0.5} roughness={0.45} />
+    <meshStandardMaterial color="#788390" metalness={0.22} roughness={0.58} />
   );
 
   return (
@@ -74,17 +75,19 @@ function F22() {
         <meshStandardMaterial color="#0F1421" metalness={0.6} roughness={0.3} />
       </mesh>
 
-      {/* COCKPIT canopy — glass dome */}
+      {/* COCKPIT canopy — the iconic gold-amber radar-defeating coating */}
       <mesh position={[0.95, 0.24, 0]} scale={[0.9, 0.3, 0.34]}>
         <sphereGeometry args={[1, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
         <meshPhysicalMaterial
-          color="#0E1421"
-          metalness={0.45}
-          roughness={0.04}
-          transmission={0.18}
+          color="#C9A55E"
+          metalness={0.7}
+          roughness={0.06}
+          transmission={0.12}
           thickness={0.5}
           clearcoat={1}
           clearcoatRoughness={0.04}
+          emissive="#3A2A0F"
+          emissiveIntensity={0.15}
         />
       </mesh>
 
@@ -144,48 +147,57 @@ function F22() {
         {bodyMat}
       </mesh>
 
-      {/* AIR INTAKES — trapezoidal boxes on the underside near the wing root */}
+      {/* AIR INTAKES — deep-shadow boxes on the underside near wing root */}
       <mesh position={[0.6, -0.22, 0.28]} rotation={[0, 0, 0]}>
         <boxGeometry args={[0.9, 0.18, 0.14]} />
-        <meshStandardMaterial color="#1A1F2A" metalness={0.4} roughness={0.5} />
+        <meshStandardMaterial color="#0F1014" metalness={0.35} roughness={0.55} />
       </mesh>
       <mesh position={[0.6, -0.22, -0.28]} rotation={[0, 0, 0]}>
         <boxGeometry args={[0.9, 0.18, 0.14]} />
-        <meshStandardMaterial color="#1A1F2A" metalness={0.4} roughness={0.5} />
+        <meshStandardMaterial color="#0F1014" metalness={0.35} roughness={0.55} />
       </mesh>
 
-      {/* ENGINE NOZZLES — cylinders at the back */}
+      {/* ENGINE NOZZLES — heat-stained, near-black metal */}
       <mesh position={[-2.4, -0.05, 0.18]} rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0.16, 0.18, 0.4, 14]} />
-        <meshStandardMaterial color="#0F1421" metalness={0.85} roughness={0.3} />
+        <meshStandardMaterial color="#1F1B17" metalness={0.7} roughness={0.45} />
       </mesh>
       <mesh position={[-2.4, -0.05, -0.18]} rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0.16, 0.18, 0.4, 14]} />
-        <meshStandardMaterial color="#0F1421" metalness={0.85} roughness={0.3} />
+        <meshStandardMaterial color="#1F1B17" metalness={0.7} roughness={0.45} />
       </mesh>
 
-      {/* AFTERBURNER GLOW — emissive disks behind nozzles */}
+      {/* AFTERBURNER — outer orange flame disk */}
       <mesh position={[-2.62, -0.05, 0.18]} rotation={[0, -Math.PI / 2, 0]}>
         <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial color="#FFD27D" toneMapped={false} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#FF8C42" toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[-2.62, -0.05, -0.18]} rotation={[0, -Math.PI / 2, 0]}>
         <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial color="#FFD27D" toneMapped={false} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#FF8C42" toneMapped={false} side={THREE.DoubleSide} />
+      </mesh>
+      {/* AFTERBURNER — inner blue shock-diamond core */}
+      <mesh position={[-2.625, -0.05, 0.18]} rotation={[0, -Math.PI / 2, 0]}>
+        <circleGeometry args={[0.062, 12]} />
+        <meshBasicMaterial color="#5DBFFF" toneMapped={false} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh position={[-2.625, -0.05, -0.18]} rotation={[0, -Math.PI / 2, 0]}>
+        <circleGeometry args={[0.062, 12]} />
+        <meshBasicMaterial color="#5DBFFF" toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
 
       {/* Engine point lights for emissive ambience */}
       <pointLight position={[-2.85, -0.05, 0.18]} color="#FF8C42" intensity={3} distance={3} />
       <pointLight position={[-2.85, -0.05, -0.18]} color="#FF8C42" intensity={3} distance={3} />
 
-      {/* USAF-style red roundel + white star insignia, near wing on each side */}
+      {/* USAF-style red insignia in Old Glory Red */}
       <mesh position={[0.7, 0, 0.31]} rotation={[0, 0, 0]}>
         <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial color="#D63D44" toneMapped={false} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#B22234" toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0.7, 0, -0.31]} rotation={[0, Math.PI, 0]}>
         <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial color="#D63D44" toneMapped={false} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#B22234" toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
     </group>
   );
@@ -308,24 +320,23 @@ function Flag() {
 /* ------------------------------------------------------------------ */
 
 function FireTrails() {
-  // Three concentric trails (outer dark red, mid orange, inner white-hot)
-  // each tracking an invisible point at the engine exhausts.
+  // Three concentric trails: dusky smoke -> orange flame -> white-hot core.
   const trail1 = useRef<THREE.Mesh>(null);
   const trail2 = useRef<THREE.Mesh>(null);
   const trail3 = useRef<THREE.Mesh>(null);
   return (
     <>
-      <Trail width={2.4} length={11} color="#7A1B22" decay={1.2} attenuation={(t) => t}>
+      <Trail width={2.6} length={12} color="#3A1A12" decay={1.4} attenuation={(t) => t}>
         <mesh ref={trail1} position={[-2.7, -0.05, 0]} visible={false}>
           <sphereGeometry args={[0.04, 4, 4]} />
         </mesh>
       </Trail>
-      <Trail width={1.5} length={8} color="#FF5722" decay={1.0} attenuation={(t) => t * t}>
+      <Trail width={1.4} length={8} color="#E04D1F" decay={1.0} attenuation={(t) => t * t}>
         <mesh ref={trail2} position={[-2.7, -0.05, 0]} visible={false}>
           <sphereGeometry args={[0.04, 4, 4]} />
         </mesh>
       </Trail>
-      <Trail width={0.7} length={5} color="#FFD27D" decay={0.8} attenuation={(t) => t * t}>
+      <Trail width={0.55} length={5} color="#FFE9A8" decay={0.85} attenuation={(t) => t * t}>
         <mesh ref={trail3} position={[-2.7, -0.05, 0]} visible={false}>
           <sphereGeometry args={[0.04, 4, 4]} />
         </mesh>
@@ -363,17 +374,18 @@ function FlightAnimator() {
     const t = state.clock.elapsedTime - startRef.current;
     const e = Math.min(t / DURATION, 1);
 
-    // Sweep across the visible field (-20 .. +20 in scene units).
-    groupRef.current.position.x = -20 + e * 40;
-    // Climb gently across the screen.
-    groupRef.current.position.y = -1.4 + e * 2.5;
-    // Come closer at the midpoint for perspective scale impression.
-    groupRef.current.position.z = -2.5 + Math.sin(e * Math.PI) * 2.6;
-    // Slight nose-up pitch. (rotation.z = pitch when nose is along +X)
+    // Sweep across the visible field. The camera now sits much further back
+    // (z=22, fov=28) so the jet reads at a believable cinematic scale.
+    groupRef.current.position.x = -16 + e * 32;
+    // Gentle climb across the screen.
+    groupRef.current.position.y = -2 + e * 3;
+    // Approach + recede in Z (closer at the midpoint for perspective bump).
+    groupRef.current.position.z = -3 + Math.sin(e * Math.PI) * 2.6;
+    // Slight nose-up pitch.
     groupRef.current.rotation.z = 0.04;
-    // Subtle bank (roll) wobble. (rotation.x = roll about body axis)
+    // Subtle bank wobble.
     groupRef.current.rotation.x = Math.sin(t * 1.3) * 0.04;
-    // Yaw barely turns away from the viewer over time.
+    // Slow yaw turn.
     groupRef.current.rotation.y = -0.06 + e * 0.12;
   });
 
@@ -393,12 +405,12 @@ export default function FighterJet3D() {
     <Canvas
       dpr={[1, 1.6]}
       gl={{ antialias: true, alpha: true }}
-      camera={{ position: [0, 1.2, 12], fov: 36 }}
+      camera={{ position: [0, 2, 22], fov: 28 }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
     >
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[6, 8, 5]} intensity={1.4} color="#FFE7BD" />
-      <directionalLight position={[-5, -3, -2]} intensity={0.45} color="#7B98D6" />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[6, 8, 5]} intensity={1.2} color="#FFE7BD" />
+      <directionalLight position={[-5, -3, -2]} intensity={0.4} color="#7B98D6" />
       <Suspense fallback={null}>
         <Environment preset="sunset" />
         <FlightAnimator />
