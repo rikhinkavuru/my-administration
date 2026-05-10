@@ -8,13 +8,11 @@ export const FLIGHT = {
   // horizontal frustum for nearly all of progress.
   X_START: -10,
   X_END: 10,
-  // Y range narrowed and inverted — the jet's flight is nearly flat,
-  // descending slightly from left to right. The page scrolling up past
-  // the fixed canvas does the visual diagonal work, so a small downward
-  // tilt in scene-space reads as a clear top-left to bottom-right pass
-  // for the viewer.
-  Y_START: 0.6,
-  Y_END: -0.6,
+  // Y range inverted with a steeper descent — jet drops noticeably from
+  // upper-left to lower-right. Combined with the page scrolling up past
+  // the fixed canvas, the apparent angle reads as a strong dive.
+  Y_START: 2.4,
+  Y_END: -2.4,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
