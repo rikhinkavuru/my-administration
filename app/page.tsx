@@ -6,6 +6,7 @@ import MagneticButton from "@/components/MagneticButton";
 import HeroDashboard from "@/components/HeroDashboard";
 import StatBand from "@/components/StatBand";
 import Marquee from "@/components/Marquee";
+import FighterJetFlyby from "@/components/FighterJetFlyby";
 import { candidates } from "@/lib/data/candidates";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -38,6 +39,9 @@ export default function Home() {
 
   return (
     <div>
+      {/* One-time fighter-jet flyby fires when the user scrolls past the hero. */}
+      <FighterJetFlyby />
+
       {/* ============== HERO ============== */}
       <section
         ref={heroRef}
