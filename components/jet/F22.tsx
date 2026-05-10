@@ -4,21 +4,18 @@ import * as THREE from "three";
 import { COLORS } from "./constants";
 
 /**
- * Procedural F-22 Raptor.
+ * Procedural F-22 Raptor, performance-tuned.
  *
- * ~1.2k triangles. "Have Glass V" two-tone gunship gray livery, gold-amber
- * radar-defeating canopy coating, twin canted vertical stabilizers,
- * diamond-planform wings (ExtrudeGeometry), heat-stained nozzles, blue
- * afterburner shock-diamond core inside an orange flame disk.
+ * ~700 triangles total (down from ~1.2k): reduced subdivisions on the
+ * fuselage capsule, cockpit half-sphere, cone nose, engine cylinders;
+ * cockpit material switched from meshPhysicalMaterial (transmission +
+ * clearcoat = multi-pass shader) to a gold-amber meshStandardMaterial
+ * with high metalness + low roughness, which renders in a single pass.
  *
- * Geometry reused via useMemo. Materials inlined per-mesh so each gets its
- * own three.js material instance.
- *
- * The architecture is GLB-ready: swap this component's body for a
- * `useGLTF("/models/f22.glb")` call if a confirmed-license model is added.
+ * GLB-ready: the entire body could be replaced by `useGLTF(...)` if a
+ * licensed model is added to /public/models/.
  */
 export default function F22() {
-  // Diamond-planform main wing
   const wingShape = useMemo(() => {
     const s = new THREE.Shape();
     s.moveTo(0, 0);
@@ -29,7 +26,6 @@ export default function F22() {
     return s;
   }, []);
 
-  // Smaller swept horizontal stabilizer
   const stabShape = useMemo(() => {
     const s = new THREE.Shape();
     s.moveTo(0, 0);
@@ -40,7 +36,6 @@ export default function F22() {
     return s;
   }, []);
 
-  // Canted vertical stabilizer
   const tailShape = useMemo(() => {
     const s = new THREE.Shape();
     s.moveTo(0, 0);
@@ -53,48 +48,44 @@ export default function F22() {
 
   return (
     <group>
-      {/* Main fuselage — capsule along X */}
+      {/* Main fuselage */}
       <mesh rotation={[0, 0, Math.PI / 2]}>
-        <capsuleGeometry args={[0.3, 4.4, 8, 16]} />
+        <capsuleGeometry args={[0.3, 4.4, 4, 10]} />
         <meshStandardMaterial color={COLORS.body} metalness={0.22} roughness={0.58} />
       </mesh>
-      {/* Top spine — lighter two-tone overlay */}
+      {/* Top spine */}
       <mesh
         position={[0, 0.16, 0]}
         rotation={[0, 0, Math.PI / 2]}
         scale={[1, 0.95, 0.5]}
       >
-        <capsuleGeometry args={[0.26, 3.8, 6, 12]} />
+        <capsuleGeometry args={[0.26, 3.8, 4, 8]} />
         <meshStandardMaterial color={COLORS.bodyLight} metalness={0.22} roughness={0.58} />
       </mesh>
 
-      {/* Nose cone */}
+      {/* Nose */}
       <mesh position={[2.55, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        <coneGeometry args={[0.28, 0.65, 16]} />
+        <coneGeometry args={[0.28, 0.65, 10]} />
         <meshStandardMaterial color={COLORS.body} metalness={0.22} roughness={0.58} />
       </mesh>
       <mesh position={[2.95, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        <cylinderGeometry args={[0.012, 0.012, 0.18, 8]} />
+        <cylinderGeometry args={[0.012, 0.012, 0.18, 6]} />
         <meshStandardMaterial color="#0F1421" metalness={0.6} roughness={0.3} />
       </mesh>
 
-      {/* Cockpit canopy — gold-amber radar-defeating coating */}
+      {/* Cockpit canopy — simplified gold-amber material (single-pass) */}
       <mesh position={[0.95, 0.24, 0]} scale={[0.9, 0.3, 0.34]}>
-        <sphereGeometry args={[1, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <meshPhysicalMaterial
+        <sphereGeometry args={[1, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <meshStandardMaterial
           color={COLORS.cockpit}
-          metalness={0.7}
-          roughness={0.06}
-          transmission={0.12}
-          thickness={0.5}
-          clearcoat={1}
-          clearcoatRoughness={0.04}
+          metalness={0.85}
+          roughness={0.12}
           emissive={COLORS.cockpitEmissive}
-          emissiveIntensity={0.15}
+          emissiveIntensity={0.25}
         />
       </mesh>
 
-      {/* Wings — mirrored ExtrudeGeometry */}
+      {/* Wings */}
       <mesh position={[1.0, -0.08, 0.28]} rotation={[Math.PI / 2, 0, 0]}>
         <extrudeGeometry args={[wingShape, { depth: 0.06, bevelEnabled: false }]} />
         <meshStandardMaterial color={COLORS.body} metalness={0.22} roughness={0.58} />
@@ -122,7 +113,7 @@ export default function F22() {
         <meshStandardMaterial color={COLORS.body} metalness={0.22} roughness={0.58} />
       </mesh>
 
-      {/* Vertical stabilizers — twin, canted ~26° outward */}
+      {/* Vertical stabilizers (canted ~26° outward) */}
       <mesh position={[-1.4, 0.28, 0.28]} rotation={[0.45, 0, 0]}>
         <extrudeGeometry args={[tailShape, { depth: 0.04, bevelEnabled: false }]} />
         <meshStandardMaterial color={COLORS.body} metalness={0.22} roughness={0.58} />
@@ -142,71 +133,46 @@ export default function F22() {
         <meshStandardMaterial color={COLORS.intake} metalness={0.35} roughness={0.55} />
       </mesh>
 
-      {/* Engine nozzles — heat-stained near-black */}
+      {/* Engine nozzles */}
       <mesh position={[-2.4, -0.05, 0.18]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.16, 0.18, 0.4, 14]} />
+        <cylinderGeometry args={[0.16, 0.18, 0.4, 8]} />
         <meshStandardMaterial color={COLORS.nozzle} metalness={0.7} roughness={0.45} />
       </mesh>
       <mesh position={[-2.4, -0.05, -0.18]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.16, 0.18, 0.4, 14]} />
+        <cylinderGeometry args={[0.16, 0.18, 0.4, 8]} />
         <meshStandardMaterial color={COLORS.nozzle} metalness={0.7} roughness={0.45} />
       </mesh>
 
-      {/* Afterburner — outer orange flame disk */}
+      {/* Afterburner orange flame disks */}
       <mesh position={[-2.62, -0.05, 0.18]} rotation={[0, -Math.PI / 2, 0]}>
-        <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial
-          color={COLORS.afterburnerOrange}
-          toneMapped={false}
-          side={THREE.DoubleSide}
-        />
+        <circleGeometry args={[0.13, 12]} />
+        <meshBasicMaterial color={COLORS.afterburnerOrange} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[-2.62, -0.05, -0.18]} rotation={[0, -Math.PI / 2, 0]}>
-        <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial
-          color={COLORS.afterburnerOrange}
-          toneMapped={false}
-          side={THREE.DoubleSide}
-        />
+        <circleGeometry args={[0.13, 12]} />
+        <meshBasicMaterial color={COLORS.afterburnerOrange} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
-      {/* Afterburner — inner blue shock-diamond core */}
+      {/* Blue shock-diamond cores */}
       <mesh position={[-2.625, -0.05, 0.18]} rotation={[0, -Math.PI / 2, 0]}>
-        <circleGeometry args={[0.062, 12]} />
-        <meshBasicMaterial
-          color={COLORS.afterburnerBlue}
-          toneMapped={false}
-          side={THREE.DoubleSide}
-        />
+        <circleGeometry args={[0.062, 8]} />
+        <meshBasicMaterial color={COLORS.afterburnerBlue} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[-2.625, -0.05, -0.18]} rotation={[0, -Math.PI / 2, 0]}>
-        <circleGeometry args={[0.062, 12]} />
-        <meshBasicMaterial
-          color={COLORS.afterburnerBlue}
-          toneMapped={false}
-          side={THREE.DoubleSide}
-        />
+        <circleGeometry args={[0.062, 8]} />
+        <meshBasicMaterial color={COLORS.afterburnerBlue} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* Engine point lights for emissive glow */}
-      <pointLight position={[-2.85, -0.05, 0.18]} color="#FF8C42" intensity={3} distance={3} />
-      <pointLight position={[-2.85, -0.05, -0.18]} color="#FF8C42" intensity={3} distance={3} />
+      {/* Single warm point light at the engines (was two) */}
+      <pointLight position={[-2.85, -0.05, 0]} color="#FF8C42" intensity={3.5} distance={3.2} />
 
-      {/* USAF insignia — Old Glory red roundel */}
+      {/* Insignia */}
       <mesh position={[0.7, 0, 0.31]}>
-        <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial
-          color={COLORS.insignia}
-          toneMapped={false}
-          side={THREE.DoubleSide}
-        />
+        <circleGeometry args={[0.13, 12]} />
+        <meshBasicMaterial color={COLORS.insignia} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0.7, 0, -0.31]} rotation={[0, Math.PI, 0]}>
-        <circleGeometry args={[0.13, 16]} />
-        <meshBasicMaterial
-          color={COLORS.insignia}
-          toneMapped={false}
-          side={THREE.DoubleSide}
-        />
+        <circleGeometry args={[0.13, 12]} />
+        <meshBasicMaterial color={COLORS.insignia} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
     </group>
   );

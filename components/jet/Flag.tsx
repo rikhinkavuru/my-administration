@@ -107,7 +107,7 @@ export default function Flag() {
 
   return (
     <mesh position={[-4.25, -0.18, 0]}>
-      <planeGeometry args={[3.5, 2.0, 36, 18]} />
+      <planeGeometry args={[3.5, 2.0, 18, 10]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}

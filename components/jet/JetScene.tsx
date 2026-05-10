@@ -40,6 +40,7 @@ export default function JetScene({ progressRef }: { progressRef: ProgressRef }) 
     // Subtle bank wobble keyed to progress (deterministic on backscroll).
     g.rotation.x = Math.sin(e * Math.PI * 3) * FLIGHT.BANK_AMP;
     g.rotation.y = -FLIGHT.YAW_RANGE / 2 + e * FLIGHT.YAW_RANGE;
+    g.scale.setScalar(FLIGHT.SCALE);
   });
 
   return (

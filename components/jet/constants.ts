@@ -19,6 +19,8 @@ export const FLIGHT = {
   BANK_AMP: 0.05,
   // Yaw range across full progress.
   YAW_RANGE: 0.14,
+  // Uniform scale of the jet group. Smaller = jet reads further away.
+  SCALE: 0.5,
 } as const;
 
 export const CAMERA = {

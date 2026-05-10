@@ -1,55 +1,63 @@
 "use client";
-import { Trail } from "@react-three/drei";
-import { useRef } from "react";
 import * as THREE from "three";
 import { COLORS } from "./constants";
 
 /**
- * Three concentric drei <Trail> components emitted from the engine exhaust.
- * Outer dusky smoke -> mid orange flame -> white-hot core. Each tracks an
- * invisible point at the same world position; drei uses world coordinates
- * by default so the trail is anchored to the screen, not the moving group.
+ * Static additive-blended exhaust cones attached to the jet group, so they
+ * scale and translate with the jet for free — zero per-frame CPU.
+ *
+ * Replaces three drei <Trail>s, which rebuilt thick-line geometry every
+ * frame and were the heaviest CPU cost in the previous setup. Each cone
+ * has its apex at the engine nozzle and base extending backward, opening
+ * outward to suggest the afterburner plume.
+ *
+ * Two-layer per nozzle: outer wider orange glow + inner narrower hot core.
  */
 export default function EngineTrail() {
-  const t1 = useRef<THREE.Mesh>(null);
-  const t2 = useRef<THREE.Mesh>(null);
-  const t3 = useRef<THREE.Mesh>(null);
+  const sharedAfter = {
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    blending: THREE.AdditiveBlending,
+    toneMapped: false,
+  } as const;
 
   return (
-    <>
-      <Trail
-        width={2.6}
-        length={12}
-        color={COLORS.trailOuter}
-        decay={1.4}
-        attenuation={(x) => x}
-      >
-        <mesh ref={t1} position={[-2.7, -0.05, 0]} visible={false}>
-          <sphereGeometry args={[0.04, 4, 4]} />
-        </mesh>
-      </Trail>
-      <Trail
-        width={1.4}
-        length={8}
-        color={COLORS.trailMid}
-        decay={1.0}
-        attenuation={(x) => x * x}
-      >
-        <mesh ref={t2} position={[-2.7, -0.05, 0]} visible={false}>
-          <sphereGeometry args={[0.04, 4, 4]} />
-        </mesh>
-      </Trail>
-      <Trail
-        width={0.55}
-        length={5}
-        color={COLORS.trailInner}
-        decay={0.85}
-        attenuation={(x) => x * x}
-      >
-        <mesh ref={t3} position={[-2.7, -0.05, 0]} visible={false}>
-          <sphereGeometry args={[0.04, 4, 4]} />
-        </mesh>
-      </Trail>
-    </>
+    <group>
+      {/* RIGHT engine: outer orange plume */}
+      <mesh position={[-3.55, -0.05, 0.18]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.28, 1.9, 12, 1, true]} />
+        <meshBasicMaterial color={COLORS.afterburnerOrange} opacity={0.42} {...sharedAfter} />
+      </mesh>
+      {/* RIGHT engine: inner hot core */}
+      <mesh position={[-3.05, -0.05, 0.18]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.1, 1.1, 8, 1, true]} />
+        <meshBasicMaterial color={COLORS.trailInner} opacity={0.7} {...sharedAfter} />
+      </mesh>
+
+      {/* LEFT engine: outer orange plume */}
+      <mesh position={[-3.55, -0.05, -0.18]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.28, 1.9, 12, 1, true]} />
+        <meshBasicMaterial color={COLORS.afterburnerOrange} opacity={0.42} {...sharedAfter} />
+      </mesh>
+      {/* LEFT engine: inner hot core */}
+      <mesh position={[-3.05, -0.05, -0.18]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.1, 1.1, 8, 1, true]} />
+        <meshBasicMaterial color={COLORS.trailInner} opacity={0.7} {...sharedAfter} />
+      </mesh>
+
+      {/* Long faint smoke wash trailing further behind */}
+      <mesh position={[-4.6, -0.05, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.55, 2.2, 10, 1, true]} />
+        <meshBasicMaterial
+          color={COLORS.trailOuter}
+          opacity={0.18}
+          transparent
+          depthWrite={false}
+          side={THREE.DoubleSide}
+          toneMapped={false}
+        />
+      </mesh>
+    </group>
   );
 }
