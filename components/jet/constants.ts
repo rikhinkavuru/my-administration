@@ -20,11 +20,12 @@ export const FLIGHT = {
   //     Any nonzero gap reintroduces visible vertical motion scaled by
   //     ~63 px per scene unit, which is what produced the previous
   //     diagonal sweep.
-  // Visible scene-Y at z = -3.5 is approximately ±6.3 units. ±5.5 keeps
-  // the silhouette comfortably inside the viewport while producing a steep
-  // downward arc.
-  Y_START: 5.5,
-  Y_END: -5.5,
+  // Aggressive downward dive. Visible scene-Y at z = -3.5 is approximately
+  // ±6.3 units — ±10 deliberately enters from above the viewport and exits
+  // below, so the jet sweeps through visible Y only during the middle of
+  // the scroll range, reading as a steep dive-bombing flyby.
+  Y_START: 10,
+  Y_END: -10,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
