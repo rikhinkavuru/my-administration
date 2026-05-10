@@ -68,17 +68,13 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             ease: "none",
             scrollTrigger: {
               trigger: el,
-              // Pin the section while the jet sweeps. With pin enabled,
-              // GSAP keeps the section stuck to the top of the viewport
-              // for the entire end offset, so the jet's X progresses at a
-              // fixed scene-units-per-vh rate regardless of section
-              // height. 300vh of pinned scroll gives the user time to
-              // read the banner as it passes.
-              start: "top top",
-              end: "+=300%",
-              pin: true,
-              pinSpacing: true,
-              scrub: 1.5,
+              // Non-pinned trigger range. Pin caused a crash on this site
+              // (Lenis smooth-scroll + GSAP ScrollTrigger pin do not always
+              // play well together). Reverted to the visibility-bound
+              // range that was working previously.
+              start: "top 90%",
+              end: "bottom 10%",
+              scrub: 2.5,
             },
           }
         );
