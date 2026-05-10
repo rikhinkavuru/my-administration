@@ -8,12 +8,11 @@ export const FLIGHT = {
   // horizontal frustum for nearly all of progress.
   X_START: -10,
   X_END: 10,
-  // Y range narrowed for a much straighter (mostly horizontal) path,
-  // so the jet doesn't drift into off-screen territory vertically.
-  // The slight rise still reads as a diagonal once the page scrolls
-  // around the fixed canvas, but the jet itself never leaves frame.
-  Y_START: -1.6,
-  Y_END: 1.6,
+  // Y range narrowed further — the jet's flight is now nearly flat.
+  // The page scrolling up past the fixed canvas does the visual
+  // diagonal work, while the jet itself stays in a tight horizontal band.
+  Y_START: -0.6,
+  Y_END: 0.6,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
