@@ -15,10 +15,15 @@ import * as THREE from "three";
  * white — except the slash, which is rendered in oxblood to mirror
  * the campaign wordmark used elsewhere in the site.
  */
+/**
+ * Banner texture is 10:1, sized so the bold sans message fits with margin.
+ * Font size is chosen to leave generous safe-area padding on both sides so
+ * the message remains readable under any wave displacement.
+ */
 function makeBannerTexture(): THREE.Texture | null {
   if (typeof document === "undefined") return null;
   const canvas = document.createElement("canvas");
-  canvas.width = 2048;
+  canvas.width = 2560;
   canvas.height = 256;
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
@@ -36,28 +41,27 @@ function makeBannerTexture(): THREE.Texture | null {
   ctx.fillRect(0, 0, canvas.width, 5);
   ctx.fillRect(0, canvas.height - 5, canvas.width, 5);
 
-  // Inner thin hairlines
+  // Inner hairlines
   ctx.fillStyle = "rgba(255,255,255,0.10)";
   ctx.fillRect(0, 14, canvas.width, 1);
   ctx.fillRect(0, canvas.height - 15, canvas.width, 1);
 
-  // TEXT — bold uppercase sans, with red slash separator
+  const cy = canvas.height / 2;
   const fontStack =
-    "700 138px ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+    "700 124px ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
   ctx.font = fontStack;
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
 
-  const left = "VOTE   SACKETT ";
+  // Single-spaced parts so the full message stays well inside the texture.
+  const left = "VOTE SACKETT ";
   const slash = "/";
-  const right = " KAVURU   2028";
-
+  const right = " KAVURU 2028";
   const wL = ctx.measureText(left).width;
   const wS = ctx.measureText(slash).width;
   const wR = ctx.measureText(right).width;
   const total = wL + wS + wR;
   const startX = (canvas.width - total) / 2;
-  const cy = canvas.height / 2;
 
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText(left, startX, cy);
@@ -66,17 +70,17 @@ function makeBannerTexture(): THREE.Texture | null {
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText(right, startX + wL + wS, cy);
 
-  // Edge vignettes so the banner reads cleanly against any background
-  const vL = ctx.createLinearGradient(0, 0, 80, 0);
+  // Soft edge vignettes
+  const vL = ctx.createLinearGradient(0, 0, 100, 0);
   vL.addColorStop(0, "rgba(0,0,0,0.55)");
   vL.addColorStop(1, "rgba(0,0,0,0)");
   ctx.fillStyle = vL;
-  ctx.fillRect(0, 0, 80, canvas.height);
-  const vR = ctx.createLinearGradient(canvas.width, 0, canvas.width - 80, 0);
+  ctx.fillRect(0, 0, 100, canvas.height);
+  const vR = ctx.createLinearGradient(canvas.width, 0, canvas.width - 100, 0);
   vR.addColorStop(0, "rgba(0,0,0,0.55)");
   vR.addColorStop(1, "rgba(0,0,0,0)");
   ctx.fillStyle = vR;
-  ctx.fillRect(canvas.width - 80, 0, 80, canvas.height);
+  ctx.fillRect(canvas.width - 100, 0, 100, canvas.height);
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
@@ -97,20 +101,21 @@ export default function Banner() {
 
   if (!texture) return null;
 
-  // Plane local: 8 wide x 1 tall (8:1, matches texture). Leading edge at
-  // local +4 (anchor near jet's tail), trailing edge at local -4. Wave
-  // amplitude scales 0..1 from leading to trailing.
+  // Plane local: 10 wide x 1 tall (10:1, matches the new texture). Leading
+  // edge at local +5 (anchor near jet's tail), trailing edge at local -5.
+  // Lower frequency + lower amplitude than before so the cloth motion
+  // reads as a slow, flowy ripple rather than a choppy wave.
   const vertexShader = /* glsl */ `
     uniform float uTime;
     varying vec2 vUv;
     void main() {
       vUv = uv;
       vec3 p = position;
-      float t = clamp((4.0 - p.x) / 8.0, 0.0, 1.0);
-      float wave1 = sin(p.x * 3.5 + uTime * 6.5) * 0.18 * t;
-      float wave2 = sin(p.x * 5.0 - uTime * 4.5 + p.y * 3.0) * 0.08 * t;
+      float t = clamp((5.0 - p.x) / 10.0, 0.0, 1.0);
+      float wave1 = sin(p.x * 1.6 + uTime * 3.2) * 0.10 * t;
+      float wave2 = sin(p.x * 2.6 - uTime * 2.2 + p.y * 2.0) * 0.04 * t;
       p.y += wave1 + wave2;
-      p.z += sin(p.x * 4.0 + uTime * 5.5) * 0.20 * t;
+      p.z += sin(p.x * 1.9 + uTime * 2.6) * 0.13 * t;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
     }
   `;
@@ -124,8 +129,10 @@ export default function Banner() {
   `;
 
   return (
-    <mesh position={[-7, -0.18, 0]}>
-      <planeGeometry args={[8, 1, 24, 6]} />
+    <mesh position={[-8, -0.18, 0]}>
+      {/* Higher subdivision count (40 × 12) so the wave reads as a smooth
+          curve rather than the previous polygonal zig-zag. */}
+      <planeGeometry args={[10, 1, 40, 12]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}

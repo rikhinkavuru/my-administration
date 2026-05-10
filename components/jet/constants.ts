@@ -5,8 +5,11 @@
 
 export const FLIGHT = {
   // X position in scene units across the scroll progress 0..1.
-  X_START: -16,
-  X_END: 16,
+  // Range tightened so the jet spends more of the progress on-screen,
+  // which combined with the wider scroll-trigger range below makes the
+  // pass feel noticeably slower.
+  X_START: -13,
+  X_END: 13,
   // Y climb across the section. Raised so the jet crosses the upper third
   // of the viewport rather than the lower third.
   Y_START: -0.4,
