@@ -113,23 +113,27 @@ export default function Banner() {
   if (!texture) return null;
 
   // Plane local: 8 wide x 1 tall, hung directly below the jet.
-  // Both top corners are anchored to the jet by cables, so the wave is
-  // symmetric and gentle — a quiet undulation in Z plus a small dip in Y
-  // toward the middle, suggesting fabric drag while flying.
+  // Multi-harmonic wave for a more organic, flowy ripple. Mass is weighted
+  // to the bottom edge so the cloth pivots from the cable line rather than
+  // rippling off the top. Drape ramps amplitude from 0 at the cables
+  // (uv.y ~ 1) to full at the bottom edge (uv.y ~ 0).
   const vertexShader = /* glsl */ `
     uniform float uTime;
     varying vec2 vUv;
     void main() {
       vUv = uv;
       vec3 p = position;
-      // Mass weighted to bottom edge (uv.y near 0) so the cloth pivots
-      // from the cable line rather than rippling off the top.
-      float drape = (1.0 - uv.y);
-      float wave  = sin(p.x * 1.6 + uTime * 1.8) * 0.06 * drape;
-      p.z += wave + sin(p.x * 0.8 + uTime * 1.2) * 0.04 * drape;
-      // Subtle middle-of-banner sag in Y (max at x = 0).
-      float sag = (1.0 - abs(p.x) / 4.0) * 0.05 * drape;
-      p.y -= sag;
+      float drape = pow(1.0 - uv.y, 1.3);
+      // Two interfering Z-axis ripples + a slow long-wavelength sway
+      float w1 = sin(p.x * 1.1 + uTime * 1.5) * 0.18 * drape;
+      float w2 = sin(p.x * 2.3 - uTime * 1.0 + p.y * 1.6) * 0.08 * drape;
+      float w3 = sin(p.x * 0.55 + uTime * 0.9) * 0.07 * drape;
+      p.z += w1 + w2 + w3;
+      // Y modulates so the bottom hem flutters
+      p.y += sin(p.x * 1.4 + uTime * 1.8) * 0.05 * drape;
+      p.y -= (1.0 - abs(p.x) / 4.0) * 0.07 * drape;
+      // Small X sway so the cloth feels alive
+      p.x += sin(p.y * 2.0 + uTime * 0.7) * 0.03 * drape;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
     }
   `;

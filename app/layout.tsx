@@ -36,6 +36,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} ${kodeMono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Apply the saved theme synchronously, before paint, so the page
+            never flashes the wrong palette during hydration. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.add('theme-light');}}catch(e){}})();",
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <ThemeProvider>
           <LenisProvider>
