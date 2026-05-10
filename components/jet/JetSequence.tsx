@@ -63,12 +63,13 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             ease: "none",
             scrollTrigger: {
               trigger: el,
-              // Trigger range extended past the natural section bounds so
-              // the user has to scroll an extra ~80% of viewport height
-              // for the jet to complete its diagonal arc.
-              start: "top bottom+=30%",
-              end: "bottom top-=50%",
-              scrub: 2.0,
+              // Trigger range extended further so the user has to scroll
+              // a long distance to complete the diagonal sweep — the jet
+              // and its hanging banner stay legible on screen for the
+              // bulk of the section.
+              start: "top bottom+=40%",
+              end: "bottom top-=90%",
+              scrub: 2.6,
             },
           }
         );

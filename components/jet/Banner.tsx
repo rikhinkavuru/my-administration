@@ -112,21 +112,24 @@ export default function Banner() {
 
   if (!texture) return null;
 
-  // Plane local: 8 wide x 1 tall (8:1, matches the new texture). Leading
-  // edge at local +4 (anchor near jet's tail), trailing edge at local -4.
-  // Lower frequency + lower amplitude so the cloth motion reads as a
-  // slow, flowy ripple rather than a choppy wave.
+  // Plane local: 8 wide x 1 tall, hung directly below the jet.
+  // Both top corners are anchored to the jet by cables, so the wave is
+  // symmetric and gentle — a quiet undulation in Z plus a small dip in Y
+  // toward the middle, suggesting fabric drag while flying.
   const vertexShader = /* glsl */ `
     uniform float uTime;
     varying vec2 vUv;
     void main() {
       vUv = uv;
       vec3 p = position;
-      float t = clamp((4.0 - p.x) / 8.0, 0.0, 1.0);
-      float wave1 = sin(p.x * 1.8 + uTime * 3.2) * 0.10 * t;
-      float wave2 = sin(p.x * 2.8 - uTime * 2.2 + p.y * 2.0) * 0.04 * t;
-      p.y += wave1 + wave2;
-      p.z += sin(p.x * 2.1 + uTime * 2.6) * 0.13 * t;
+      // Mass weighted to bottom edge (uv.y near 0) so the cloth pivots
+      // from the cable line rather than rippling off the top.
+      float drape = (1.0 - uv.y);
+      float wave  = sin(p.x * 1.6 + uTime * 1.8) * 0.06 * drape;
+      p.z += wave + sin(p.x * 0.8 + uTime * 1.2) * 0.04 * drape;
+      // Subtle middle-of-banner sag in Y (max at x = 0).
+      float sag = (1.0 - abs(p.x) / 4.0) * 0.05 * drape;
+      p.y -= sag;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
     }
   `;
@@ -139,13 +142,13 @@ export default function Banner() {
     }
   `;
 
-  // Banner sits below + further behind the jet so it can't intersect the
-  // engine flame cones, which extend to roughly local x ≈ -5.7 at y ≈ -0.05.
-  // Leading edge at x = -7 (banner center -11, width 8) keeps a clear gap
-  // between the smoke wash and the cloth, eliminating the additive-blend
-  // layering glitch where the banner appeared to bleed into the flame.
+  // Banner now hangs directly beneath the jet (instead of trailing behind
+  // it), suspended from two cables. This keeps the banner co-located with
+  // the jet on screen for the full diagonal sweep — the banner becomes
+  // visible the moment the jet enters the viewport rather than appearing
+  // to lag a beat behind.
   return (
-    <mesh position={[-11, -0.42, 0]}>
+    <mesh position={[0, -2.0, 0]}>
       <planeGeometry args={[8, 1, 32, 10]} />
       <shaderMaterial
         uniforms={uniforms}
