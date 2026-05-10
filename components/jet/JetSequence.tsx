@@ -68,13 +68,12 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             ease: "none",
             scrollTrigger: {
               trigger: el,
-              // Trigger range stretched further: jet starts entering as
-              // soon as the section is anywhere near the viewport and
-              // doesn't finish until the section is well past it. Combined
-              // with high scrub, the pass is a long, languid drift.
-              start: "top bottom+=60%",
-              end: "bottom top-=140%",
-              scrub: 3.5,
+              // Even longer scroll range and higher scrub so the pass
+              // stretches across nearly the entire section, lingering for
+              // a long, languid read.
+              start: "top bottom+=80%",
+              end: "bottom top-=200%",
+              scrub: 4.5,
             },
           }
         );
