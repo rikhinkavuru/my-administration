@@ -20,11 +20,11 @@ export const FLIGHT = {
   //     Any nonzero gap reintroduces visible vertical motion scaled by
   //     ~63 px per scene unit, which is what produced the previous
   //     diagonal sweep.
-  // Steep descent. Jet enters above the viewport at the top-left and
-  // exits below at the bottom-right; mid-progress sweeps it through the
-  // visible Y window for a steep dive.
-  Y_START: 10,
-  Y_END: -10,
+  // Flat horizontal pass along the bottom of the viewport. Visible
+  // scene-Y at z = -3.5 spans roughly ±6.3, so Y = -5 sits firmly in
+  // the lower portion of the frame at both ends.
+  Y_START: -5,
+  Y_END: -5,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
