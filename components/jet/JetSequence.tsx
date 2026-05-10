@@ -68,12 +68,16 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             ease: "none",
             scrollTrigger: {
               trigger: el,
-              // Even longer scroll range and higher scrub so the pass
-              // stretches across nearly the entire section, lingering for
-              // a long, languid read.
-              start: "top bottom+=80%",
-              end: "bottom top-=200%",
-              scrub: 4.5,
+              // Trigger range now matches when the section is actually
+              // VISIBLE. start: section's top crosses 90% of viewport
+              // height (section is ~10% revealed). end: section's bottom
+              // crosses 10% from the top (section is ~10% from leaving).
+              // Previously the range extended far above and below visible
+              // bounds, so by the time the user's eyes reached the
+              // section the jet was already mid-flight.
+              start: "top 90%",
+              end: "bottom 10%",
+              scrub: 2.5,
             },
           }
         );
