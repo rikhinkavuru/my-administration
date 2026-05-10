@@ -4,18 +4,19 @@
  */
 
 export const FLIGHT = {
-  // X position in scene units across the scroll progress 0..1.
-  // Range tightened so the jet spends more of the progress on-screen,
-  // which combined with the wider scroll-trigger range below makes the
-  // pass feel noticeably slower.
-  X_START: -13,
-  X_END: 13,
-  // Y climb across the section. Raised so the jet crosses the upper third
-  // of the viewport rather than the lower third.
-  Y_START: -0.4,
-  Y_END: 2.6,
+  // X range tightened so the jet's center stays inside the visible
+  // horizontal frustum for ~95% of progress — jet enters near the left
+  // edge and exits near the right edge rather than starting/ending far
+  // off-screen.
+  X_START: -11,
+  X_END: 11,
+  // Y range deliberately wide. Jet starts in the lower-left of the
+  // viewport and finishes in the upper-right, so as the user scrolls
+  // (which moves the surrounding page content up past the fixed canvas)
+  // the jet's straight-line path reads as a long diagonal sweep.
+  Y_START: -3.5,
+  Y_END: 3.5,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
-  // Pushed further back so the jet reads smaller overall.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
   // Static pitch (nose up) as it climbs.

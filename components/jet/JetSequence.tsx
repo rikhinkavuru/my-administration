@@ -64,11 +64,11 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             scrollTrigger: {
               trigger: el,
               // Trigger range extended past the natural section bounds so
-              // the user has to scroll an extra ~50% of viewport height
-              // for the jet to complete its arc — noticeably slower pass.
-              start: "top bottom+=20%",
-              end: "bottom top-=30%",
-              scrub: 1.8,
+              // the user has to scroll an extra ~80% of viewport height
+              // for the jet to complete its diagonal arc.
+              start: "top bottom+=30%",
+              end: "bottom top-=50%",
+              scrub: 2.0,
             },
           }
         );
