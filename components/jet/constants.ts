@@ -20,8 +20,11 @@ export const FLIGHT = {
   //     Any nonzero gap reintroduces visible vertical motion scaled by
   //     ~63 px per scene unit, which is what produced the previous
   //     diagonal sweep.
-  Y_START: 0,
-  Y_END: 0,
+  // Visible scene-Y at z = -3.5 is approximately ±6.3 units. ±5.5 keeps
+  // the silhouette comfortably inside the viewport while producing a steep
+  // downward arc.
+  Y_START: 5.5,
+  Y_END: -5.5,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
@@ -32,8 +35,8 @@ export const FLIGHT = {
   // Yaw range across full progress.
   YAW_RANGE: 0.14,
   // Uniform scale of the jet group. Smaller = jet reads further away.
-  // Reduced from 0.4 -> 0.32 (~20 percent smaller silhouette).
-  SCALE: 0.32,
+  // Reduced further: 0.32 -> 0.24 (~25 percent smaller again).
+  SCALE: 0.24,
 } as const;
 
 export const CAMERA = {
