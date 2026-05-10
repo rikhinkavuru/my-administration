@@ -20,13 +20,11 @@ export const FLIGHT = {
   //     Any nonzero gap reintroduces visible vertical motion scaled by
   //     ~63 px per scene unit, which is what produced the previous
   //     diagonal sweep.
-  // 6° upward climb starting from the upper-left of the viewport.
-  // X range -10..+10 (= 20 units) -> rise = 20 * tan(6°) ≈ 2.102 scene units.
-  // Path is shifted up ~4 units from before so the jet enters higher and
-  // climbs from there, keeping the silhouette in the upper band of the
-  // visible vertical frustum (~±6.3).
-  Y_START: -1,
-  Y_END: 1.102,
+  // 6° descent from upper-left to lower-right.
+  // X range -10..+10 (= 20 units) -> drop = 20 * tan(6°) ≈ 2.102 scene units.
+  // Path remains in the upper band -> middle band of the viewport.
+  Y_START: 1,
+  Y_END: -1.102,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
