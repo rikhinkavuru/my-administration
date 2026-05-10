@@ -74,7 +74,6 @@ export default function JetSequence({ children }: { children: ReactNode }) {
               // fixed scene-units-per-vh rate regardless of section
               // height. 300vh of pinned scroll gives the user time to
               // read the banner as it passes.
-              trigger: el,
               start: "top top",
               end: "+=300%",
               pin: true,
