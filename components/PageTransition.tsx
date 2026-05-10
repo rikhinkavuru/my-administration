@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait">
       <motion.div
         key={pathname}
         initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}

@@ -5,7 +5,8 @@ import Lenis from "lenis";
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.1,
+      // Slower, smoother scroll across the whole site so reading rhythm feels deliberate.
+      duration: 1.6,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
     let raf = 0;
