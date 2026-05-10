@@ -4,18 +4,16 @@
  */
 
 export const FLIGHT = {
-  // X range tightened so the jet's center stays inside the visible
-  // horizontal frustum for ~95% of progress — jet enters near the left
-  // edge and exits near the right edge rather than starting/ending far
-  // off-screen.
-  X_START: -11,
-  X_END: 11,
-  // Y range deliberately wide. Jet starts in the lower-left of the
-  // viewport and finishes in the upper-right, so as the user scrolls
-  // (which moves the surrounding page content up past the fixed canvas)
-  // the jet's straight-line path reads as a long diagonal sweep.
-  Y_START: -3.5,
-  Y_END: 3.5,
+  // X range tightened further: jet's center stays inside the visible
+  // horizontal frustum for nearly all of progress.
+  X_START: -10,
+  X_END: 10,
+  // Y range narrowed for a much straighter (mostly horizontal) path,
+  // so the jet doesn't drift into off-screen territory vertically.
+  // The slight rise still reads as a diagonal once the page scrolls
+  // around the fixed canvas, but the jet itself never leaves frame.
+  Y_START: -1.6,
+  Y_END: 1.6,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
