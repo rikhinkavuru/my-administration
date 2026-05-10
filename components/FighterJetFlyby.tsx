@@ -1,19 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
-import FighterJet from "./FighterJet";
 
-const SESSION_KEY = "skj-jet-flyby-played";
+const FighterJet3D = dynamic(() => import("./FighterJet3D"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const SESSION_KEY = "skj-jet-flyby-v3-played";
 
 /**
- * Plays a one-time per-session fighter-jet flyby across the viewport when
- * the user scrolls past ~55% of the first viewport on the landing page.
+ * Plays a one-time per-session F-22 flyby (3D, with American flag streaming
+ * from the tail and a layered fire trail) when the user scrolls past ~55% of
+ * the first viewport on the landing page.
  *
- * - Trigger: scrollY > 0.55 * innerHeight (after first paint).
+ * - Trigger: scrollY > 0.55 * innerHeight.
  * - Once-per-session: gated by sessionStorage; new tabs replay it.
  * - Honors prefers-reduced-motion (skipped).
- * - The jet enters from the left, climbs and banks slightly, exits to
- *   the right over ~4.6s with perspective scale, dragging twin contrails.
  */
 export default function FighterJetFlyby() {
   const [armed, setArmed] = useState(false);
@@ -24,7 +28,7 @@ export default function FighterJetFlyby() {
     try {
       if (sessionStorage.getItem(SESSION_KEY) === "1") return;
     } catch {
-      /* sessionStorage may be unavailable; fall through and arm anyway */
+      /* sessionStorage unavailable; fall through and arm */
     }
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setArmed(true);
@@ -41,6 +45,8 @@ export default function FighterJetFlyby() {
           sessionStorage.setItem(SESSION_KEY, "1");
         } catch {}
         setPlaying(true);
+        // Total render lifespan slightly longer than animation so the trails fade.
+        setTimeout(() => setPlaying(false), 5400);
         window.removeEventListener("scroll", onScroll);
       }
     };
@@ -51,37 +57,16 @@ export default function FighterJetFlyby() {
   return (
     <AnimatePresence>
       {playing && (
-        <div
-          key="jet-overlay"
+        <motion.div
+          key="jet3d-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.25 } }}
+          exit={{ opacity: 0, transition: { duration: 0.5 } }}
           aria-hidden
-          className="fixed inset-0 z-[60] pointer-events-none overflow-hidden"
+          className="fixed inset-0 z-[60] pointer-events-none"
         >
-          <motion.div
-            initial={{ x: "-25vw", y: 10, rotate: -2.4, scale: 0.86 }}
-            animate={{
-              x: ["-25vw", "22vw", "68vw", "108vw"],
-              y: [10, -8, -22, -38],
-              rotate: [-2.4, 0.4, 1.2, 1.8],
-              scale: [0.86, 1.04, 1.0, 0.93],
-            }}
-            transition={{
-              duration: 4.6,
-              times: [0, 0.42, 0.86, 1],
-              ease: "linear",
-            }}
-            onAnimationComplete={() => setPlaying(false)}
-            style={{
-              position: "absolute",
-              top: "30%",
-              left: 0,
-              transformOrigin: "center",
-              willChange: "transform",
-            }}
-            className="w-[clamp(360px,55vw,640px)]"
-          >
-            <FighterJet />
-          </motion.div>
-        </div>
+          <FighterJet3D />
+        </motion.div>
       )}
     </AnimatePresence>
   );
