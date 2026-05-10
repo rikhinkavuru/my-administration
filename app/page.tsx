@@ -40,8 +40,11 @@ export default function Home() {
   return (
     <div>
       {/* ============== HERO ============== */}
-      <section
+      <motion.section
         ref={heroRef}
+        initial={{ opacity: 0, filter: "blur(8px)" }}
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
         className="relative min-h-[100svh] flex items-center overflow-hidden border-b border-[var(--hairline)]"
       >
         <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-28 lg:pt-24 pb-20">
@@ -95,11 +98,17 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          <motion.div style={{ y: dashY }} className="lg:col-span-5">
+          <motion.div
+            style={{ y: dashY }}
+            initial={{ opacity: 0, filter: "blur(10px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 1.1, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5"
+          >
             <HeroDashboard />
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ====== JET FLYBY (scroll-linked) wraps the marquee + stat band + ticket ====== */}
       <JetSequence>

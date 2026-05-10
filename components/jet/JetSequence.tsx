@@ -44,10 +44,15 @@ export default function JetSequence({ children }: { children: ReactNode }) {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
+      // Mount the WebGL canvas WELL before the trigger section enters
+      // the viewport so shader compilation + first-frame upload happens
+      // before the user gets there. Without this buffer the canvas mount
+      // costs a frame at the edge of the trigger zone, which reads as a
+      // scroll hitch right when the jet is supposed to start moving.
       const mountTrigger = ScrollTrigger.create({
         trigger: el,
-        start: "top bottom+=200",
-        end: "bottom top-=200",
+        start: "top bottom+=1800",
+        end: "bottom top-=1800",
         onEnter: () => setActive(true),
         onEnterBack: () => setActive(true),
         onLeave: () => setActive(false),
