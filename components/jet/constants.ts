@@ -20,11 +20,10 @@ export const FLIGHT = {
   //     Any nonzero gap reintroduces visible vertical motion scaled by
   //     ~63 px per scene unit, which is what produced the previous
   //     diagonal sweep.
-  // Flat horizontal pass along the bottom of the viewport. Visible
-  // scene-Y at z = -3.5 spans roughly ±6.3, so Y = -5 sits firmly in
-  // the lower portion of the frame at both ends.
+  // 1° upward angle across the X span. With X range -10..+10 (= 20 units),
+  // rise = 20 * tan(1°) ≈ 0.349 scene units.
   Y_START: -5,
-  Y_END: -5,
+  Y_END: -4.651,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,
