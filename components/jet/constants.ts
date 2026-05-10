@@ -8,13 +8,11 @@ export const FLIGHT = {
   // horizontal frustum for nearly all of progress.
   X_START: -10,
   X_END: 10,
-  // The canvas is position:fixed, so the jet's world Y maps directly to
-  // its on-screen Y — there's no extra drift introduced by page scroll
-  // that needs canceling. To make the jet appear to fly straight across
-  // the viewport, both Y_START and Y_END are zero. Tilt-on-screen would
-  // be reintroduced by reopening this gap.
-  Y_START: 0,
-  Y_END: 0,
+  // Steeper downward angle: jet drops dramatically from upper-left to
+  // lower-right. Visible Y at the jet's z-plane is about ±6.3, so ±4.5
+  // keeps the silhouette comfortably inside the viewport at both ends.
+  Y_START: 4.5,
+  Y_END: -4.5,
   // Z parallax — jet dips closer to camera at midpoint for perspective bump.
   Z_BASE: -3.5,
   Z_PEAK: -1.0,

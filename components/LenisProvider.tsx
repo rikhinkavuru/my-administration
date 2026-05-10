@@ -9,6 +9,8 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       duration: 1.6,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
+    // Publish the instance so ScrollToTop (route-change scroll reset) can use it.
+    (window as unknown as { __lenis?: unknown }).__lenis = lenis;
     let raf = 0;
     const tick = (time: number) => {
       lenis.raf(time);
@@ -17,6 +19,9 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     raf = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(raf);
+      try {
+        delete (window as unknown as { __lenis?: unknown }).__lenis;
+      } catch {}
       lenis.destroy();
     };
   }, []);
