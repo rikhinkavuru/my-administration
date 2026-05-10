@@ -37,22 +37,31 @@ export default function JetSequence({ children }: { children: ReactNode }) {
     let cleanup: (() => void) | undefined;
     let cancelled = false;
 
-    (async () => {
+    // Defer GSAP + ScrollTrigger setup until after the hero has settled.
+    // Mounting the WebGL canvas and registering ScrollTriggers during the
+    // first paint was contributing to hero load lag.
+    const startDelay = (cb: () => void) => {
+      const w = window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+      };
+      if (w.requestIdleCallback) w.requestIdleCallback(cb, { timeout: 1500 });
+      else setTimeout(cb, 700);
+    };
+
+    let init = async () => {
       const [{ default: gsap }, { default: ScrollTrigger }] = await Promise.all(
         [import("gsap"), import("gsap/ScrollTrigger")]
       );
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      // Mount the WebGL canvas WELL before the trigger section enters
-      // the viewport so shader compilation + first-frame upload happens
-      // before the user gets there. Without this buffer the canvas mount
-      // costs a frame at the edge of the trigger zone, which reads as a
-      // scroll hitch right when the jet is supposed to start moving.
+      // Mount canvas a few hundred pixels before the trigger section
+      // enters the viewport so shader compilation happens just-in-time
+      // without competing with the hero's first paint.
       const mountTrigger = ScrollTrigger.create({
         trigger: el,
-        start: "top bottom+=1800",
-        end: "bottom top-=1800",
+        start: "top bottom+=400",
+        end: "bottom top-=400",
         onEnter: () => setActive(true),
         onEnterBack: () => setActive(true),
         onLeave: () => setActive(false),
@@ -68,13 +77,16 @@ export default function JetSequence({ children }: { children: ReactNode }) {
             ease: "none",
             scrollTrigger: {
               trigger: el,
-              // Non-pinned trigger range. Pin caused a crash on this site
-              // (Lenis smooth-scroll + GSAP ScrollTrigger pin do not always
-              // play well together). Reverted to the visibility-bound
-              // range that was working previously.
-              start: "top 90%",
-              end: "bottom 10%",
-              scrub: 2.5,
+              // Non-pinned. Trigger range stretched to the full natural
+              // visible window plus a small extension below it so the jet
+              // has more scroll distance to traverse the X arc, and
+              // higher scrub for buttery interpolation between scroll
+              // samples. Combined effect is a noticeably slower, cleaner
+              // flight without resorting to pin (which crashed previously
+              // alongside Lenis smooth scroll).
+              start: "top bottom",
+              end: "bottom top-=40%",
+              scrub: 3.5,
             },
           }
         );
@@ -84,7 +96,10 @@ export default function JetSequence({ children }: { children: ReactNode }) {
         mountTrigger.kill();
         ctx.revert();
       };
-    })();
+    };
+    startDelay(() => {
+      void init();
+    });
 
     return () => {
       cancelled = true;
