@@ -48,12 +48,11 @@ function makeBannerTexture(): THREE.Texture | null {
 
   const cy = canvas.height / 2;
   const fontStack =
-    "700 124px ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+    "700 134px ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
   ctx.font = fontStack;
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
 
-  // Single-spaced parts so the full message stays well inside the texture.
   const left = "VOTE SACKETT ";
   const slash = "/";
   const right = " KAVURU 2028";
@@ -63,12 +62,24 @@ function makeBannerTexture(): THREE.Texture | null {
   const total = wL + wS + wR;
   const startX = (canvas.width - total) / 2;
 
+  // Horizontal condensation: scale text to 82% of natural width about the
+  // canvas center, preserving full character height. Same effect as a
+  // condensed font weight, without depending on a system font being
+  // installed.
+  const COMPRESS = 0.82;
+  ctx.save();
+  ctx.translate(canvas.width / 2, 0);
+  ctx.scale(COMPRESS, 1);
+  ctx.translate(-canvas.width / 2, 0);
+
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText(left, startX, cy);
   ctx.fillStyle = "#D63D44";
   ctx.fillText(slash, startX + wL, cy);
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText(right, startX + wL + wS, cy);
+
+  ctx.restore();
 
   // Soft edge vignettes
   const vL = ctx.createLinearGradient(0, 0, 100, 0);
