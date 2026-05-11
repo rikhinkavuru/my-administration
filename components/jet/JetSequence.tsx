@@ -55,13 +55,14 @@ export default function JetSequence({ children }: { children: ReactNode }) {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      // Mount canvas a few hundred pixels before the trigger section
-      // enters the viewport so shader compilation happens just-in-time
-      // without competing with the hero's first paint.
+      // Mount canvas only when the trigger section is actually in view
+      // (was "top bottom+=400" which mounted the canvas 400px BEFORE the
+      // section entered, putting a z-[60] fixed overlay on top of the
+      // hero and blocking nav clicks on the home page).
       const mountTrigger = ScrollTrigger.create({
         trigger: el,
-        start: "top bottom+=400",
-        end: "bottom top-=400",
+        start: "top bottom-=80",
+        end: "bottom top+=80",
         onEnter: () => setActive(true),
         onEnterBack: () => setActive(true),
         onLeave: () => setActive(false),

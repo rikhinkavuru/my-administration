@@ -181,7 +181,7 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             trigger: el,
             start: "top top",
             end: "bottom bottom",
-            scrub: 2.4,
+            scrub: 1.0,
           },
         });
       });
@@ -265,10 +265,16 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
               aria-hidden
               className="absolute inset-0 z-[25] flex items-center justify-center px-6 lg:px-12 pointer-events-none"
               style={{
-                opacity: Math.max(0, 1 - progressUi / 6),
+                // Hold fully solid through 3% scroll, then fade to 0
+                // over the next 5% (3-8%). Previous formula faded
+                // linearly 0-6 so by p=2 the scrim was already 67%
+                // opaque and the doors bled through.
+                opacity:
+                  progressUi <= 3
+                    ? 1
+                    : Math.max(0, 1 - (progressUi - 3) / 5),
                 transition: "opacity 80ms linear",
-                background:
-                  "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 65%, rgba(0,0,0,0.55) 100%)",
+                background: "#000",
               }}
             >
               <div className="text-center max-w-[640px]">

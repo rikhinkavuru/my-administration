@@ -78,12 +78,12 @@ const PATH_POINTS: [number, number, number][] = [
   // Immigration / port-of-entry
   [14, 9, -930],
   [4, 11, -980], // immigration hero
-  // Finale: gentle rise above the skyline — was a steep 11→100 climb
-  // across just 160m which felt clunky. New profile rises more
-  // gradually with the same final aerial vantage point.
-  [0, 18, -1010],
-  [0, 38, -1070],
-  [0, 72, -1160], // far aerial pull-back
+  // Finale: gentle rise + modest pullback. Previous build went to
+  // y=72 which made all the city buildings read as a miniature
+  // toybox. Lower vantage keeps real architectural scale.
+  [0, 14, -1010],
+  [0, 24, -1060],
+  [0, 38, -1130], // mid-altitude aerial
 ];
 
 // Look-ahead points: where the camera is gazing at each path sample. We
@@ -117,10 +117,12 @@ const LOOK_POINTS: [number, number, number][] = [
   // immigration
   [10, 9, -970],
   [-4, 11, -1020],
-  // finale: look down and forward at the skyline behind us
-  [-2, 14, -900],
-  [0, 8, -500],
-  [0, 4, 0],
+  // Finale: look back at the city corridor we just traveled. Aim
+  // mid-distance (not all the way back to the doors) so the camera
+  // frames the actual skyline density.
+  [0, 12, -940],
+  [0, 8, -780],
+  [0, 6, -620],
 ];
 
 const PATH_VECTORS = PATH_POINTS.map((p) => new THREE.Vector3(...p));

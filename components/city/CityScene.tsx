@@ -89,11 +89,11 @@ function sampleAtm(z: number, out: { fog: THREE.Color; sun: number }) {
   out.sun = end.sun;
 }
 
-// Sun positioned higher and BEHIND the camera path (negative Z) so it
-// doesn't shine straight into the lens and overexpose the horizon.
-// Camera flies along -Z; sun is roughly southwest-and-above relative to
-// the corridor.
-const SUN_DIR: [number, number, number] = [-90, 180, 40];
+// Sun positioned lower in the sky (afternoon, not noon) so the sky
+// gradient has more visible blue and the horizon doesn't blow out
+// near the top of frame. Still BEHIND the camera path so the sun
+// itself isn't visible from the corridor.
+const SUN_DIR: [number, number, number] = [-90, 90, 40];
 const SUN_BASE_INTENSITY = 1.9;
 
 export default function CityScene({ progressRef }: { progressRef: CityProgressRef }) {
@@ -216,6 +216,43 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
         rotation={[-Math.PI / 2, 0, 0]}
         receiveShadow
       />
+      {/* Green grass strips flanking the road — gives the city color
+          variation and breaks up the monochrome asphalt the user
+          flagged. Two long strips on either side of the corridor. */}
+      <mesh
+        position={[-40, -0.04, -540]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[36, 1700]} />
+        <meshStandardMaterial color="#3F5A38" metalness={0} roughness={0.95} />
+      </mesh>
+      <mesh
+        position={[40, -0.04, -540]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[36, 1700]} />
+        <meshStandardMaterial color="#3F5A38" metalness={0} roughness={0.95} />
+      </mesh>
+      {/* Lighter concrete sidewalk strips immediately adjacent to the
+          road — soft cream tone for color variety. */}
+      <mesh
+        position={[-21, -0.045, -540]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[2, 1700]} />
+        <meshStandardMaterial color="#C8C2B6" metalness={0} roughness={0.92} />
+      </mesh>
+      <mesh
+        position={[21, -0.045, -540]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[2, 1700]} />
+        <meshStandardMaterial color="#C8C2B6" metalness={0} roughness={0.92} />
+      </mesh>
 
       <CameraRail progressRef={progressRef} />
       <Doors progressRef={progressRef} />

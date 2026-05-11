@@ -17,6 +17,16 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
+    // Browser may try to restore the previous scroll position on
+    // navigation. Force the page to start at the top — ScrollToTop only
+    // handles route changes, this covers the initial load.
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    requestAnimationFrame(() => {
+      lenis.scrollTo(0, { immediate: true });
+      window.scrollTo({ top: 0, behavior: "auto" });
+    });
     return () => {
       cancelAnimationFrame(raf);
       try {

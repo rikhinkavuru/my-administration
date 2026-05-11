@@ -252,11 +252,11 @@ function EnergyLandmark({ position }: { position: [number, number, number] }) {
 // HEALTHCARE — hospital complex with red cross dominant on facade
 // =========================================================================
 function HospitalLandmark({ position }: { position: [number, number, number] }) {
+  // Scaled down ~30% from the previous build — the hospital was too
+  // big for the camera dwell distance and clipped out of frame.
   return (
-    <group position={position}>
-      {/* Main tower — slightly darker grey so red cross pops against it.
-          (Previously near-white made the cross float on a barely-visible
-          slab.) */}
+    <group position={position} scale={[0.72, 0.72, 0.72]}>
+      {/* Main tower */}
       <mesh position={[0, 22, 0]} castShadow receiveShadow>
         <boxGeometry args={[16, 44, 12]} />
         <meshStandardMaterial
@@ -266,7 +266,7 @@ function HospitalLandmark({ position }: { position: [number, number, number] }) 
           envMapIntensity={0.6}
         />
       </mesh>
-      {/* Window banding on the main tower — thin horizontal dark strips */}
+      {/* Window banding on the main tower */}
       {Array.from({ length: 10 }).map((_, i) => (
         <mesh
           key={i}
@@ -276,7 +276,7 @@ function HospitalLandmark({ position }: { position: [number, number, number] }) 
           <meshStandardMaterial color="#2A3340" metalness={0.4} roughness={0.18} />
         </mesh>
       ))}
-      {/* LARGE red cross on the facade — fills the upper third */}
+      {/* Red cross on the facade */}
       <mesh position={[0, 32, 6.1]}>
         <boxGeometry args={[3.4, 11, 0.14]} />
         <meshBasicMaterial {...matRed} />
@@ -285,8 +285,7 @@ function HospitalLandmark({ position }: { position: [number, number, number] }) 
         <boxGeometry args={[11, 3.4, 0.14]} />
         <meshBasicMaterial {...matRed} />
       </mesh>
-      {/* White backing panel behind the cross (large, so cross reads as
-          painted onto a white sign, not floating) */}
+      {/* White backing panel behind the cross */}
       <mesh position={[0, 32, 6.07]}>
         <boxGeometry args={[14, 14, 0.04]} />
         <meshStandardMaterial color="#FFFFFF" metalness={0} roughness={0.85} />
@@ -309,50 +308,53 @@ function HospitalLandmark({ position }: { position: [number, number, number] }) 
         <boxGeometry args={[2.2, 0.06, 0.4]} />
         <meshBasicMaterial color="#F2F2EE" toneMapped={false} />
       </mesh>
-      {/* LEFT WING — emergency / clinic building */}
+      {/* LEFT WING */}
       <mesh position={[-13, 5, 2]} castShadow receiveShadow>
         <boxGeometry args={[10, 10, 14]} />
         <meshStandardMaterial color="#DDE0DC" metalness={0.08} roughness={0.55} />
       </mesh>
-      {/* Window strip on the left wing */}
       <mesh position={[-13, 7, 9.06]}>
         <boxGeometry args={[9.4, 4, 0.04]} />
         <meshStandardMaterial color="#2A3340" metalness={0.4} roughness={0.18} />
       </mesh>
-      {/* Red "EMERGENCY" stripe above the entry */}
       <mesh position={[-13, 10.4, 9.08]}>
         <boxGeometry args={[7, 0.8, 0.04]} />
         <meshBasicMaterial {...matRed} />
       </mesh>
-      {/* Ambulance bay canopy */}
       <mesh position={[-13, 10.8, 11]} castShadow>
         <boxGeometry args={[9, 0.3, 4]} />
         <meshStandardMaterial color="#888A90" metalness={0.7} roughness={0.32} />
       </mesh>
-      {/* RIGHT WING — medical office building */}
+      {/* RIGHT WING */}
       <mesh position={[13, 8, -1]} castShadow receiveShadow>
         <boxGeometry args={[8, 16, 10]} />
         <meshStandardMaterial color="#C8C8C0" metalness={0.1} roughness={0.6} />
       </mesh>
-      {/* Window banding right wing */}
       {[6, 10, 14].map((y) => (
         <mesh key={y} position={[13, y, 4.06]}>
           <boxGeometry args={[7.4, 1.2, 0.04]} />
           <meshStandardMaterial color="#2A3340" metalness={0.4} roughness={0.18} />
         </mesh>
       ))}
-      {/* Connecting walkway between main and right wing */}
       <mesh position={[6.5, 7, 1]} castShadow>
         <boxGeometry args={[5, 3, 4]} />
         <meshStandardMaterial color="#B8B8B0" metalness={0.4} roughness={0.3} />
       </mesh>
-      {/* Plaza ground in front */}
+      {/* Plaza ground in front — greenscape strip */}
       <mesh
-        position={[0, 0.05, 10]}
+        position={[0, 0.05, 13]}
         rotation={[-Math.PI / 2, 0, 0]}
         receiveShadow
       >
-        <planeGeometry args={[36, 12]} />
+        <planeGeometry args={[36, 6]} />
+        <meshStandardMaterial color="#3F5A38" metalness={0} roughness={0.95} />
+      </mesh>
+      <mesh
+        position={[0, 0.05, 18]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[36, 6]} />
         <meshStandardMaterial color="#9DA0A6" metalness={0.05} roughness={0.85} />
       </mesh>
     </group>
