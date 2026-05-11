@@ -102,14 +102,7 @@ export default function Home() {
         <span aria-hidden className="absolute top-20 left-6 lg:left-8 h-4 w-4 border-l border-t border-[var(--accent-red)] pointer-events-none" />
         <span aria-hidden className="absolute bottom-8 right-6 lg:right-8 h-4 w-4 border-r border-b border-[var(--accent-red)] pointer-events-none" />
 
-        {/* Top status row */}
-        <div aria-hidden className="absolute top-20 left-0 right-0 px-6 lg:px-8 flex justify-between text-[10px] font-mono tracking-[0.08em] uppercase text-[var(--fg-40)] pointer-events-none">
-          <span>Sackett <span className="text-[var(--accent-red)]">/</span> Kavuru</span>
-          <span className="hidden sm:inline">Republican Ticket · 2028</span>
-          <span className="tabular-nums">N 38° W 77°</span>
-        </div>
-
-        <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-32 lg:pt-28 pb-20">
+        <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-28 lg:pt-24 pb-20">
           <motion.div style={{ y: titleY, opacity: titleOpacity }} className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, y: 6 }}
