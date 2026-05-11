@@ -9,16 +9,16 @@
  *     for reduced-motion / mobile / no-WebGL users.
  *   - A persistent screen-reader list of every issue so SEO + a11y are
  *     preserved even when the 3D path is active.
- *   - HUD elements: top-left district readout, bottom progress meter.
- *
- * Choreography mirrors the JetSequence pattern: a single GSAP tween
- * scrubs progressRef.current.progress 0->1 across the section's natural
- * scroll height; useFrame inside the canvas reads that ref. We forward
- * Lenis's smooth-scroll ticks to ScrollTrigger so scrub interpolation
- * lands on every frame.
+ *   - HUD elements:
+ *       - top district readout chip
+ *       - bottom progress meter
+ *       - CENTER-BOTTOM district hero copy (title / italic accent /
+ *         monospace lede) — fixed inset DOM, ALWAYS rendered above the
+ *         canvas so foreground geometry can never occlude it.
  */
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import IssueCard from "@/components/IssueCard";
 import type { Issue } from "@/lib/data/platform";
 import { useDeviceTier, type Tier } from "@/components/jet/useDeviceTier";
@@ -29,15 +29,81 @@ const CityCanvas = dynamic(() => import("./CityCanvas"), {
   loading: () => null,
 });
 
-const DISTRICTS: { range: [number, number]; index: string; label: string }[] = [
-  { range: [0.0, 0.08], index: "00", label: "Approach" },
-  { range: [0.08, 0.25], index: "01", label: "Economy & Fiscal" },
-  { range: [0.25, 0.4], index: "02", label: "Energy & Environment" },
-  { range: [0.4, 0.55], index: "03", label: "Healthcare" },
-  { range: [0.55, 0.7], index: "04", label: "Education & Civil Order" },
-  { range: [0.7, 0.84], index: "05", label: "Defense & Foreign Policy" },
-  { range: [0.84, 0.92], index: "06", label: "Immigration & Rights" },
-  { range: [0.92, 1.0], index: "07", label: "Vision" },
+type District = {
+  range: [number, number];
+  index: string;
+  label: string;
+  /** Hero copy rendered to the DOM HUD. */
+  title?: string;
+  accent?: string;
+  lede?: string;
+};
+
+const DISTRICTS: District[] = [
+  {
+    range: [0.0, 0.08],
+    index: "00",
+    label: "Approach",
+    title: "The Platform",
+    accent: "Twelve serious positions.",
+    lede: "Scroll. The doors are about to open.",
+  },
+  {
+    range: [0.08, 0.25],
+    index: "01",
+    label: "Economy & Fiscal",
+    title: "Honest math.",
+    accent: "Growth, restraint, and a debt we confront.",
+    lede: "TCJA permanent. Corporate rate to 18%. PAYGO with teeth. Phase honest reforms for younger workers.",
+  },
+  {
+    range: [0.25, 0.4],
+    index: "02",
+    label: "Energy & Environment",
+    title: "All of the above.",
+    accent: "Abundance, stewardship, no mandates.",
+    lede: "Oil, gas, nuclear, renewables that stand on their own. Approve pipelines. NEPA reform. Carbon capture.",
+  },
+  {
+    range: [0.4, 0.55],
+    index: "03",
+    label: "Healthcare",
+    title: "Choice. Transparency.",
+    accent: "Competition over a top-down rewrite.",
+    lede: "Expand HSAs. Interstate insurance. Price transparency. Protect coverage for pre-existing conditions.",
+  },
+  {
+    range: [0.55, 0.7],
+    index: "04",
+    label: "Education & Civil Order",
+    title: "Federalism. Speech.",
+    accent: "Equal treatment, robust speech, school choice.",
+    lede: "Minimize the federal role. School choice via tax credits. First Amendment defended without apology.",
+  },
+  {
+    range: [0.7, 0.84],
+    index: "05",
+    label: "Defense & Foreign Policy",
+    title: "Peace through strength.",
+    accent: "Modernize, recapitalize, reform the Pentagon.",
+    lede: "Nuclear triad. 355-ship Navy. Cyber, space, AI. NATO and Indo-Pacific alliances. Firm with China.",
+  },
+  {
+    range: [0.84, 0.92],
+    index: "06",
+    label: "Immigration & Rights",
+    title: "Secure. Modern. Lawful.",
+    accent: "A border that works; a Second Amendment that endures.",
+    lede: "Physical barriers. Reform asylum. E-Verify. Merit-based legal immigration. Individual right to bear arms.",
+  },
+  {
+    range: [0.92, 1.0],
+    index: "07",
+    label: "Vision",
+    title: "Sackett / Kavuru 2028",
+    accent: "Read the full platform.",
+    lede: "Twelve positions, six districts, one country worth governing seriously.",
+  },
 ];
 
 function StaticFallback({ issues }: { issues: Issue[] }) {
@@ -78,14 +144,11 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      // Forward Lenis smoothed scroll into ScrollTrigger so scrub lands
-      // on every smoothed frame.
       const lenis = (window as unknown as {
         __lenis?: { on?: (e: string, cb: () => void) => void };
       }).__lenis;
       if (lenis?.on) lenis.on("scroll", () => ScrollTrigger.update());
 
-      // Mount canvas slightly before the section enters the viewport.
       const mountTrigger = ScrollTrigger.create({
         trigger: el,
         start: "top bottom+=200",
@@ -102,18 +165,13 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
           ease: "none",
           onUpdate: () => {
             const p = progressRef.current.progress;
-            // Update HUD state — coarse setState only when district
-            // changes, to avoid per-frame React rendering.
             const idx = DISTRICTS.findIndex(
               (d) => p >= d.range[0] && p < d.range[1],
             );
             const next = idx === -1 ? DISTRICTS.length - 1 : idx;
             setDistrictIdx((prev) => (prev === next ? prev : next));
-            // The progress UI bar is updated via DOM directly to avoid
-            // a render per frame.
             const bar = document.getElementById("city-progress-bar");
             if (bar) bar.style.width = `${Math.round(p * 100)}%`;
-            // throttle progress label update via setState too
             setProgressUi(Math.round(p * 100));
           },
           scrollTrigger: {
@@ -137,7 +195,6 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
     };
   }, [tier]);
 
-  // Fallback render — keep all content discoverable.
   if (tier === "none" || tier === "low") {
     return <StaticFallback issues={issues} />;
   }
@@ -146,7 +203,6 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
 
   return (
     <>
-      {/* SR / SEO fallback — the full content is always discoverable */}
       <ol className="sr-only">
         {issues.map((issue, i) => (
           <li key={issue.id} id={issue.id}>
@@ -158,11 +214,6 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
       <div
         ref={sectionRef}
         className="relative"
-        // ~7 viewport heights of scroll for the full city journey.
-        // Each district gets ~1 viewport of scroll travel. The sticky
-        // stage uses 100vw + a negative-half-vw offset so it escapes its
-        // parent (`container-page`, max-width 1280px) and spans the full
-        // viewport width.
         style={{ height: "640svh" }}
         aria-hidden
       >
@@ -185,21 +236,17 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             )}
           </div>
 
-          {/* Soft cinematic vignette — corners only, barely there.
-              Replaces the global .vignette utility which faded the whole
-              scene to black past 50% of the radial extent. */}
+          {/* Soft cinematic vignette — corners only, barely there. */}
           <div
             aria-hidden
             className="absolute inset-0 pointer-events-none z-20"
             style={{
               background:
-                "radial-gradient(ellipse 110% 80% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+                "radial-gradient(ellipse 110% 80% at 50% 50%, transparent 60%, rgba(0,0,0,0.35) 100%)",
             }}
           />
 
-          {/* HUD top — district readout + scroll cue. Pushed below the
-              site's sticky nav (~64px) so it never collides. The translucent
-              chip keeps the type legible regardless of what's behind it. */}
+          {/* HUD top — district readout + scroll cue. */}
           <div className="absolute top-20 left-6 right-6 lg:left-8 lg:right-8 z-30 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--fg-60)] pointer-events-none">
             <span className="bg-black/45 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
               District ·{" "}
@@ -217,6 +264,59 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
           {/* Corner accents */}
           <span aria-hidden className="absolute top-16 left-4 lg:left-6 h-3 w-3 border-l border-t border-[var(--accent-red)] z-30 pointer-events-none" />
           <span aria-hidden className="absolute bottom-6 right-6 lg:right-8 h-3 w-3 border-r border-b border-[var(--accent-red)] z-30 pointer-events-none" />
+
+          {/* DISTRICT HERO COPY — DOM layer, always on top of the canvas.
+              Anchored bottom-left, with a soft fade + 18px y-shift per
+              district change. */}
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-24 z-30 px-6 lg:px-12 pointer-events-none"
+          >
+            <AnimatePresence mode="wait">
+              {current.title && (
+                <motion.div
+                  key={current.index}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -18 }}
+                  transition={{ duration: 0.55, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="max-w-3xl"
+                >
+                  <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--fg-60)] flex items-center gap-3">
+                    <span className="text-[var(--accent-red)]">
+                      {current.index}
+                    </span>
+                    <span className="h-px w-8 bg-[var(--accent-red)]" />
+                    <span>{current.label}</span>
+                  </div>
+                  <h2 className="mt-4 font-display text-white text-[44px] sm:text-[60px] lg:text-[76px] leading-[0.95] tracking-[-0.02em]"
+                      style={{ textShadow: "0 2px 30px rgba(0,0,0,0.55)" }}>
+                    {current.title}
+                  </h2>
+                  {current.accent && (
+                    <p
+                      className="mt-3 text-[18px] sm:text-[22px] italic text-white/85"
+                      style={{
+                        fontFamily:
+                          "'Noto Serif', Georgia, ui-serif, serif",
+                        textShadow: "0 2px 16px rgba(0,0,0,0.5)",
+                      }}
+                    >
+                      {current.accent}
+                    </p>
+                  )}
+                  {current.lede && (
+                    <p
+                      className="mt-4 max-w-xl text-[12px] sm:text-[13px] leading-[1.7] text-white/75 font-mono"
+                      style={{ textShadow: "0 1px 10px rgba(0,0,0,0.55)" }}
+                    >
+                      {current.lede}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Bottom progress rail */}
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-[300px] pointer-events-none bg-black/45 backdrop-blur-sm border border-[var(--hairline)] px-4 py-3">
