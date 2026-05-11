@@ -117,16 +117,13 @@ export default function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display mt-8 tracking-[-0.05em]"
+              className="font-display mt-8 tracking-[-0.05em] leading-[1]"
               style={{
-                // Adaptive sizing — clamps by BOTH viewport width AND
-                // viewport height so on a 2000x1080 monitor the h1
-                // doesn't push the CTA buttons below the fold like the
-                // old xl:text-[164px] did. min(vw, svh) ensures we
-                // never exceed what fits vertically.
-                fontSize:
-                  "clamp(52px, min(9.5vw, 12.5svh), 132px)",
-                lineHeight: 0.92,
+                // Cap at 100px so "the Republic." doesn't wrap to two
+                // lines inside the 7/12-col container (~820px wide on
+                // a 2000px viewport). Also constrained by svh so on
+                // short screens the hero stays one viewport.
+                fontSize: "clamp(44px, min(7vw, 9.5svh), 100px)",
               }}
             >
               <RotatingWord
