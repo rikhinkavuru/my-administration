@@ -121,6 +121,9 @@ export default function EnergyDistrict({ progressRef }: { progressRef: CityProgr
         palette={["#7D6C5C", "#5C5048", "#8E4F3F", "#6E5A4D"]}
         metalness={0.28}
         roughness={0.72}
+        windowStyle="horizontal"
+        windowColor="#FFB070"
+        silhouetteMix={[0.85, 0.05, 0.1]}
       />
       <Smokestack position={[-14, 0, CZ + 22]} h={22} />
       <Smokestack position={[-8, 0, CZ + 28]} h={16} />

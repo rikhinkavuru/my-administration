@@ -99,6 +99,9 @@ export default function EducationDistrict({ progressRef }: { progressRef: CityPr
         metalness={0.26}
         roughness={0.58}
         keepOut={{ x: 0, z: CZ, radius: 5 }}
+        windowStyle="warm-grid"
+        windowColor="#FFE0A8"
+        silhouetteMix={[0.55, 0.3, 0.15]}
       />
 
       <Capitol position={[6, 0, CZ - 16]} />

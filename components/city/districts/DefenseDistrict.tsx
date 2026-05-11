@@ -89,6 +89,9 @@ export default function DefenseDistrict({ progressRef }: { progressRef: CityProg
         metalness={0.32}
         roughness={0.6}
         keepOut={{ x: 0, z: CZ, radius: 5 }}
+        windowStyle="sparse"
+        windowColor="#D63D44"
+        silhouetteMix={[0.85, 0.05, 0.1]}
       />
 
       {/* The "mesa" — a raised platform the radars sit on */}

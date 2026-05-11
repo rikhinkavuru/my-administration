@@ -30,6 +30,9 @@ export default function HealthcareDistrict({ progressRef }: { progressRef: CityP
         metalness={0.18}
         roughness={0.6}
         keepOut={{ x: 0, z: CZ, radius: 6 }}
+        windowStyle="grid"
+        windowColor="#FFF0D8"
+        silhouetteMix={[0.6, 0.2, 0.2]}
       />
       <CityBlock
         center={[14, 0, CZ]}
@@ -45,6 +48,9 @@ export default function HealthcareDistrict({ progressRef }: { progressRef: CityP
         metalness={0.18}
         roughness={0.6}
         keepOut={{ x: 0, z: CZ, radius: 6 }}
+        windowStyle="grid"
+        windowColor="#FFF0D8"
+        silhouetteMix={[0.6, 0.2, 0.2]}
       />
 
       {/* Hero hospital — a tall slab with a glowing red cross on its face */}

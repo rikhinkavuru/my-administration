@@ -85,6 +85,9 @@ export default function ImmigrationDistrict({ progressRef }: { progressRef: City
         metalness={0.2}
         roughness={0.7}
         keepOut={{ x: 0, z: CZ + 18, radius: 4 }}
+        windowStyle="horizontal"
+        windowColor="#FFB070"
+        silhouetteMix={[0.9, 0.0, 0.1]}
       />
 
       <Gateway />

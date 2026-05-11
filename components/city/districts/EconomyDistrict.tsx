@@ -63,6 +63,9 @@ export default function EconomyDistrict({ progressRef }: { progressRef: CityProg
         palette={["#C4B5A3", "#8A95A6", "#A89682", "#6E7889", "#8E4F3F"]}
         metalness={0.22}
         roughness={0.66}
+        windowStyle="grid"
+        windowColor="#FFD08A"
+        silhouetteMix={[0.7, 0.15, 0.15]}
       />
       <CityBlock
         center={[40, 0, CZ]}
@@ -77,6 +80,9 @@ export default function EconomyDistrict({ progressRef }: { progressRef: CityProg
         palette={["#C4B5A3", "#8A95A6", "#A89682", "#6E7889", "#8E4F3F"]}
         metalness={0.22}
         roughness={0.66}
+        windowStyle="grid"
+        windowColor="#FFD08A"
+        silhouetteMix={[0.7, 0.15, 0.15]}
       />
       {/* Mid-detail flanking the camera corridor — finance towers,
           slightly glassier so the warm sun rakes their facets. */}
@@ -94,6 +100,9 @@ export default function EconomyDistrict({ progressRef }: { progressRef: CityProg
         metalness={0.34}
         roughness={0.5}
         keepOut={{ x: 0, z: CZ, radius: 7 }}
+        windowStyle="mullion"
+        windowColor="#FFE0A8"
+        silhouetteMix={[0.55, 0.25, 0.2]}
       />
 
       {/* Hero finance tower — the tallest box, anchors the district */}
