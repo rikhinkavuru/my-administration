@@ -3,7 +3,7 @@ import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
-import CabinetCard from "@/components/CabinetCard";
+import CabinetCarousel3DMount from "@/components/3d/CabinetCarousel3DMount";
 import { cabinet } from "@/lib/data/cabinet";
 import { bureaucraticVision } from "@/lib/data/executive";
 
@@ -101,11 +101,7 @@ export default function ExecutivePage() {
           </SplitText>
         </SectionReveal>
 
-        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--hairline)] border border-[var(--hairline)]">
-          {cabinet.map((c, i) => (
-            <CabinetCard key={c.department} pick={c} index={i} />
-          ))}
-        </div>
+        <CabinetCarousel3DMount picks={cabinet} />
       </section>
     </div>
   );

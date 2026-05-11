@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
-import IssueCard from "@/components/IssueCard";
+import PlatformDeck3DMount from "@/components/3d/PlatformDeck3DMount";
 import { platform } from "@/lib/data/platform";
 
 export const metadata: Metadata = {
@@ -93,13 +93,7 @@ export default function PlatformPage() {
             Tap to expand
           </span>
         </div>
-        <ol className="grid gap-px bg-[var(--hairline)] border border-[var(--hairline)] list-none">
-          {platform.map((issue, i) => (
-            <li key={issue.id} id={issue.id}>
-              <IssueCard issue={issue} index={i} />
-            </li>
-          ))}
-        </ol>
+        <PlatformDeck3DMount issues={platform} />
 
         <aside
           aria-label="Continue reading"
