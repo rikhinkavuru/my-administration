@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
-import PlatformDeck3DMount from "@/components/3d/PlatformDeck3DMount";
+import CitySequence from "@/components/city/CitySequence";
 import { platform } from "@/lib/data/platform";
 
 export const metadata: Metadata = {
@@ -60,14 +60,14 @@ export default function PlatformPage() {
       >
         <div className="flex items-center gap-4 mb-10">
           <h2 className="eyebrow" id="platform-list-heading">
-            12 positions
+            Twelve positions, six districts
           </h2>
           <span className="flex-1 h-px bg-[var(--hairline)]" aria-hidden="true" />
           <span className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
-            Tap to expand
+            Scroll to fly through
           </span>
         </div>
-        <PlatformDeck3DMount issues={platform} />
+        <CitySequence issues={platform} />
 
         <aside
           aria-label="Continue reading"
