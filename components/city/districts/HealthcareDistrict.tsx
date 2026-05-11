@@ -22,10 +22,13 @@ export default function HealthcareDistrict({ progressRef }: { progressRef: CityP
         count={48}
         seed={301}
         heightRange={[20, 54]}
-        baseColor="#0d0d10"
-        capColor="#2a2a30"
-        capEmissive="#FFEFDF"
-        capEmissiveIntensity={2.4}
+        baseColor="#d4c8b8"
+        capColor="#403c38"
+        capEmissive="#FFF0D8"
+        capEmissiveIntensity={2.6}
+        palette={["#D4C8B8", "#B8B0A4", "#9CA0A8", "#C4B5A3", "#A8B0B8"]}
+        metalness={0.18}
+        roughness={0.6}
         keepOut={{ x: 0, z: CZ, radius: 6 }}
       />
       <CityBlock
@@ -34,10 +37,13 @@ export default function HealthcareDistrict({ progressRef }: { progressRef: CityP
         count={48}
         seed={302}
         heightRange={[20, 54]}
-        baseColor="#0d0d10"
-        capColor="#2a2a30"
-        capEmissive="#FFEFDF"
-        capEmissiveIntensity={2.4}
+        baseColor="#d4c8b8"
+        capColor="#403c38"
+        capEmissive="#FFF0D8"
+        capEmissiveIntensity={2.6}
+        palette={["#D4C8B8", "#B8B0A4", "#9CA0A8", "#C4B5A3", "#A8B0B8"]}
+        metalness={0.18}
+        roughness={0.6}
         keepOut={{ x: 0, z: CZ, radius: 6 }}
       />
 

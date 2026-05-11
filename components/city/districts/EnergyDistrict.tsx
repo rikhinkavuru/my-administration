@@ -114,10 +114,13 @@ export default function EnergyDistrict({ progressRef }: { progressRef: CityProgr
         count={36}
         seed={211}
         heightRange={[3, 9]}
-        baseColor="#0c0c0e"
-        capColor="#1a1a1c"
-        capEmissive="#FFE7BD"
-        capEmissiveIntensity={0.4}
+        baseColor="#7d6c5c"
+        capColor="#3a2a1e"
+        capEmissive="#FFB070"
+        capEmissiveIntensity={0.9}
+        palette={["#7D6C5C", "#5C5048", "#8E4F3F", "#6E5A4D"]}
+        metalness={0.28}
+        roughness={0.72}
       />
       <Smokestack position={[-14, 0, CZ + 22]} h={22} />
       <Smokestack position={[-8, 0, CZ + 28]} h={16} />

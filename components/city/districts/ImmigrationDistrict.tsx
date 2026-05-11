@@ -77,10 +77,13 @@ export default function ImmigrationDistrict({ progressRef }: { progressRef: City
         count={32}
         seed={601}
         heightRange={[3, 7]}
-        baseColor="#0a0a0d"
-        capColor="#1a1a1f"
-        capEmissive="#FFE7BD"
-        capEmissiveIntensity={0.7}
+        baseColor="#b09078"
+        capColor="#3a2a1c"
+        capEmissive="#FFB070"
+        capEmissiveIntensity={1.3}
+        palette={["#C4B5A3", "#A89682", "#8E4F3F", "#6E5A4D", "#B09078"]}
+        metalness={0.2}
+        roughness={0.7}
         keepOut={{ x: 0, z: CZ + 18, radius: 4 }}
       />
 

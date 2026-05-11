@@ -91,10 +91,13 @@ export default function EducationDistrict({ progressRef }: { progressRef: CityPr
         count={48}
         seed={401}
         heightRange={[10, 30]}
-        baseColor="#0d0d10"
-        capColor="#25252a"
-        capEmissive="#A0C0FF"
-        capEmissiveIntensity={1.4}
+        baseColor="#8a98b4"
+        capColor="#2e3540"
+        capEmissive="#B0C8FF"
+        capEmissiveIntensity={1.7}
+        palette={["#5C7894", "#8A95A6", "#6E7889", "#9CA8C0", "#C4B5A3"]}
+        metalness={0.26}
+        roughness={0.58}
         keepOut={{ x: 0, z: CZ, radius: 5 }}
       />
 

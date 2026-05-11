@@ -56,10 +56,13 @@ export default function EconomyDistrict({ progressRef }: { progressRef: CityProg
         count={56}
         seed={101}
         heightRange={[6, 22]}
-        baseColor="#0e0e10"
-        capColor="#1a1a1c"
-        capEmissive="#FFE7BD"
-        capEmissiveIntensity={0.9}
+        baseColor="#a89682"
+        capColor="#2a241d"
+        capEmissive="#FFD08A"
+        capEmissiveIntensity={1.4}
+        palette={["#C4B5A3", "#8A95A6", "#A89682", "#6E7889", "#8E4F3F"]}
+        metalness={0.22}
+        roughness={0.66}
       />
       <CityBlock
         center={[40, 0, CZ]}
@@ -67,22 +70,29 @@ export default function EconomyDistrict({ progressRef }: { progressRef: CityProg
         count={56}
         seed={102}
         heightRange={[6, 22]}
-        baseColor="#0e0e10"
-        capColor="#1a1a1c"
-        capEmissive="#FFE7BD"
-        capEmissiveIntensity={0.9}
+        baseColor="#a89682"
+        capColor="#2a241d"
+        capEmissive="#FFD08A"
+        capEmissiveIntensity={1.4}
+        palette={["#C4B5A3", "#8A95A6", "#A89682", "#6E7889", "#8E4F3F"]}
+        metalness={0.22}
+        roughness={0.66}
       />
-      {/* Mid-detail flanking the camera corridor */}
+      {/* Mid-detail flanking the camera corridor — finance towers,
+          slightly glassier so the warm sun rakes their facets. */}
       <CityBlock
         center={[0, 0, CZ]}
         extent={[28, 50]}
         count={70}
         seed={103}
         heightRange={[18, 56]}
-        baseColor="#101012"
-        capColor="#2a2a2e"
-        capEmissive="#FFE2B0"
-        capEmissiveIntensity={1.8}
+        baseColor="#94a0b0"
+        capColor="#383a40"
+        capEmissive="#FFE0A8"
+        capEmissiveIntensity={2.2}
+        palette={["#5C7894", "#8A95A6", "#6E7889", "#C4B5A3", "#3D434E"]}
+        metalness={0.34}
+        roughness={0.5}
         keepOut={{ x: 0, z: CZ, radius: 7 }}
       />
 

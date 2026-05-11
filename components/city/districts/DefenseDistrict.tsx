@@ -81,10 +81,13 @@ export default function DefenseDistrict({ progressRef }: { progressRef: CityProg
         count={50}
         seed={501}
         heightRange={[3, 10]}
-        baseColor="#0c0d10"
-        capColor="#1c1f24"
-        capEmissive="#8FB0FF"
-        capEmissiveIntensity={0.9}
+        baseColor="#6e7480"
+        capColor="#252830"
+        capEmissive="#A8C0E8"
+        capEmissiveIntensity={1.1}
+        palette={["#6E7889", "#5C6470", "#8A95A6", "#3D434E", "#7C8694"]}
+        metalness={0.32}
+        roughness={0.6}
         keepOut={{ x: 0, z: CZ, radius: 5 }}
       />
 
