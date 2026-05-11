@@ -50,7 +50,10 @@ export default function CityCanvas({
       }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.0;
+        // Drop exposure from 1.0 -> 0.78. Combined with the sky+sun tuning
+        // in CityScene, this stops the horizon from blowing out to pure
+        // white. ACES at 0.78 still keeps midtones bright and saturated.
+        gl.toneMappingExposure = 0.78;
         gl.outputColorSpace = THREE.SRGBColorSpace;
         if (tier === "high") {
           gl.shadowMap.enabled = true;
@@ -66,9 +69,9 @@ export default function CityCanvas({
           <EffectComposer multisampling={0} enableNormalPass={false}>
             <SMAA />
             <Bloom
-              intensity={0.32}
-              luminanceThreshold={0.95}
-              luminanceSmoothing={0.25}
+              intensity={0.22}
+              luminanceThreshold={0.99}
+              luminanceSmoothing={0.2}
               mipmapBlur
             />
             <Vignette

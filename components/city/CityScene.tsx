@@ -31,6 +31,7 @@ import * as THREE from "three";
 import { Sky, Environment } from "@react-three/drei";
 import CameraRail, { DISTRICT_Z } from "./CameraRail";
 import Doors from "./Doors";
+import Landmarks from "./Landmarks";
 import EconomyDistrict from "./districts/EconomyDistrict";
 import EnergyDistrict from "./districts/EnergyDistrict";
 import HealthcareDistrict from "./districts/HealthcareDistrict";
@@ -56,15 +57,19 @@ function mk(z: number, fog: string, sun: number): Atm {
   return { z, fog: new THREE.Color(fog), sun };
 }
 
+// Deeper, more saturated atmospheric tints. The previous palette
+// averaged near-white (#CFD8E4) which combined with the bright sun
+// and bloom to wash the horizon to pure white. Pulling these toward a
+// real overcast blue gives building silhouettes contrast.
 const ATM_PALETTE: Atm[] = [
-  mk(60, "#D6DEE8", 1.0),
-  mk(DISTRICT_Z.ECONOMY, "#CFD8E4", 1.05),
-  mk(DISTRICT_Z.ENERGY, "#C8D2DE", 1.0),
-  mk(DISTRICT_Z.HEALTHCARE, "#D8E0EA", 1.1),
-  mk(DISTRICT_Z.EDUCATION, "#CAD4E0", 1.05),
-  mk(DISTRICT_Z.DEFENSE, "#BFC8D6", 0.95),
-  mk(DISTRICT_Z.IMMIGRATION, "#C8D2DE", 1.0),
-  mk(-1100, "#C0CCD8", 0.95),
+  mk(60, "#7E8FA6", 1.0),
+  mk(DISTRICT_Z.ECONOMY, "#778AA1", 1.05),
+  mk(DISTRICT_Z.ENERGY, "#7388A0", 1.0),
+  mk(DISTRICT_Z.HEALTHCARE, "#8094AC", 1.05),
+  mk(DISTRICT_Z.EDUCATION, "#7488A2", 1.05),
+  mk(DISTRICT_Z.DEFENSE, "#677A92", 0.95),
+  mk(DISTRICT_Z.IMMIGRATION, "#7E8DA2", 1.0),
+  mk(-1100, "#62748B", 0.95),
 ];
 
 function sampleAtm(z: number, out: { fog: THREE.Color; sun: number }) {
@@ -84,12 +89,12 @@ function sampleAtm(z: number, out: { fog: THREE.Color; sun: number }) {
   out.sun = end.sun;
 }
 
-// Sun position. High and slightly forward of the camera path so building
-// facades along the +X side catch direct light, west facades stay in
-// cool fill. Mirrored by the <Sky> sunPosition so the apparent sun in
-// the sky matches the cast direction.
-const SUN_DIR: [number, number, number] = [110, 140, 60];
-const SUN_BASE_INTENSITY = 2.4;
+// Sun positioned higher and BEHIND the camera path (negative Z) so it
+// doesn't shine straight into the lens and overexpose the horizon.
+// Camera flies along -Z; sun is roughly southwest-and-above relative to
+// the corridor.
+const SUN_DIR: [number, number, number] = [-90, 180, 40];
+const SUN_BASE_INTENSITY = 1.9;
 
 export default function CityScene({ progressRef }: { progressRef: CityProgressRef }) {
   void progressRef;
@@ -152,25 +157,27 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
           Wrapped in its OWN Suspense so the HDR CDN fetch can't suspend
           the entire scene if it stalls in production. */}
       <Suspense fallback={null}>
-        <Environment preset="city" background={false} environmentIntensity={0.6} />
+        <Environment preset="city" background={false} environmentIntensity={0.4} />
       </Suspense>
 
-      {/* Procedural daylight sky — tuned for a clean, optimistic midday.
-          Sun position matches the directional light direction so the
-          on-screen sun and the cast shadows agree. */}
+      {/* Procedural daylight sky — tuned for a CLEAR, deeper blue
+          afternoon (not the blown-out white we had before). Lower
+          turbidity + lower rayleigh keep the gradient saturated; the
+          sun is behind the camera so the visible sky isn't hot-spotting
+          where the viewer is looking. */}
       <Sky
         distance={6000}
         sunPosition={SUN_DIR}
-        mieCoefficient={0.005}
-        mieDirectionalG={0.82}
-        rayleigh={1.4}
-        turbidity={3.2}
+        mieCoefficient={0.004}
+        mieDirectionalG={0.78}
+        rayleigh={0.85}
+        turbidity={1.8}
       />
 
-      {/* Linear fog — atmospheric haze only. Starts well past the
-          near plane so silhouettes stay crisp, fades to sky color in
-          the far distance. */}
-      <fog ref={fogRef} attach="fog" args={["#CFD8E4", 90, 900]} />
+      {/* Linear fog — closer (was 90/900 which faded distance to near
+          white). 80/420 keeps silhouettes readable and stops the
+          horizon from blending with the sky to pure white. */}
+      <fog ref={fogRef} attach="fog" args={["#7E8FA6", 80, 420]} />
 
       {/* Lighting — clean architectural daylight.
           ONE sun directional light with shadows + ONE warm hemisphere
@@ -178,9 +185,9 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
           Intensities tuned so the scene reads even if HDRI fails to
           load and there's no env-map fill. */}
       <hemisphereLight
-        intensity={0.85}
-        color={"#E8F0FF"}
-        groundColor={"#2A2620"}
+        intensity={0.7}
+        color={"#A8B8CC"}
+        groundColor={"#26221C"}
       />
       <directionalLight
         ref={sunRef}
@@ -198,7 +205,7 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
         shadow-camera-top={220}
         shadow-camera-bottom={-220}
       />
-      <ambientLight intensity={0.25} color={"#D4DCE6"} />
+      <ambientLight intensity={0.18} color={"#A8B6C8"} />
 
       {/* Ground */}
       <mesh
@@ -211,6 +218,7 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
 
       <CameraRail progressRef={progressRef} />
       <Doors progressRef={progressRef} />
+      <Landmarks />
       <EconomyDistrict progressRef={progressRef} />
       <EnergyDistrict progressRef={progressRef} />
       <HealthcareDistrict progressRef={progressRef} />

@@ -228,16 +228,20 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             marginLeft: "calc(50% - 50vw)",
           }}
         >
-          {/* Full-bleed 3D canvas */}
-          <div
+          {/* Full-bleed 3D canvas — fades in smoothly when first
+              mounted so the entry doesn't pop. */}
+          <motion.div
             className="absolute inset-0"
             style={{ contain: "strict" }}
             aria-hidden
+            initial={{ opacity: 0 }}
+            animate={{ opacity: active ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             {active && tier !== ("none" as Tier) && (
               <CityCanvas progressRef={progressRef} tier={tier} />
             )}
-          </div>
+          </motion.div>
 
           {/* Soft cinematic vignette — corners only, barely there. Kept
               very subtle (was 0.35 which fought the bright daylight look). */}
@@ -250,20 +254,9 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             }}
           />
 
-          {/* HUD top — district readout + scroll cue. */}
-          <div className="absolute top-20 left-6 right-6 lg:left-8 lg:right-8 z-30 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--fg-60)] pointer-events-none">
-            <span className="bg-black/45 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
-              District ·{" "}
-              <span className="text-[var(--accent-red)]">{current.index}</span>{" "}
-              / 06 — {current.label}
-            </span>
-            <span className="hidden sm:inline bg-black/40 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
-              Scroll to fly through
-            </span>
-            <span className="tabular-nums bg-black/45 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
-              CITY {String(progressUi).padStart(3, "0")}%
-            </span>
-          </div>
+          {/* Top HUD chips removed — the bottom hero copy block + bottom
+              progress rail communicate the same info without visually
+              crowding the top of frame. */}
 
           {/* Corner accents */}
           <span aria-hidden className="absolute top-16 left-4 lg:left-6 h-3 w-3 border-l border-t border-[var(--accent-red)] z-30 pointer-events-none" />

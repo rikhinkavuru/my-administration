@@ -46,13 +46,14 @@ export const FINALE_START = 0.92;
 // not roll — orthographic stability beats showy banking on a typographic
 // site.
 const PATH_POINTS: [number, number, number][] = [
-  // Doors approach (progress 0 -> ~0.08) — start much closer to the
-  // doors so they read as MONUMENTAL geometry rather than small props
-  // in the void. The camera dollies forward and pushes through the
-  // widening seam.
-  [0, 4, 26], // start: just in front of the seam, low + close
-  [0, 4, 10], // approaching the seam
-  [0, 4, -8], // passing through the threshold (doors fully open)
+  // Doors approach — wide cinematic establishing shot. Start far back
+  // and elevated so the doors read as a MONUMENT against sky/ground
+  // (the previous start was so close it cropped the doors edge-on).
+  // Dolly forward + descend through the widening seam as scroll
+  // progresses.
+  [0, 16, 95], // wide establishing — see full door silhouette + horizon
+  [0, 9, 32],  // mid-approach — doors now dominant in frame
+  [0, 5, -10], // passing through the threshold (doors fully open)
   // Economy district (financial canyons)
   [-12, 5, -90],
   [-4, 7, -160], // economy hero
@@ -86,9 +87,10 @@ const PATH_POINTS: [number, number, number][] = [
 // build this as a separate curve and sample with a small forward offset
 // so the camera "leads" into turns instead of locking to its own position.
 const LOOK_POINTS: [number, number, number][] = [
-  [0, 4, 0],
-  [0, 4, -20],
-  [0, 4, -40],
+  // Wide establishing — look at the seam-area (y=16 on doors group).
+  [0, 14, 0],
+  [0, 12, -10],
+  [0, 6, -40],
   // economy
   [-4, 5, -140],
   [4, 6, -200],
