@@ -1,19 +1,53 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import { judicial } from "@/lib/data/judicial";
 
-export const metadata = { title: "Judicial — Sackett / Kavuru 2028" };
+export const metadata: Metadata = {
+  title: "Judicial Branch",
+  description: `An originalist and textualist Supreme Court nominee — ${judicial.nominee.name} — a clear judicial philosophy, and three honest litmus tests.`,
+  alternates: { canonical: "/judicial" },
+  openGraph: {
+    title: "Judicial — Sackett / Kavuru 2028",
+    description: `An originalist Supreme Court nominee — ${judicial.nominee.name}.`,
+    url: "/judicial",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Judicial — Sackett / Kavuru 2028",
+    description: `Originalist + textualist. ${judicial.nominee.name}.`,
+  },
+};
 
 export default function JudicialPage() {
   return (
     <div>
+      <nav
+        aria-label="Breadcrumb"
+        className="container-page pt-24 md:pt-32 pb-2 font-mono text-[10px] tabular-nums text-[var(--fg-40)] tracking-[0.08em] uppercase"
+      >
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-[var(--fg)] transition-colors">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="text-[var(--fg-60)]">
+            Judicial
+          </li>
+        </ol>
+      </nav>
+
       <ChapterIntro
         index="05"
         kicker="Judicial Branch"
         title="Judges who read the"
         italicAccent="text."
-        lede="An originalist and textualist Supreme Court nominee, a clear judicial philosophy, and three honest litmus tests."
+        lede="An originalist and textualist Supreme Court nominee, a clear judicial philosophy, and three honest litmus tests — applied openly, not whispered."
       />
 
       <section className="container-page py-16 md:py-20">

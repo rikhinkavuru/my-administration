@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
@@ -5,17 +7,70 @@ import CabinetCard from "@/components/CabinetCard";
 import { cabinet } from "@/lib/data/cabinet";
 import { bureaucraticVision } from "@/lib/data/executive";
 
-export const metadata = { title: "Executive — Sackett / Kavuru 2028" };
+export const metadata: Metadata = {
+  title: "Executive Branch",
+  description:
+    "A bureaucratic vision and fifteen confirmable cabinet nominees — each chosen for substance and a realistic prospect of Senate confirmation on day one.",
+  alternates: { canonical: "/executive" },
+  openGraph: {
+    title: "Executive — Sackett / Kavuru 2028",
+    description:
+      "Fifteen confirmable cabinet nominees. A government that serves.",
+    url: "/executive",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Executive — Sackett / Kavuru 2028",
+    description: "Fifteen confirmable cabinet nominees.",
+  },
+};
+
+const cabinetJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Proposed Cabinet",
+  numberOfItems: 15,
+  itemListElement: [] as Array<{ "@type": string; position: number; name: string }>,
+};
 
 export default function ExecutivePage() {
+  cabinetJsonLd.itemListElement = cabinet.map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: `${c.department} — ${c.nominee}`,
+  }));
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(cabinetJsonLd) }}
+      />
+
+      <nav
+        aria-label="Breadcrumb"
+        className="container-page pt-24 md:pt-32 pb-2 font-mono text-[10px] tabular-nums text-[var(--fg-40)] tracking-[0.08em] uppercase"
+      >
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-[var(--fg)] transition-colors">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="text-[var(--fg-60)]">
+            Executive
+          </li>
+        </ol>
+      </nav>
+
       <ChapterIntro
         index="04"
         kicker="Executive Branch"
         title="A government that"
         italicAccent="serves."
-        lede="A bureaucratic vision and fifteen confirmable cabinet nominees — each chosen for substance and the realistic prospect of Senate confirmation."
+        lede="A bureaucratic vision and fifteen confirmable cabinet nominees — each chosen for substance and the realistic prospect of Senate confirmation on day one."
       />
 
       <section className="container-page py-16 md:py-20">

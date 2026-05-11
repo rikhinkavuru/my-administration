@@ -1,19 +1,55 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import { amendments, liberties } from "@/lib/data/constitution";
 
-export const metadata = { title: "Constitution — Sackett / Kavuru 2028" };
+export const metadata: Metadata = {
+  title: "Constitution",
+  description:
+    "Two proposed amendments to send to the states — congressional term limits and a balanced-budget amendment — and three civil liberties this administration will defend without apology.",
+  alternates: { canonical: "/constitution" },
+  openGraph: {
+    title: "Constitution — Sackett / Kavuru 2028",
+    description:
+      "Two proposed amendments. Three civil liberties defended without apology.",
+    url: "/constitution",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Constitution — Sackett / Kavuru 2028",
+    description: "Two amendments. Three liberties. Restored constitutional order.",
+  },
+};
 
 export default function ConstitutionPage() {
   return (
     <div>
+      <nav
+        aria-label="Breadcrumb"
+        className="container-page pt-24 md:pt-32 pb-2 font-mono text-[10px] tabular-nums text-[var(--fg-40)] tracking-[0.08em] uppercase"
+      >
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-[var(--fg)] transition-colors">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="text-[var(--fg-60)]">
+            Constitution
+          </li>
+        </ol>
+      </nav>
+
       <ChapterIntro
         index="03"
         kicker="Proposed Amendments & Civil Liberties"
         title="Restore the constitutional"
         italicAccent="order."
-        lede="Two amendments to send to the states. Three civil liberties this administration will defend without apology."
+        lede="Two amendments to send to the states. Three civil liberties this administration will defend without apology — and without exception."
       />
 
       <section className="container-page py-20 md:py-24">
