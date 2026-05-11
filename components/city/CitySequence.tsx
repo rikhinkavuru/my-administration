@@ -236,13 +236,14 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             )}
           </div>
 
-          {/* Soft cinematic vignette — corners only, barely there. */}
+          {/* Soft cinematic vignette — corners only, barely there. Kept
+              very subtle (was 0.35 which fought the bright daylight look). */}
           <div
             aria-hidden
             className="absolute inset-0 pointer-events-none z-20"
             style={{
               background:
-                "radial-gradient(ellipse 110% 80% at 50% 50%, transparent 60%, rgba(0,0,0,0.35) 100%)",
+                "radial-gradient(ellipse 120% 90% at 50% 50%, transparent 70%, rgba(0,0,0,0.18) 100%)",
             }}
           />
 

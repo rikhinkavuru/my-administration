@@ -182,14 +182,6 @@ export default function CameraRail({
 
     camera.position.copy(currentPos.current);
     camera.lookAt(currentLook.current);
-
-    // Subtle camera shake during the door-impact moment (raw in [0.06, 0.1]).
-    if (raw > 0.055 && raw < 0.11) {
-      const k = 1 - Math.abs((raw - 0.085) / 0.025);
-      const amp = 0.08 * Math.max(0, k);
-      camera.position.x += (Math.random() - 0.5) * amp;
-      camera.position.y += (Math.random() - 0.5) * amp;
-    }
   });
 
   return null;

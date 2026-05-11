@@ -1,9 +1,18 @@
 "use client";
 /**
- * R3F Canvas wrapper for the platform city journey. ACES tone mapping +
- * sRGB output give the warm/cool palette room to breathe. On `tier === "high"`
- * we mount a SMALL bloom + a tasteful vignette via @react-three/postprocessing
- * so emissive windows actually glow; mid/low skip postprocessing entirely.
+ * R3F Canvas wrapper for the platform city journey.
+ *
+ * Render pipeline:
+ *  - ACES Filmic tone mapping at exposure 1.0 — clean whites, rich blacks.
+ *  - sRGB output color space.
+ *  - PCF soft shadow map (high tier only) so the sun casts believable
+ *    architectural shadows without shimmering edges.
+ *  - High-tier post: a SMALL bloom (windows + emissives only, not the whole
+ *    frame) + an almost-imperceptible vignette to keep the corners
+ *    grounded without darkening the scene.
+ *
+ * Mid/low tiers ship no postprocessing — the lighting/material upgrade is
+ * what makes the scene read cinematically, not the bloom stack.
  */
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
@@ -27,11 +36,12 @@ export default function CityCanvas({
   tier: Tier;
 }) {
   const dpr: [number, number] =
-    tier === "low" ? [1, 1] : tier === "mid" ? [1, 1.1] : [1, 1.25];
+    tier === "low" ? [1, 1] : tier === "mid" ? [1, 1.25] : [1, 1.5];
   const aa = tier === "high";
   return (
     <Canvas
       dpr={dpr}
+      shadows={tier === "high"}
       gl={{
         antialias: aa,
         alpha: false,
@@ -40,10 +50,14 @@ export default function CityCanvas({
       }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.05;
+        gl.toneMappingExposure = 1.0;
         gl.outputColorSpace = THREE.SRGBColorSpace;
+        if (tier === "high") {
+          gl.shadowMap.enabled = true;
+          gl.shadowMap.type = THREE.PCFSoftShadowMap;
+        }
       }}
-      camera={{ position: [0, 3, 60], fov: 55, near: 0.5, far: 4500 }}
+      camera={{ position: [0, 3, 60], fov: 50, near: 0.5, far: 6000 }}
       style={{ width: "100%", height: "100%" }}
     >
       <Suspense fallback={null}>
@@ -52,14 +66,14 @@ export default function CityCanvas({
           <EffectComposer multisampling={0} enableNormalPass={false}>
             <SMAA />
             <Bloom
-              intensity={0.7}
-              luminanceThreshold={0.85}
-              luminanceSmoothing={0.4}
+              intensity={0.32}
+              luminanceThreshold={0.95}
+              luminanceSmoothing={0.25}
               mipmapBlur
             />
             <Vignette
-              offset={0.5}
-              darkness={0.35}
+              offset={0.55}
+              darkness={0.12}
               blendFunction={BlendFunction.NORMAL}
             />
           </EffectComposer>
