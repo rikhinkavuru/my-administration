@@ -185,24 +185,41 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             )}
           </div>
 
+          {/* Soft cinematic vignette — corners only, barely there.
+              Replaces the global .vignette utility which faded the whole
+              scene to black past 50% of the radial extent. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none z-20"
+            style={{
+              background:
+                "radial-gradient(ellipse 110% 80% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+            }}
+          />
+
           {/* HUD top — district readout + scroll cue. Pushed below the
-              site's sticky nav (~64px) so it never collides. */}
-          <div className="absolute top-20 left-0 right-0 z-30 px-6 lg:px-8 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--fg-40)] pointer-events-none">
-            <span>
+              site's sticky nav (~64px) so it never collides. The translucent
+              chip keeps the type legible regardless of what's behind it. */}
+          <div className="absolute top-20 left-6 right-6 lg:left-8 lg:right-8 z-30 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--fg-60)] pointer-events-none">
+            <span className="bg-black/45 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
               District ·{" "}
               <span className="text-[var(--accent-red)]">{current.index}</span>{" "}
               / 06 — {current.label}
             </span>
-            <span className="hidden sm:inline">Scroll to fly through</span>
-            <span className="tabular-nums">CITY {String(progressUi).padStart(3, "0")}%</span>
+            <span className="hidden sm:inline bg-black/40 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
+              Scroll to fly through
+            </span>
+            <span className="tabular-nums bg-black/45 backdrop-blur-sm px-2.5 py-1 border border-[var(--hairline)]">
+              CITY {String(progressUi).padStart(3, "0")}%
+            </span>
           </div>
 
           {/* Corner accents */}
-          <span aria-hidden className="absolute top-20 left-6 lg:left-8 h-3 w-3 border-l border-t border-[var(--accent-red)] z-30 pointer-events-none" />
+          <span aria-hidden className="absolute top-16 left-4 lg:left-6 h-3 w-3 border-l border-t border-[var(--accent-red)] z-30 pointer-events-none" />
           <span aria-hidden className="absolute bottom-6 right-6 lg:right-8 h-3 w-3 border-r border-b border-[var(--accent-red)] z-30 pointer-events-none" />
 
           {/* Bottom progress rail */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-[260px] pointer-events-none">
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-[300px] pointer-events-none bg-black/45 backdrop-blur-sm border border-[var(--hairline)] px-4 py-3">
             <div className="relative h-px bg-[var(--hairline-strong)]">
               <span
                 id="city-progress-bar"
@@ -210,18 +227,12 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
                 style={{ width: "0%" }}
               />
             </div>
-            <div className="mt-3 flex justify-between font-mono text-[10px] tabular-nums tracking-[0.06em] text-[var(--fg-40)]">
+            <div className="mt-2 flex justify-between font-mono text-[10px] tabular-nums tracking-[0.06em] text-[var(--fg-60)]">
               <span>00:00</span>
               <span>{current.label}</span>
               <span>100%</span>
             </div>
           </div>
-
-          {/* Tier vignette for cinematic feel */}
-          <div
-            className="vignette pointer-events-none z-20"
-            aria-hidden
-          />
         </div>
       </div>
     </>
