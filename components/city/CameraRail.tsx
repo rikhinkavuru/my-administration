@@ -144,29 +144,53 @@ export default function CameraRail({
 
   useFrame(() => {
     const raw = progressRef.current?.progress ?? 0;
-    // Drive the camera by stop-keyed segments so each district owns the
-    // intended slice of scroll, regardless of catmullrom arc-length.
-    // STOPS maps a progress key to a curve `u` parameter chosen so the
-    // camera sits at the appropriate hero position inside the district.
-    const STOPS: [number, number][] = [
-      [0.0, 0.0], // entry
-      [DOOR_END, 0.11], // doors fully open, just past threshold
-      [0.18, 0.21], // economy hero (path idx 4)
-      [0.32, 0.34], // energy hero (path idx 7)
-      [0.48, 0.46], // healthcare hero (path idx 10)
-      [0.62, 0.59], // education hero (path idx 13)
-      [0.76, 0.72], // defense hero (path idx 16)
-      [0.88, 0.85], // immigration hero (path idx 19)
-      [0.96, 0.95], // finale rise
-      [1.0, 1.0], // far aerial
+    // Drive the camera with explicit travel + DWELL segments. Each
+    // segment maps a scroll-progress window [p0,p1] to a curve-parameter
+    // range [u0,u1]; when u0 === u1 the camera HOLDS at a hero stop so
+    // the viewer can read the HUD copy without the scene drifting past.
+    //
+    // Travels use smoothstep easing so the camera arrives gently into
+    // the dwell rather than slamming to a stop.
+    //
+    // 16 segments mapped over 100% of scroll:
+    //   doors travel  (8)  → threshold dwell (6)
+    //   travel (4) → Economy dwell (8)
+    //   travel (4) → Energy dwell (8)
+    //   travel (4) → Healthcare dwell (8)
+    //   travel (4) → Education dwell (8)
+    //   travel (4) → Defense dwell (8)
+    //   travel (4) → Immigration dwell (8)
+    //   travel (6) → Finale dwell (8)
+    type Segment = { p0: number; p1: number; u0: number; u1: number };
+    const SEGMENTS: Segment[] = [
+      { p0: 0.00, p1: DOOR_END, u0: 0.00, u1: 0.11 }, // through doors
+      { p0: DOOR_END, p1: 0.14, u0: 0.11, u1: 0.11 }, // dwell at reveal
+      { p0: 0.14, p1: 0.18, u0: 0.11, u1: 0.21 },     // travel to Economy
+      { p0: 0.18, p1: 0.26, u0: 0.21, u1: 0.21 },     // Economy dwell
+      { p0: 0.26, p1: 0.30, u0: 0.21, u1: 0.34 },     // travel to Energy
+      { p0: 0.30, p1: 0.38, u0: 0.34, u1: 0.34 },     // Energy dwell
+      { p0: 0.38, p1: 0.42, u0: 0.34, u1: 0.46 },     // travel to Healthcare
+      { p0: 0.42, p1: 0.50, u0: 0.46, u1: 0.46 },     // Healthcare dwell
+      { p0: 0.50, p1: 0.54, u0: 0.46, u1: 0.59 },     // travel to Education
+      { p0: 0.54, p1: 0.62, u0: 0.59, u1: 0.59 },     // Education dwell
+      { p0: 0.62, p1: 0.66, u0: 0.59, u1: 0.72 },     // travel to Defense
+      { p0: 0.66, p1: 0.74, u0: 0.72, u1: 0.72 },     // Defense dwell
+      { p0: 0.74, p1: 0.78, u0: 0.72, u1: 0.85 },     // travel to Immigration
+      { p0: 0.78, p1: 0.86, u0: 0.85, u1: 0.85 },     // Immigration dwell
+      { p0: 0.86, p1: 0.92, u0: 0.85, u1: 0.95 },     // travel to Finale
+      { p0: 0.92, p1: 1.00, u0: 0.95, u1: 1.00 },     // Finale aerial rise
     ];
-    let u = 0;
-    for (let i = 0; i < STOPS.length - 1; i++) {
-      const [pa, ua] = STOPS[i];
-      const [pb, ub] = STOPS[i + 1];
-      if (raw >= pa && raw <= pb) {
-        const t = (raw - pa) / (pb - pa || 1);
-        u = ua + (ub - ua) * t;
+    let u = SEGMENTS[SEGMENTS.length - 1].u1;
+    for (const s of SEGMENTS) {
+      if (raw >= s.p0 && raw <= s.p1) {
+        const span = Math.max(0.0001, s.p1 - s.p0);
+        let t = (raw - s.p0) / span;
+        if (s.u0 !== s.u1) {
+          // smoothstep eases arrival into the next dwell — slow start,
+          // slow finish, fast middle.
+          t = t * t * (3 - 2 * t);
+        }
+        u = s.u0 + (s.u1 - s.u0) * t;
         break;
       }
     }

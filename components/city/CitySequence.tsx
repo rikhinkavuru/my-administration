@@ -39,65 +39,68 @@ type District = {
   lede?: string;
 };
 
+// Ranges align with CameraRail dwell windows. Label switches mid-travel
+// so the title is already visible as the camera arrives, then holds
+// through the full dwell window.
 const DISTRICTS: District[] = [
   {
-    range: [0.0, 0.08],
+    range: [0.0, 0.16],
     index: "00",
     label: "Approach",
     title: "The Platform",
     accent: "Twelve serious positions.",
-    lede: "Scroll. The doors are about to open.",
+    lede: "Scroll to step through the policy city. The camera will hold at each district while you read.",
   },
   {
-    range: [0.08, 0.24],
+    range: [0.16, 0.28],
     index: "01",
     label: "Economy & Fiscal",
     title: "Honest math.",
     accent: "Growth, restraint, and a debt we confront.",
-    lede: "TCJA permanent. Corporate rate to 18%. PAYGO with teeth. Phase honest reforms for younger workers.",
+    lede: "Make TCJA permanent. Corporate rate to 18%. Three brackets, indexed capital gains. Cap discretionary growth at inflation minus 1% for five years. PAYGO with teeth. Phase honest reforms in for workers under 50.",
   },
   {
-    range: [0.24, 0.4],
+    range: [0.28, 0.40],
     index: "02",
     label: "Energy & Environment",
     title: "All of the above.",
     accent: "Abundance, stewardship, no mandates.",
-    lede: "Oil, gas, nuclear, renewables that stand on their own. Approve pipelines. NEPA reform. Carbon capture.",
+    lede: "Oil, gas, nuclear, and renewables that stand on their own. Approve pipelines. Expand LNG exports to allies. Restart nuclear construction. NEPA reform. Carbon capture and clean stewardship without Green-New-Deal price tags.",
   },
   {
-    range: [0.4, 0.55],
+    range: [0.40, 0.52],
     index: "03",
     label: "Healthcare",
     title: "Choice. Transparency.",
     accent: "Competition over a top-down rewrite.",
-    lede: "Expand HSAs. Interstate insurance. Price transparency. Protect coverage for pre-existing conditions.",
+    lede: "Expand HSAs and tax-advantaged tools. Interstate insurance sales to widen risk pools. Mandate up-front price transparency. Reform Medicare Advantage. Protect coverage for pre-existing conditions, by federal law.",
   },
   {
-    range: [0.55, 0.7],
+    range: [0.52, 0.64],
     index: "04",
     label: "Education & Civil Order",
     title: "Federalism. Speech.",
     accent: "Equal treatment, robust speech, school choice.",
-    lede: "Minimize the federal role. School choice via tax credits. First Amendment defended without apology.",
+    lede: "Minimize the federal role; return authority to states and parents. School choice via tax credits. Reform student loans — end Grad PLUS, tie aid to graduate earnings. Defend the First Amendment, in schools and on platforms, without apology.",
   },
   {
-    range: [0.7, 0.83],
+    range: [0.64, 0.76],
     index: "05",
     label: "Defense & Foreign Policy",
     title: "Peace through strength.",
     accent: "Modernize, recapitalize, reform the Pentagon.",
-    lede: "Nuclear triad. 355-ship Navy. Cyber, space, AI. NATO and Indo-Pacific alliances. Firm with China.",
+    lede: "Modernize the nuclear triad. A 355-ship Navy. Cyber, space, and AI capabilities. Reform Pentagon acquisition. Hold NATO together and strengthen Indo-Pacific alliances. Firm with China — without picking a war.",
   },
   {
-    range: [0.83, 0.92],
+    range: [0.76, 0.89],
     index: "06",
     label: "Immigration & Rights",
     title: "Secure. Modern. Lawful.",
     accent: "A border that works; a Second Amendment that endures.",
-    lede: "Physical barriers. Reform asylum. E-Verify. Merit-based legal immigration. Individual right to bear arms.",
+    lede: "Complete physical barriers. Reform asylum. Mandate E-Verify nationwide. Modernize legal immigration toward merit and family. Resolve DACA legislatively. Defend the individual right confirmed in Heller and Bruen.",
   },
   {
-    range: [0.92, 1.0],
+    range: [0.89, 1.0],
     index: "07",
     label: "Vision",
     title: "Sackett / Kavuru 2028",
@@ -404,9 +407,9 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
               />
             </div>
             <div className="mt-2 flex justify-between font-mono text-[10px] tabular-nums tracking-[0.06em] text-[var(--fg-60)]">
-              <span>00:00</span>
+              <span>{current.index}/07</span>
               <span>{current.label}</span>
-              <span>100%</span>
+              <span>{String(progressUi).padStart(3, "0")}%</span>
             </div>
           </div>
         </div>

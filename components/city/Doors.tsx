@@ -325,19 +325,9 @@ export default function Doors({
   return (
     // Group origin sits at mid-door height; door geometry centers on this.
     <group position={[0, DOOR_H / 2 - 1, 0]}>
-      {/* Deep back chamber wall — gives the reveal real depth and a
-          surface for the wordmark to read against. Sits well behind the
-          doors (z = -54) so the camera passes wordmark plane (z = -32)
-          well before reaching this wall, which is removed (alpha-faded)
-          by the time the camera arrives. */}
-      <mesh position={[0, -DOOR_H / 2 + 8, -54]}>
-        <planeGeometry args={[140, DOOR_H * 1.4]} />
-        <meshStandardMaterial
-          color="#15161A"
-          metalness={0.1}
-          roughness={0.85}
-        />
-      </mesh>
+      {/* No back chamber wall here — it occluded the city reveal once
+          the camera flew past the threshold. The wordmark sits against
+          the sky/distant city instead, which reads cleaner anyway. */}
 
       {/* "// PARTY PLATFORM >>>" kicker above the wordmark. */}
       <mesh

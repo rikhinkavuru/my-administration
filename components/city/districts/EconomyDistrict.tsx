@@ -49,60 +49,71 @@ export default function EconomyDistrict({ progressRef }: { progressRef: CityProg
 
   return (
     <group>
-      {/* Far backdrop — low-detail short buildings */}
+      {/* Far backdrop — low-detail short buildings pushed well off the
+          camera corridor so they read as horizon silhouette, not as
+          a wall closing in on the street. */}
       <CityBlock
-        center={[-40, 0, CZ]}
-        extent={[28, 60]}
-        count={56}
+        center={[-70, 0, CZ]}
+        extent={[26, 70]}
+        count={22}
         seed={101}
-        heightRange={[6, 22]}
-        baseColor="#a89682"
-        capColor="#2a241d"
-        capEmissive="#FFD08A"
-        capEmissiveIntensity={1.4}
-        palette={["#C4B5A3", "#8A95A6", "#A89682", "#6E7889", "#8E4F3F"]}
-        metalness={0.22}
-        roughness={0.66}
+        heightRange={[10, 30]}
+        baseColor="#8e97a4"
+        capColor="#2a2c33"
+        capEmissive="#000000"
+        palette={["#C4CAD2", "#8E97A4", "#A6ADB8", "#6A7888"]}
         windowStyle="grid"
-        windowColor="#FFD08A"
-        silhouetteMix={[0.7, 0.15, 0.15]}
+        silhouetteMix={[0.7, 0.1, 0.2]}
+        minSpacing={9}
       />
       <CityBlock
-        center={[40, 0, CZ]}
-        extent={[28, 60]}
-        count={56}
+        center={[70, 0, CZ]}
+        extent={[26, 70]}
+        count={22}
         seed={102}
-        heightRange={[6, 22]}
-        baseColor="#a89682"
-        capColor="#2a241d"
-        capEmissive="#FFD08A"
-        capEmissiveIntensity={1.4}
-        palette={["#C4B5A3", "#8A95A6", "#A89682", "#6E7889", "#8E4F3F"]}
-        metalness={0.22}
-        roughness={0.66}
+        heightRange={[10, 30]}
+        baseColor="#8e97a4"
+        capColor="#2a2c33"
+        capEmissive="#000000"
+        palette={["#C4CAD2", "#8E97A4", "#A6ADB8", "#6A7888"]}
         windowStyle="grid"
-        windowColor="#FFD08A"
-        silhouetteMix={[0.7, 0.15, 0.15]}
+        silhouetteMix={[0.7, 0.1, 0.2]}
+        minSpacing={9}
       />
-      {/* Mid-detail flanking the camera corridor — finance towers,
-          slightly glassier so the warm sun rakes their facets. */}
+      {/* Mid-detail flanking the camera corridor — slim glass-curtain
+          finance towers. Cool blue-grey glass picks up the HDRI sky as
+          reflection, which is what gives the district its "real
+          downtown" read. Wide keepOut around the camera axis so the
+          street doesn't visually close in on the viewer. */}
       <CityBlock
-        center={[0, 0, CZ]}
-        extent={[28, 50]}
-        count={70}
+        center={[-32, 0, CZ]}
+        extent={[14, 52]}
+        count={16}
         seed={103}
-        heightRange={[18, 56]}
-        baseColor="#94a0b0"
-        capColor="#383a40"
-        capEmissive="#FFE0A8"
-        capEmissiveIntensity={2.2}
-        palette={["#5C7894", "#8A95A6", "#6E7889", "#C4B5A3", "#3D434E"]}
-        metalness={0.34}
-        roughness={0.5}
-        keepOut={{ x: 0, z: CZ, radius: 7 }}
+        heightRange={[34, 78]}
+        baseColor="#5e6f82"
+        capColor="#1d2128"
+        capEmissive="#000000"
+        palette={["#5C6878", "#6A7888", "#3E4652", "#8E97A4"]}
+        keepOut={{ x: 0, z: CZ, radius: 18 }}
         windowStyle="mullion"
-        windowColor="#FFE0A8"
-        silhouetteMix={[0.55, 0.25, 0.2]}
+        silhouetteMix={[0.55, 0.2, 0.25]}
+        minSpacing={11}
+      />
+      <CityBlock
+        center={[32, 0, CZ]}
+        extent={[14, 52]}
+        count={16}
+        seed={104}
+        heightRange={[34, 78]}
+        baseColor="#5e6f82"
+        capColor="#1d2128"
+        capEmissive="#000000"
+        palette={["#5C6878", "#6A7888", "#3E4652", "#8E97A4"]}
+        keepOut={{ x: 0, z: CZ, radius: 18 }}
+        windowStyle="mullion"
+        silhouetteMix={[0.55, 0.2, 0.25]}
+        minSpacing={11}
       />
 
       {/* Hero finance tower — the tallest box, anchors the district */}
