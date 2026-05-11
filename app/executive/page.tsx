@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
@@ -47,23 +46,6 @@ export default function ExecutivePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(cabinetJsonLd) }}
       />
-
-      <nav
-        aria-label="Breadcrumb"
-        className="container-page pt-24 md:pt-32 pb-2 font-mono text-[10px] tabular-nums text-[var(--fg-40)] tracking-[0.08em] uppercase"
-      >
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link href="/" className="hover:text-[var(--fg)] transition-colors">
-              Home
-            </Link>
-          </li>
-          <li aria-hidden="true">/</li>
-          <li aria-current="page" className="text-[var(--fg-60)]">
-            Executive
-          </li>
-        </ol>
-      </nav>
 
       <ChapterIntro
         index="04"

@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
 import { stateOfTheUnion } from "@/lib/data/address";
@@ -37,24 +36,7 @@ export default function AddressClient() {
         <motion.span>{pctText}</motion.span>
       </motion.div>
 
-      <nav
-        aria-label="Breadcrumb"
-        className="container-page pt-24 md:pt-32 pb-2 font-mono text-[10px] tabular-nums text-[var(--fg-40)] tracking-[0.08em] uppercase"
-      >
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link href="/" className="hover:text-[var(--fg)] transition-colors">
-              Home
-            </Link>
-          </li>
-          <li aria-hidden="true">/</li>
-          <li aria-current="page" className="text-[var(--fg-60)]">
-            Address
-          </li>
-        </ol>
-      </nav>
-
-      <header className="relative pt-12 md:pt-16 pb-16 md:pb-20 border-b border-[var(--hairline)]">
+      <header className="relative pt-28 md:pt-36 pb-16 md:pb-20 border-b border-[var(--hairline)]">
         <div className="container-page">
           <motion.div
             initial={{ opacity: 0, y: 6 }}
