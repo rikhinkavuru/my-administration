@@ -254,6 +254,61 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             }}
           />
 
+          {/* DOM intro card — owns the first ~6% of scroll. Replaces the
+              old 3D wordmark + kicker billboards that clipped through
+              buildings. This is DOM so the typography is crisp and the
+              text never breaks at odd camera angles.
+              Opacity is computed from progressUi (0..100). Card fully
+              opaque at progress 0, fully gone at progress 6. */}
+          {progressUi < 8 && (
+            <div
+              aria-hidden
+              className="absolute inset-0 z-[25] flex items-center justify-center px-6 lg:px-12 pointer-events-none"
+              style={{
+                opacity: Math.max(0, 1 - progressUi / 6),
+                transition: "opacity 80ms linear",
+                background:
+                  "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 65%, rgba(0,0,0,0.55) 100%)",
+              }}
+            >
+              <div className="text-center max-w-[640px]">
+                <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-white/65">
+                  <span className="text-[var(--accent-red)] mr-2">///</span>
+                  PARTY PLATFORM
+                  <span className="text-[var(--accent-red)] ml-2">›››</span>
+                </div>
+                <h1
+                  className="font-display text-white mt-6 leading-[0.95] tracking-[-0.035em] font-bold"
+                  style={{ fontSize: "clamp(48px, 7.5vw, 112px)" }}
+                >
+                  The Platform
+                </h1>
+                <p
+                  className="mt-4 text-[var(--accent-red)]"
+                  style={{
+                    fontFamily:
+                      "'Noto Serif', Georgia, ui-serif, serif",
+                    fontStyle: "italic",
+                    fontSize: "clamp(18px, 1.8vw, 26px)",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  Twelve serious positions.
+                </p>
+                <div className="mt-8 mx-auto h-px w-16 bg-[var(--accent-red)]" />
+                <p
+                  className="mt-6 font-mono uppercase text-white/70"
+                  style={{
+                    fontSize: "clamp(10px, 0.85vw, 12px)",
+                    letterSpacing: "0.22em",
+                  }}
+                >
+                  Scroll to begin →
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Top HUD chips removed — the bottom hero copy block + bottom
               progress rail communicate the same info without visually
               crowding the top of frame. */}
@@ -272,7 +327,9 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             className="absolute bottom-24 left-6 lg:left-12 z-30 max-w-[640px] pointer-events-none"
           >
             <AnimatePresence mode="popLayout" initial={false}>
-              {current.title && current.index !== "07" && (
+              {current.title &&
+                current.index !== "07" &&
+                current.index !== "00" && (
                 <motion.div
                   key={current.index}
                   initial={{ opacity: 0, y: 14 }}
