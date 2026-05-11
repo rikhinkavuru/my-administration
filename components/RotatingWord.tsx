@@ -25,6 +25,20 @@ export default function RotatingWord({
   // Invisible placeholder sized to the longest word so layout never jumps.
   const longest = words.reduce((a, b) => (a.length > b.length ? a : b), "");
 
+  // Reduced-motion users (or anyone where useReducedMotion() picks up
+  // the OS pref via the site-wide MotionConfig) get a static render —
+  // no AnimatePresence, no transform. Avoids the case where the
+  // word ends up stuck at opacity 0 on first paint.
+  if (reduced) {
+    return (
+      <span
+        className={`relative inline-block align-baseline text-[var(--accent-red)] ${className}`}
+        aria-label={words[i]}
+      >
+        <span className="whitespace-nowrap">{words[i]}</span>
+      </span>
+    );
+  }
   return (
     <span
       className={`relative inline-block overflow-hidden align-baseline text-[var(--accent-red)] ${className}`}
