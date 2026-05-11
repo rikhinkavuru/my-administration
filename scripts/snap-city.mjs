@@ -14,7 +14,9 @@ const OUT = "/tmp/snaps";
 const TAG = process.env.TAG || "before";
 fs.mkdirSync(OUT, { recursive: true });
 
-const POSITIONS = [0.02, 0.08, 0.13, 0.22, 0.35, 0.5, 0.7, 0.88];
+const POSITIONS = process.env.POSITIONS
+  ? process.env.POSITIONS.split(",").map((s) => parseFloat(s))
+  : [0.02, 0.15, 0.28, 0.42, 0.55, 0.68, 0.82, 0.94, 0.99];
 
 async function sample(page) {
   return page.evaluate(() => {
@@ -73,14 +75,29 @@ async function visit() {
   await page.goto(`${BASE}/platform`, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
 
-  const totalScroll = await page.evaluate(
-    () => document.documentElement.scrollHeight - window.innerHeight,
-  );
-  console.log(`scroll range = ${totalScroll}`);
+  // Compute the ScrollTrigger window: from when section top hits viewport
+  // top to when section bottom hits viewport bottom. POSITIONS are sampled
+  // within THAT window, not the whole document — otherwise p=0.94 lands
+  // in the footer instead of the finale.
+  const stRange = await page.evaluate(() => {
+    const sec = document.querySelector('[style*="1100svh"], [style*="640svh"]');
+    if (!sec) {
+      return {
+        start: 0,
+        end: document.documentElement.scrollHeight - window.innerHeight,
+      };
+    }
+    const r = sec.getBoundingClientRect();
+    const top = r.top + window.scrollY;
+    const start = top;
+    const end = top + r.height - window.innerHeight;
+    return { start, end };
+  });
+  console.log(`ST range = ${stRange.start} .. ${stRange.end}`);
 
   for (let i = 0; i < POSITIONS.length; i++) {
     const p = POSITIONS[i];
-    const y = Math.round(totalScroll * p);
+    const y = Math.round(stRange.start + (stRange.end - stRange.start) * p);
     await page.evaluate((y) => window.scrollTo({ top: y, behavior: "instant" }), y);
     await page.waitForTimeout(700);
     const data = await sample(page);

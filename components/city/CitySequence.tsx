@@ -49,7 +49,7 @@ const DISTRICTS: District[] = [
     lede: "Scroll. The doors are about to open.",
   },
   {
-    range: [0.08, 0.25],
+    range: [0.08, 0.24],
     index: "01",
     label: "Economy & Fiscal",
     title: "Honest math.",
@@ -57,7 +57,7 @@ const DISTRICTS: District[] = [
     lede: "TCJA permanent. Corporate rate to 18%. PAYGO with teeth. Phase honest reforms for younger workers.",
   },
   {
-    range: [0.25, 0.4],
+    range: [0.24, 0.4],
     index: "02",
     label: "Energy & Environment",
     title: "All of the above.",
@@ -81,7 +81,7 @@ const DISTRICTS: District[] = [
     lede: "Minimize the federal role. School choice via tax credits. First Amendment defended without apology.",
   },
   {
-    range: [0.7, 0.84],
+    range: [0.7, 0.83],
     index: "05",
     label: "Defense & Foreign Policy",
     title: "Peace through strength.",
@@ -89,7 +89,7 @@ const DISTRICTS: District[] = [
     lede: "Nuclear triad. 355-ship Navy. Cyber, space, AI. NATO and Indo-Pacific alliances. Firm with China.",
   },
   {
-    range: [0.84, 0.92],
+    range: [0.83, 0.92],
     index: "06",
     label: "Immigration & Rights",
     title: "Secure. Modern. Lawful.",
@@ -178,7 +178,7 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             trigger: el,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.8,
+            scrub: 2.4,
           },
         });
       });
@@ -214,7 +214,7 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
       <div
         ref={sectionRef}
         className="relative"
-        style={{ height: "640svh" }}
+        style={{ height: "1100svh" }}
         aria-hidden
       >
         <div
@@ -266,40 +266,51 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
           <span aria-hidden className="absolute bottom-6 right-6 lg:right-8 h-3 w-3 border-r border-b border-[var(--accent-red)] z-30 pointer-events-none" />
 
           {/* DISTRICT HERO COPY — DOM layer, always on top of the canvas.
-              Anchored bottom-left, with a soft fade + 18px y-shift per
-              district change. */}
+              A substantial chip block anchored bottom-left: kode-mono
+              kicker, large display headline with italic red accent word,
+              body lede. Crossfade between districts overlaps (0.45s) so
+              the user never sees a blank state mid-scroll. */}
           <div
             aria-hidden
-            className="absolute inset-x-0 bottom-24 z-30 px-6 lg:px-12 pointer-events-none"
+            className="absolute bottom-24 left-6 lg:left-12 z-30 max-w-[640px] pointer-events-none"
           >
-            <AnimatePresence mode="wait">
-              {current.title && (
+            <AnimatePresence mode="popLayout" initial={false}>
+              {current.title && current.index !== "07" && (
                 <motion.div
                   key={current.index}
-                  initial={{ opacity: 0, y: 18 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -18 }}
-                  transition={{ duration: 0.55, ease: [0.22, 0.61, 0.36, 1] }}
-                  className="max-w-3xl"
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="bg-black/55 backdrop-blur-md border border-[var(--hairline)] px-6 py-5 lg:px-7 lg:py-6"
                 >
-                  <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--fg-60)] flex items-center gap-3">
-                    <span className="text-[var(--accent-red)]">
-                      {current.index}
+                  <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/70 flex items-center gap-3">
+                    <span className="text-[var(--accent-red)] tabular-nums">
+                      DISTRICT · {current.index} / 06
                     </span>
                     <span className="h-px w-8 bg-[var(--accent-red)]" />
                     <span>{current.label}</span>
                   </div>
-                  <h2 className="mt-4 font-display text-white text-[44px] sm:text-[60px] lg:text-[76px] leading-[0.95] tracking-[-0.02em]"
-                      style={{ textShadow: "0 2px 30px rgba(0,0,0,0.55)" }}>
+                  <h2
+                    className="mt-3 font-display text-white leading-[0.95] tracking-[-0.02em] font-bold"
+                    style={{
+                      fontSize: "clamp(40px, 5vw, 80px)",
+                      textShadow: "0 2px 24px rgba(0,0,0,0.6)",
+                    }}
+                  >
                     {current.title}
                   </h2>
                   {current.accent && (
                     <p
-                      className="mt-3 text-[18px] sm:text-[22px] italic text-white/85"
+                      className="mt-2 text-white/85"
                       style={{
                         fontFamily:
                           "'Noto Serif', Georgia, ui-serif, serif",
-                        textShadow: "0 2px 16px rgba(0,0,0,0.5)",
+                        fontStyle: "italic",
+                        fontSize: "clamp(18px, 1.6vw, 24px)",
+                        lineHeight: 1.3,
+                        color: "var(--accent-red)",
+                        textShadow: "0 2px 14px rgba(0,0,0,0.55)",
                       }}
                     >
                       {current.accent}
@@ -307,8 +318,15 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
                   )}
                   {current.lede && (
                     <p
-                      className="mt-4 max-w-xl text-[12px] sm:text-[13px] leading-[1.7] text-white/75 font-mono"
-                      style={{ textShadow: "0 1px 10px rgba(0,0,0,0.55)" }}
+                      className="mt-3 text-white/85"
+                      style={{
+                        fontFamily:
+                          "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
+                        fontSize: "clamp(14px, 1.05vw, 16px)",
+                        lineHeight: 1.55,
+                        maxWidth: "36ch",
+                        textShadow: "0 1px 8px rgba(0,0,0,0.5)",
+                      }}
                     >
                       {current.lede}
                     </p>
@@ -317,6 +335,63 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
               )}
             </AnimatePresence>
           </div>
+
+          {/* FINALE WORDMARK — DOM HUD layer for the Vision district.
+              CSS-clamped so it fits any viewport from tablet to 4K with
+              5%+ horizontal margins. Fades in over the last district
+              window (p >= 0.92). */}
+          <AnimatePresence>
+            {current.index === "07" && (
+              <motion.div
+                key="finale-wordmark"
+                aria-hidden
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
+                className="absolute inset-0 z-30 flex flex-col items-center justify-center px-[5vw] pointer-events-none text-center"
+              >
+                <div className="font-mono text-[10px] sm:text-[12px] uppercase tracking-[0.3em] text-white/65 mb-4">
+                  Vision · End · 2028
+                </div>
+                <h1
+                  className="font-display text-white font-bold leading-[0.92] tracking-[-0.02em]"
+                  style={{
+                    fontSize: "clamp(48px, 11vw, 200px)",
+                    textShadow: "0 4px 40px rgba(0,0,0,0.6)",
+                  }}
+                >
+                  SACKETT
+                  <span className="text-[var(--accent-red)] mx-2 sm:mx-4">
+                    /
+                  </span>
+                  KAVURU
+                </h1>
+                <div
+                  className="mt-3 text-white/85"
+                  style={{
+                    fontFamily: "'Noto Serif', Georgia, ui-serif, serif",
+                    fontStyle: "italic",
+                    fontSize: "clamp(36px, 6vw, 96px)",
+                    lineHeight: 1,
+                    textShadow: "0 2px 22px rgba(0,0,0,0.55)",
+                  }}
+                >
+                  2028
+                </div>
+                <div className="mt-6 h-px w-32 bg-[var(--accent-red)]" />
+                <p
+                  className="mt-5 font-mono uppercase text-white/70"
+                  style={{
+                    fontSize: "clamp(11px, 0.95vw, 14px)",
+                    letterSpacing: "0.22em",
+                  }}
+                >
+                  Read the full platform →
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Bottom progress rail */}
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-[300px] pointer-events-none bg-black/45 backdrop-blur-sm border border-[var(--hairline)] px-4 py-3">
