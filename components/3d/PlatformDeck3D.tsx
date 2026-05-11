@@ -42,41 +42,54 @@ function StaticPlatformList({ issues }: { issues: Issue[] }) {
 
 /**
  * Maps a card's offset from the active head to a 3D transform.
- *   offset = -1: previous card, exiting left
- *   offset =  0: active card, centered
- *   offset = +1, +2, +3: queued, receding to the right
+ *   offset ≈ -1: previous card, exiting left
+ *   offset ≈  0: active card, centered, fully readable
+ *   offset ≈ +1, +2, +3: queued, receding to the right at moderate angles
+ *
+ * Design constraints:
+ *   - The active card always pins to rotateY(0) at z=0; nothing competes
+ *     with it for legibility.
+ *   - Side cards stay below ~30° rotation so the silhouette reads as a
+ *     deck of cards rather than a fan, and so their text would still be
+ *     readable if shown — but we intentionally drop their opacity hard
+ *     so they fall to a faint architectural hint and the active card
+ *     owns the eye. CSS opacity composites over the whole node which
+ *     means even the card's solid `var(--bg)` background goes
+ *     translucent — that's by design: only the active card is opaque.
  */
 function cardTransform(offset: number): { transform: string; opacity: number; z: number } {
-  if (offset === 0) {
+  // Active card: pinned dead-center, facing the camera, fully opaque.
+  if (Math.abs(offset) < 0.5) {
+    const t = 1 - Math.abs(offset) * 2; // 1 → 0 across the half-step
     return {
-      transform: `translate3d(-50%, -50%, 0px) rotateY(0deg) rotateX(0deg) scale(1)`,
+      transform: `translate3d(-50%, -50%, 0px) rotateY(0deg) scale(${0.98 + 0.02 * t})`,
       opacity: 1,
-      z: 10,
+      z: 100,
     };
   }
   if (offset < 0) {
-    // Exit left, rotate away from viewer.
-    const o = Math.max(offset, -2);
-    const x = -50 + o * 60; // percent
-    const tz = -120 + o * 80;
-    const ry = -42 + o * 6;
-    const op = Math.max(0, 1 + o * 0.7);
+    // Exit left.
+    const o = Math.max(offset, -2.5);
+    const x = -50 + o * 48; // percent — pushes well off-axis quickly
+    const tz = -260 + o * 100;
+    const ry = Math.max(-30, o * 22); // clamp angle <= 30°
+    const op = Math.max(0, 0.18 + (o + 0.5) * 0.18); // fades to 0 by o=-2
     return {
-      transform: `translate3d(${x}%, -50%, ${tz}px) rotateY(${ry}deg) scale(${1 + o * 0.04})`,
+      transform: `translate3d(${x}%, -50%, ${tz}px) rotateY(${ry}deg) scale(${0.94 + o * 0.02})`,
       opacity: op,
-      z: 5 + offset,
+      z: 50 + offset,
     };
   }
-  // Queued to the right.
+  // Queued to the right — same treatment, mirrored.
   const o = Math.min(offset, 3);
-  const x = -50 + o * 38;
-  const tz = -80 - o * 120;
-  const ry = -28 - (o - 1) * 4;
-  const op = Math.max(0.16, 1 - o * 0.28);
+  const x = -50 + o * 30;
+  const tz = -260 - o * 120;
+  const ry = Math.min(30, -o * 18); // cap at -30°
+  const op = Math.max(0, 0.22 - (o - 0.5) * 0.08);
   return {
-    transform: `translate3d(${x}%, -50%, ${tz}px) rotateY(${ry}deg) scale(${1 - o * 0.04})`,
+    transform: `translate3d(${x}%, -50%, ${tz}px) rotateY(${ry}deg) scale(${0.94 - o * 0.02})`,
     opacity: op,
-    z: 10 - offset,
+    z: 50 - offset,
   };
 }
 

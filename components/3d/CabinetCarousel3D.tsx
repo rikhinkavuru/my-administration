@@ -28,9 +28,11 @@ import type { CabinetPick } from "@/lib/data/cabinet";
 import CabinetCard from "@/components/CabinetCard";
 import { useMotion3DMode } from "./useReducedMotion3D";
 
-const CYL_RADIUS = 520; // px — cylinder radius in CSS-3D space.
-const CARD_W = 340;
-const CARD_H = 420;
+const CYL_RADIUS = 720; // px — cylinder radius in CSS-3D space.
+                        // Increased so neighbor cards sit further off-axis
+                        // (no longer cluster ~80px from the active card).
+const CARD_W = 420;
+const CARD_H = 520;
 
 function StaticCabinetGrid({ picks }: { picks: CabinetPick[] }) {
   return (
@@ -88,12 +90,14 @@ export default function CabinetCarousel3D({ picks }: { picks: CabinetPick[] }) {
       const TOTAL_ROT = -360 + ANGLE;
 
       const state = { rot: 0 };
+      const angles = new Array<number>(N);
       const apply = () => {
         cylinder.style.transform = `translateZ(${-CYL_RADIUS}px) rotateY(${state.rot}deg)`;
-        // Find the card whose effective Y rotation is closest to 0 (i.e.
-        // facing the camera). Each card's mounted angle is i * ANGLE; the
-        // cylinder rotates by state.rot, so screen-facing angle is
-        // i * ANGLE + state.rot (normalized to [-180, 180]).
+        // Pass 1: compute each card's screen-facing angle and find the
+        // single card whose face is most aligned with the camera. Each
+        // card's mounted angle is i * ANGLE; the cylinder rotates by
+        // state.rot, so screen-facing angle is i * ANGLE + state.rot
+        // (normalized to [-180, 180]).
         let best = 0;
         let bestAbs = Infinity;
         for (let i = 0; i < N; i++) {
@@ -101,19 +105,34 @@ export default function CabinetCarousel3D({ picks }: { picks: CabinetPick[] }) {
           if (a > 180) a -= 360;
           if (a < -180) a += 360;
           const abs = Math.abs(a);
+          angles[i] = abs;
           if (abs < bestAbs) {
             bestAbs = abs;
             best = i;
           }
-          // Fade by angular distance from front. Cards within ~55° of
-          // camera stay fully visible; cards on the back of the cylinder
-          // fall to ~0.18 so the silhouette of the cylinder is implied
-          // without painting unreadable backside text.
+        }
+        // Pass 2: fade aggressively so the active card OWNS the eye.
+        // Cards sit 24° apart on a 15-slot cylinder — if we let both
+        // legible at the midpoint, two nominees compete side-by-side
+        // (the user's "illegible" report). Only the single closest card
+        // is allowed past 0.2 opacity; every other card is a faint
+        // architectural hint.
+        for (let i = 0; i < N; i++) {
           const card = cardRefs.current[i];
-          if (card) {
-            const fade = Math.max(0.18, 1 - Math.min(180, abs) / 110);
-            card.style.opacity = String(fade);
+          if (!card) continue;
+          const abs = angles[i];
+          let fade: number;
+          if (i === best) {
+            // active card: full opacity, easing slightly as it begins
+            // to rotate past camera-forward toward becoming a neighbor.
+            fade = abs <= 6 ? 1 : Math.max(0.55, 1 - (abs - 6) / 18);
+          } else if (abs <= 50) {
+            fade = 0.18 * Math.max(0, 1 - abs / 50);
+          } else {
+            fade = 0;
           }
+          card.style.opacity = String(fade);
+          card.style.visibility = fade <= 0.001 ? "hidden" : "visible";
         }
         setActiveIndex((prev) => (prev === best ? prev : best));
       };
@@ -310,7 +329,7 @@ export default function CabinetCarousel3D({ picks }: { picks: CabinetPick[] }) {
                         <div className="eyebrow !text-[var(--fg-40)]">
                           {pick.department}
                         </div>
-                        <div className="font-display mt-5 text-[28px] md:text-[32px] leading-[0.98] tracking-[-0.035em]">
+                        <div className="font-display mt-5 text-[34px] md:text-[40px] leading-[0.98] tracking-[-0.035em]">
                           {pick.nominee}
                         </div>
                         <div
