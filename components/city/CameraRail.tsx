@@ -77,10 +77,12 @@ const PATH_POINTS: [number, number, number][] = [
   // Immigration / port-of-entry
   [14, 9, -930],
   [4, 11, -980], // immigration hero
-  // Finale: rise above the skyline
-  [-4, 26, -1020],
-  [0, 60, -1080], // wide pull-back
-  [0, 100, -1140], // far aerial
+  // Finale: gentle rise above the skyline — was a steep 11→100 climb
+  // across just 160m which felt clunky. New profile rises more
+  // gradually with the same final aerial vantage point.
+  [0, 18, -1010],
+  [0, 38, -1070],
+  [0, 72, -1160], // far aerial pull-back
 ];
 
 // Look-ahead points: where the camera is gazing at each path sample. We
@@ -178,19 +180,25 @@ export default function CameraRail({
       { p0: 0.62, p1: 0.66, u0: 0.59, u1: 0.72 },     // travel to Defense
       { p0: 0.66, p1: 0.74, u0: 0.72, u1: 0.72 },     // Defense dwell
       { p0: 0.74, p1: 0.78, u0: 0.72, u1: 0.85 },     // travel to Immigration
-      { p0: 0.78, p1: 0.86, u0: 0.85, u1: 0.85 },     // Immigration dwell
-      { p0: 0.86, p1: 0.92, u0: 0.85, u1: 0.95 },     // travel to Finale
-      { p0: 0.92, p1: 1.00, u0: 0.95, u1: 1.00 },     // Finale aerial rise
+      { p0: 0.78, p1: 0.84, u0: 0.85, u1: 0.85 },     // Immigration dwell
+      { p0: 0.84, p1: 1.00, u0: 0.85, u1: 1.00 },     // SLOW finale rise
     ];
     let u = SEGMENTS[SEGMENTS.length - 1].u1;
-    for (const s of SEGMENTS) {
+    for (let i = 0; i < SEGMENTS.length; i++) {
+      const s = SEGMENTS[i];
       if (raw >= s.p0 && raw <= s.p1) {
         const span = Math.max(0.0001, s.p1 - s.p0);
         let t = (raw - s.p0) / span;
         if (s.u0 !== s.u1) {
-          // smoothstep eases arrival into the next dwell — slow start,
-          // slow finish, fast middle.
-          t = t * t * (3 - 2 * t);
+          // Finale travel uses an ease-out (slow at end) so the camera
+          // floats to its final aerial vantage instead of snapping.
+          // All other travels use a balanced smoothstep.
+          if (i === SEGMENTS.length - 1) {
+            const inv = 1 - t;
+            t = 1 - inv * inv * inv;
+          } else {
+            t = t * t * (3 - 2 * t);
+          }
         }
         u = s.u0 + (s.u1 - s.u0) * t;
         break;

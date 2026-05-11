@@ -346,46 +346,50 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
-                className="absolute inset-0 z-30 flex flex-col items-center justify-center px-[5vw] pointer-events-none text-center"
+                className="absolute inset-0 z-30 flex flex-col items-center justify-center px-[8vw] pointer-events-none text-center"
               >
-                <div className="font-mono text-[10px] sm:text-[12px] uppercase tracking-[0.3em] text-white/65 mb-4">
-                  Vision · End · 2028
+                {/* Heavy dark scrim panel behind the text — solves the
+                    "white text against bright sky" contrast issue. The
+                    finale sky is intentionally bright, so the wordmark
+                    needs its own ground. */}
+                <div className="relative w-full max-w-[1100px] py-12 px-10 bg-black/72 backdrop-blur-md border border-[var(--hairline-strong)]">
+                  <div className="font-mono text-[10px] sm:text-[12px] uppercase tracking-[0.3em] text-white/70 mb-5">
+                    Vision · End · 2028
+                  </div>
+                  <h1
+                    className="font-display text-white font-bold leading-[0.94] tracking-[-0.025em] whitespace-nowrap"
+                    style={{
+                      fontSize: "clamp(38px, 7.2vw, 124px)",
+                    }}
+                  >
+                    SACKETT
+                    <span className="text-[var(--accent-red)] mx-2 sm:mx-3">
+                      /
+                    </span>
+                    KAVURU
+                  </h1>
+                  <div
+                    className="mt-2 text-white/90"
+                    style={{
+                      fontFamily: "'Noto Serif', Georgia, ui-serif, serif",
+                      fontStyle: "italic",
+                      fontSize: "clamp(28px, 4.6vw, 72px)",
+                      lineHeight: 1.05,
+                    }}
+                  >
+                    2028
+                  </div>
+                  <div className="mt-6 h-px w-24 bg-[var(--accent-red)] mx-auto" />
+                  <p
+                    className="mt-5 font-mono uppercase text-white/80"
+                    style={{
+                      fontSize: "clamp(11px, 0.95vw, 14px)",
+                      letterSpacing: "0.22em",
+                    }}
+                  >
+                    Read the full platform →
+                  </p>
                 </div>
-                <h1
-                  className="font-display text-white font-bold leading-[0.92] tracking-[-0.02em]"
-                  style={{
-                    fontSize: "clamp(48px, 11vw, 200px)",
-                    textShadow: "0 4px 40px rgba(0,0,0,0.6)",
-                  }}
-                >
-                  SACKETT
-                  <span className="text-[var(--accent-red)] mx-2 sm:mx-4">
-                    /
-                  </span>
-                  KAVURU
-                </h1>
-                <div
-                  className="mt-3 text-white/85"
-                  style={{
-                    fontFamily: "'Noto Serif', Georgia, ui-serif, serif",
-                    fontStyle: "italic",
-                    fontSize: "clamp(36px, 6vw, 96px)",
-                    lineHeight: 1,
-                    textShadow: "0 2px 22px rgba(0,0,0,0.55)",
-                  }}
-                >
-                  2028
-                </div>
-                <div className="mt-6 h-px w-32 bg-[var(--accent-red)]" />
-                <p
-                  className="mt-5 font-mono uppercase text-white/70"
-                  style={{
-                    fontSize: "clamp(11px, 0.95vw, 14px)",
-                    letterSpacing: "0.22em",
-                  }}
-                >
-                  Read the full platform →
-                </p>
               </motion.div>
             )}
           </AnimatePresence>

@@ -174,10 +174,11 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
         turbidity={1.8}
       />
 
-      {/* Linear fog — closer (was 90/900 which faded distance to near
-          white). 80/420 keeps silhouettes readable and stops the
-          horizon from blending with the sky to pure white. */}
-      <fog ref={fogRef} attach="fog" args={["#7E8FA6", 80, 420]} />
+      {/* Linear fog — even closer (80/420 was still letting the hospital
+          cross peek through from the Energy district 155m away). 60/230
+          keeps the current district crisp while fully fading anything
+          past the next-district threshold. */}
+      <fog ref={fogRef} attach="fog" args={["#7E8FA6", 60, 230]} />
 
       {/* Lighting — clean architectural daylight.
           ONE sun directional light with shadows + ONE warm hemisphere
