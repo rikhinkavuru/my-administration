@@ -26,7 +26,7 @@
  * radically different lighting.
  */
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Sky, Environment } from "@react-three/drei";
 import CameraRail, { DISTRICT_Z } from "./CameraRail";
@@ -148,8 +148,12 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
     <>
       {/* HDRI environment lighting — gives every PBR material in the scene
           believable reflections and image-based fill. `background={false}`
-          keeps the actual visible sky owned by <Sky>. */}
-      <Environment preset="city" background={false} environmentIntensity={0.7} />
+          keeps the actual visible sky owned by <Sky>.
+          Wrapped in its OWN Suspense so the HDR CDN fetch can't suspend
+          the entire scene if it stalls in production. */}
+      <Suspense fallback={null}>
+        <Environment preset="city" background={false} environmentIntensity={0.6} />
+      </Suspense>
 
       {/* Procedural daylight sky — tuned for a clean, optimistic midday.
           Sun position matches the directional light direction so the
@@ -170,9 +174,11 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
 
       {/* Lighting — clean architectural daylight.
           ONE sun directional light with shadows + ONE warm hemisphere
-          fill. No rim red light (that was polluting the palette). */}
+          fill. No rim red light (that was polluting the palette).
+          Intensities tuned so the scene reads even if HDRI fails to
+          load and there's no env-map fill. */}
       <hemisphereLight
-        intensity={0.55}
+        intensity={0.85}
         color={"#E8F0FF"}
         groundColor={"#2A2620"}
       />
@@ -192,7 +198,7 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
         shadow-camera-top={220}
         shadow-camera-bottom={-220}
       />
-      <ambientLight intensity={0.12} color={"#D4DCE6"} />
+      <ambientLight intensity={0.25} color={"#D4DCE6"} />
 
       {/* Ground */}
       <mesh
