@@ -148,9 +148,10 @@ export default function StrategyClient() {
               </SplitText>
               <p className="mt-6 max-w-[52ch] text-[14px] md:text-[15px] text-[var(--fg-60)] leading-[1.7]">
                 With {lockedEV} EV locked from safe and lean Republican states
-                alone, this map needs only one of four battlegrounds to clear
-                270 — and gives the campaign a cushion of {cushion} when all
-                four come home.
+                alone, the campaign needs just {270 - lockedEV} more — any one
+                of Pennsylvania, Michigan, or Wisconsin clears 270 outright,
+                and all four battlegrounds together deliver a cushion of{" "}
+                {cushion}.
               </p>
               <div className="mt-10 grid grid-cols-2 gap-px bg-[var(--hairline)] border border-[var(--hairline)]">
                 {[

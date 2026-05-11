@@ -34,7 +34,9 @@ const trendByState: Record<string, { delta: string; trend: "up" | "down" | "flat
 };
 
 // 12-week trendline points for a tiny sparkline (relative deltas, +/-)
-const SPARK = [240, 244, 247, 251, 252, 250, 253, 258, 263, 269, 272, LOCKED];
+// Climbs into LOCKED; never overshoots it (any peak above LOCKED would imply
+// a higher prior locked-EV figure than the campaign's current count).
+const SPARK = [230, 234, 238, 242, 245, 248, 251, 253, 256, 258, 260, LOCKED];
 
 function Sparkline({ data, width = 92, height = 22 }: { data: number[]; width?: number; height?: number }) {
   const min = Math.min(...data);

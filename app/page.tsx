@@ -8,6 +8,7 @@ import StatBand from "@/components/StatBand";
 import Marquee from "@/components/Marquee";
 import JetSequence from "@/components/jet/JetSequence";
 import { candidates } from "@/lib/data/candidates";
+import { evByClass, states } from "@/lib/data/states";
 import { ArrowRight } from "@/components/Icons";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -165,11 +166,18 @@ export default function Home() {
               transition={{ duration: 0.85, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
               className="mt-14 grid grid-cols-3 gap-px bg-[var(--hairline)] border-t border-b border-[var(--hairline)] max-w-md"
             >
-              {[
-                ["272", "Locked EV"],
-                ["88", "Target EV"],
-                ["[ 12 ]", "Battlegrounds"],
-              ].map(([n, l]) => (
+              {(() => {
+                const lockedEV = evByClass["safe-r"] + evByClass["lean-r"];
+                const targetEV = evByClass.battleground;
+                const battlegroundCount = states.filter(
+                  (s) => s.classification === "battleground",
+                ).length;
+                return [
+                  [String(lockedEV), "Locked EV"],
+                  [String(targetEV), "Target EV"],
+                  [`[ ${String(battlegroundCount).padStart(2, "0")} ]`, "Battlegrounds"],
+                ];
+              })().map(([n, l]) => (
                 <div key={l} className="bg-[var(--bg)] px-4 py-4">
                   <dt className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--fg-40)]">{l}</dt>
                   <dd className="font-display text-[24px] md:text-[28px] tabular-nums leading-none mt-1.5">
