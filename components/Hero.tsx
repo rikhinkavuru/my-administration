@@ -18,8 +18,9 @@ export default function Hero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative border-b border-[var(--hairline)]">
-      <div className="container-page pt-28 md:pt-40 pb-20 md:pb-28">
+    <section className="relative border-b border-[var(--hairline)] overflow-hidden">
+      <div aria-hidden className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
+      <div className="container-page relative pt-28 md:pt-40 pb-20 md:pb-28">
         {eyebrow && (
           <motion.div
             initial={{ opacity: 0, y: 6 }}
@@ -31,10 +32,10 @@ export default function Hero({
           </motion.div>
         )}
         <motion.h1
-          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+          initial={{ opacity: 0, y: 28, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.0, delay: 0.1, ease: EASE }}
-          className="font-display mt-8 text-[44px] sm:text-[72px] md:text-[112px] lg:text-[140px] max-w-[16ch]"
+          className="font-display mt-8 text-[48px] sm:text-[80px] md:text-[120px] lg:text-[148px] max-w-[16ch] tracking-[-0.045em]"
         >
           {title}
           {italicAccent && (
@@ -49,7 +50,7 @@ export default function Hero({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.32, ease: EASE }}
-            className="mt-10 max-w-2xl text-base md:text-lg text-[var(--fg-60)] leading-[1.55]"
+            className="mt-10 max-w-2xl text-[15px] md:text-[18px] text-[var(--fg-60)] leading-[1.6]"
           >
             {subtitle}
           </motion.p>
@@ -59,7 +60,7 @@ export default function Hero({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.46, ease: EASE }}
-            className="mt-10"
+            className="mt-12"
           >
             {children}
           </motion.div>

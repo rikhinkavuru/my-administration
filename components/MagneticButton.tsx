@@ -8,7 +8,7 @@ export default function MagneticButton({
   children,
   className = "",
   variant = "primary",
-  strength = 0.25,
+  strength = 0.22,
 }: {
   href?: string;
   children: ReactNode;
@@ -19,8 +19,8 @@ export default function MagneticButton({
   const ref = useRef<HTMLElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
+  const sx = useSpring(x, { stiffness: 240, damping: 18, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 240, damping: 18, mass: 0.4 });
 
   const onMove = (e: MouseEvent<HTMLElement>) => {
     const el = ref.current;
@@ -34,7 +34,14 @@ export default function MagneticButton({
     y.set(0);
   };
 
-  const cls = `btn ${variant === "primary" ? "btn-primary" : "btn-ghost"} ${className}`;
+  const cls = `btn ${variant === "primary" ? "btn-primary" : "btn-ghost"} group ${className}`;
+
+  // Wrap children so any inline-end icon receives a translate on hover.
+  const content = (
+    <span className="flex items-center gap-[0.55rem]">
+      {children}
+    </span>
+  );
 
   if (href) {
     return (
@@ -46,7 +53,7 @@ export default function MagneticButton({
           onMouseLeave={onLeave}
           className={cls}
         >
-          {children}
+          {content}
         </Link>
       </motion.span>
     );
@@ -60,7 +67,7 @@ export default function MagneticButton({
       style={{ x: sx, y: sy }}
       className={cls}
     >
-      {children}
+      {content}
     </motion.button>
   );
 }
