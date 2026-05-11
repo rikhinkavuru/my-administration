@@ -46,10 +46,13 @@ export const FINALE_START = 0.92;
 // not roll — orthographic stability beats showy banking on a typographic
 // site.
 const PATH_POINTS: [number, number, number][] = [
-  // Doors approach (progress 0 -> ~0.08)
-  [0, 3, 60], // start: behind the doors, slightly elevated
-  [0, 3, 20], // approaching the seam
-  [0, 3, -5], // passing through the threshold (doors fully open)
+  // Doors approach (progress 0 -> ~0.08) — start much closer to the
+  // doors so they read as MONUMENTAL geometry rather than small props
+  // in the void. The camera dollies forward and pushes through the
+  // widening seam.
+  [0, 4, 26], // start: just in front of the seam, low + close
+  [0, 4, 10], // approaching the seam
+  [0, 4, -8], // passing through the threshold (doors fully open)
   // Economy district (financial canyons)
   [-12, 5, -90],
   [-4, 7, -160], // economy hero
@@ -83,9 +86,9 @@ const PATH_POINTS: [number, number, number][] = [
 // build this as a separate curve and sample with a small forward offset
 // so the camera "leads" into turns instead of locking to its own position.
 const LOOK_POINTS: [number, number, number][] = [
-  [0, 3, 30],
-  [0, 3, -10],
-  [0, 3, -40],
+  [0, 4, 0],
+  [0, 4, -20],
+  [0, 4, -40],
   // economy
   [-4, 5, -140],
   [4, 6, -200],
