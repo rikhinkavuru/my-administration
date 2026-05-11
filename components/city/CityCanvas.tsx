@@ -30,7 +30,7 @@ export default function CityCanvas({
         stencil: false,
       }}
       camera={{ position: [0, 3, 60], fov: 55, near: 0.5, far: 1800 }}
-      style={{ width: "100%", height: "100%", background: "#000" }}
+      style={{ width: "100%", height: "100%", background: "#0a0a0d" }}
     >
       <Suspense fallback={null}>
         <CityScene progressRef={progressRef} />

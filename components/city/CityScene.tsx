@@ -23,17 +23,18 @@ import type { CityProgressRef } from "./useCityProgress";
 
 // District color palette (fog color per district). Restrained:
 // warm-grey for civil scenes, cool-blue for defense, slight green hint
-// after the clean-energy transition.
+// after the clean-energy transition. Lightened from near-black so the
+// horizon doesn't crush silhouettes against the void.
 const FOG_PALETTE = [
-  { z: 60, color: new THREE.Color("#050505") }, // doors
-  { z: DISTRICT_Z.ECONOMY, color: new THREE.Color("#0a0a0c") },
-  { z: DISTRICT_Z.ENERGY - 20, color: new THREE.Color("#0d0c08") }, // warm-grey, soot
-  { z: DISTRICT_Z.ENERGY + 20, color: new THREE.Color("#08100c") }, // green-tint clean
-  { z: DISTRICT_Z.HEALTHCARE, color: new THREE.Color("#0c0a0a") },
-  { z: DISTRICT_Z.EDUCATION, color: new THREE.Color("#08090d") }, // cool, indigo
-  { z: DISTRICT_Z.DEFENSE, color: new THREE.Color("#080a10") }, // cool blue
-  { z: DISTRICT_Z.IMMIGRATION, color: new THREE.Color("#0a0a0e") },
-  { z: -1100, color: new THREE.Color("#020308") }, // finale night
+  { z: 60, color: new THREE.Color("#0a0a0d") }, // doors
+  { z: DISTRICT_Z.ECONOMY, color: new THREE.Color("#15161c") },
+  { z: DISTRICT_Z.ENERGY - 20, color: new THREE.Color("#1c1810") }, // warm-grey, soot
+  { z: DISTRICT_Z.ENERGY + 20, color: new THREE.Color("#101a14") }, // green-tint clean
+  { z: DISTRICT_Z.HEALTHCARE, color: new THREE.Color("#1a1416") },
+  { z: DISTRICT_Z.EDUCATION, color: new THREE.Color("#10121c") }, // cool, indigo
+  { z: DISTRICT_Z.DEFENSE, color: new THREE.Color("#0e131e") }, // cool blue
+  { z: DISTRICT_Z.IMMIGRATION, color: new THREE.Color("#14141c") },
+  { z: -1100, color: new THREE.Color("#06080f") }, // finale night
 ];
 
 function sampleFog(z: number, out: THREE.Color) {
@@ -72,16 +73,20 @@ export default function CityScene({ progressRef }: { progressRef: CityProgressRe
 
   return (
     <>
-      <color attach="background" args={["#000000"]} />
-      <fogExp2 ref={fogRef} attach="fog" args={["#050505", 0.012]} />
+      <color attach="background" args={["#0a0a0d"]} />
+      {/* FogExp2 density dropped 0.012 -> 0.0035 so distant towers stay
+          legible. Color is sampled per-frame from FOG_PALETTE so each
+          district keeps its tint without crushing silhouettes. */}
+      <fogExp2 ref={fogRef} attach="fog" args={["#0a0a0d", 0.0035]} />
 
       {/* Lighting: one warm key, one cool fill, soft ambient. No realtime
-          shadows — emissive caps carry the night look. */}
-      <ambientLight intensity={0.32} color="#ffe7d4" />
-      <directionalLight position={[20, 40, -200]} intensity={0.55} color="#FFE7BD" />
-      <directionalLight position={[-30, 30, -600]} intensity={0.35} color="#8FB0FF" />
+          shadows — emissive caps carry the night look. Intensities
+          bumped so the city reads at night instead of merging with fog. */}
+      <ambientLight intensity={0.45} color="#ffe5c2" />
+      <directionalLight position={[20, 40, -200]} intensity={1.1} color="#FFE5C2" />
+      <directionalLight position={[-30, 30, -600]} intensity={0.5} color="#7B98D6" />
       {/* Subtle red rim from above, hints the campaign accent on metal */}
-      <directionalLight position={[0, 60, -900]} intensity={0.18} color="#D63D44" />
+      <directionalLight position={[0, 60, -900]} intensity={0.32} color="#D63D44" />
 
       {/* Ground */}
       <mesh geometry={groundGeom} position={[0, -0.05, -540]} rotation={[-Math.PI / 2, 0, 0]}>
