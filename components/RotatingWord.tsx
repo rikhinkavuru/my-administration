@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -14,12 +14,13 @@ export default function RotatingWord({
   className?: string;
 }) {
   const [i, setI] = useState(0);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (words.length < 2) return;
+    if (words.length < 2 || reduced) return;
     const id = setInterval(() => setI((p) => (p + 1) % words.length), interval);
     return () => clearInterval(id);
-  }, [words.length, interval]);
+  }, [words.length, interval, reduced]);
 
   // Invisible placeholder sized to the longest word so layout never jumps.
   const longest = words.reduce((a, b) => (a.length > b.length ? a : b), "");
@@ -27,6 +28,7 @@ export default function RotatingWord({
   return (
     <span
       className={`relative inline-block overflow-hidden align-baseline text-[var(--accent-red)] ${className}`}
+      aria-live="polite"
       aria-label={words[i]}
     >
       {/* Placeholder reserves width + height */}
@@ -38,10 +40,10 @@ export default function RotatingWord({
           key={words[i]}
           aria-hidden
           className="absolute inset-0 whitespace-nowrap"
-          initial={{ y: "105%", opacity: 0, filter: "blur(10px)" }}
+          initial={{ y: "110%", opacity: 0, filter: "blur(12px)" }}
           animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-          exit={{ y: "-105%", opacity: 0, filter: "blur(10px)" }}
-          transition={{ duration: 0.7, ease: EASE }}
+          exit={{ y: "-110%", opacity: 0, filter: "blur(12px)" }}
+          transition={{ duration: 0.8, ease: EASE }}
         >
           {words[i]}
         </motion.span>
