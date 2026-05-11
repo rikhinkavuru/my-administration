@@ -182,6 +182,16 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
             start: "top top",
             end: "bottom bottom",
             scrub: 1.0,
+            // Snap to the START of each district dwell. When the user
+            // stops scrolling near a hero, the scroll position pulls
+            // toward the nearest dwell so the camera locks at the
+            // intended frame instead of drifting past.
+            snap: {
+              snapTo: [0.08, 0.18, 0.30, 0.42, 0.54, 0.66, 0.78, 0.92],
+              duration: { min: 0.2, max: 0.5 },
+              delay: 0.15,
+              ease: "power2.out",
+            },
           },
         });
       });
@@ -415,28 +425,38 @@ export default function CitySequence({ issues }: { issues: Issue[] }) {
                     "white text against bright sky" contrast issue. The
                     finale sky is intentionally bright, so the wordmark
                     needs its own ground. */}
-                <div className="relative w-full max-w-[1100px] py-12 px-10 bg-black/72 backdrop-blur-md border border-[var(--hairline-strong)]">
+                <div className="relative w-full max-w-[860px] py-10 px-10 bg-black/75 backdrop-blur-md border border-[var(--hairline-strong)]">
                   <div className="font-mono text-[10px] sm:text-[12px] uppercase tracking-[0.3em] text-white/70 mb-5">
                     Vision · End · 2028
                   </div>
+                  {/* Stacked layout — was a single SACKETT / KAVURU
+                      line that clipped the trailing U on wide viewports.
+                      Names on separate lines, decorative slash between,
+                      so it fits any width down to mobile. */}
                   <h1
-                    className="font-display text-white font-bold leading-[0.94] tracking-[-0.025em] whitespace-nowrap"
+                    className="font-display text-white font-bold leading-[0.94] tracking-[-0.025em]"
                     style={{
-                      fontSize: "clamp(38px, 7.2vw, 124px)",
+                      fontSize: "clamp(40px, 6.4vw, 96px)",
                     }}
                   >
-                    SACKETT
-                    <span className="text-[var(--accent-red)] mx-2 sm:mx-3">
+                    <span className="block">SACKETT</span>
+                    <span
+                      className="block text-[var(--accent-red)] my-1"
+                      style={{
+                        fontSize: "clamp(28px, 4.4vw, 64px)",
+                        lineHeight: 1,
+                      }}
+                    >
                       /
                     </span>
-                    KAVURU
+                    <span className="block">KAVURU</span>
                   </h1>
                   <div
-                    className="mt-2 text-white/90"
+                    className="mt-4 text-white/90"
                     style={{
                       fontFamily: "'Noto Serif', Georgia, ui-serif, serif",
                       fontStyle: "italic",
-                      fontSize: "clamp(28px, 4.6vw, 72px)",
+                      fontSize: "clamp(28px, 4vw, 64px)",
                       lineHeight: 1.05,
                     }}
                   >
