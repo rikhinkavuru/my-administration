@@ -1,16 +1,19 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { CabinetPick } from "@/lib/data/cabinet";
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 export default function CabinetCard({ pick, index }: { pick: CabinetPick; index: number }) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-6% 0px" }}
-      transition={{ duration: 0.7, delay: (index % 6) * 0.04, ease: EASE }}
+      whileHover={reduced ? undefined : { y: -2 }}
+      whileTap={reduced ? undefined : { scale: 0.995 }}
+      transition={{ duration: 0.5, delay: (index % 6) * 0.04, ease: EASE }}
       className="card flex flex-col h-full relative group"
     >
       {/* hover accent corner */}

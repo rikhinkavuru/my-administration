@@ -89,9 +89,9 @@ export default function Home() {
       {/* ============== HERO ============== */}
       <motion.section
         ref={heroRef}
-        initial={{ opacity: 0, filter: "blur(8px)" }}
-        animate={{ opacity: 1, filter: "blur(0px)" }}
-        transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="relative min-h-[100svh] flex items-center overflow-hidden border-b border-[var(--hairline)]"
       >
         {/* Hero grid backdrop */}
@@ -114,9 +114,9 @@ export default function Home() {
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 22, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.95, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="font-display mt-8 text-[60px] sm:text-[92px] md:text-[120px] lg:text-[140px] xl:text-[164px] tracking-[-0.05em]"
             >
               <RotatingWord
@@ -132,7 +132,7 @@ export default function Home() {
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
               className="mt-10 max-w-xl text-[15px] md:text-[18px] text-[var(--fg-60)] leading-[1.6]"
             >
               {candidates.tagline} Limited government, free markets, strong national defense, and constitutional restoration — the agenda America needs in 2028.
@@ -141,7 +141,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
               className="mt-10 flex flex-wrap gap-3 items-center"
             >
               <MagneticButton href="/platform" variant="primary">
@@ -156,7 +156,7 @@ export default function Home() {
             <motion.dl
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="mt-14 grid grid-cols-3 gap-px bg-[var(--hairline)] border-t border-b border-[var(--hairline)] max-w-md"
             >
               {(() => {
@@ -183,9 +183,9 @@ export default function Home() {
 
           <motion.div
             style={{ y: dashY, opacity: dashOpacity }}
-            initial={{ opacity: 0, filter: "blur(10px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1.1, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5"
           >
             <HeroDashboard />

@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import LenisProvider from "@/components/LenisProvider";
 import ThemeProvider from "@/components/ThemeProvider";
+import MotionProvider from "@/components/MotionProvider";
 import PageTransition from "@/components/PageTransition";
 import ScrollToTop from "@/components/ScrollToTop";
 
@@ -134,16 +135,18 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeProvider>
-          <ScrollToTop />
-          <LenisProvider>
-            <Nav />
-            <PageTransition>
-              <main id="main" className="flex-1">
-                {children}
-              </main>
-            </PageTransition>
-            <Footer />
-          </LenisProvider>
+          <MotionProvider>
+            <ScrollToTop />
+            <LenisProvider>
+              <Nav />
+              <PageTransition>
+                <main id="main" className="flex-1">
+                  {children}
+                </main>
+              </PageTransition>
+              <Footer />
+            </LenisProvider>
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

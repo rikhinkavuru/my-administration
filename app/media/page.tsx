@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ChapterIntro from "@/components/ChapterIntro";
 import SectionReveal from "@/components/SectionReveal";
 import SplitText from "@/components/SplitText";
+import MotionCard from "@/components/MotionCard";
 import { outlets, interestGroups } from "@/lib/data/media";
 
 export const metadata: Metadata = {
@@ -79,20 +80,22 @@ export default function MediaPage() {
           {outlets.map((o, i) => (
             <li key={o.name}>
               <SectionReveal delay={i * 0.05}>
-                <article className="bg-[var(--bg)] p-7 md:p-8 h-full flex flex-col">
-                  <div className="flex items-baseline justify-between">
-                    <span className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
-                      OUTLET 0{i + 1} / 03
-                    </span>
-                    <span className="eyebrow !text-[var(--fg-40)]">{o.format}</span>
-                  </div>
-                  <h3 className="font-display mt-8 text-[26px] md:text-[28px] leading-[1.05]">
-                    {o.name}
-                  </h3>
-                  <p className="mt-5 text-[13px] md:text-[14px] text-[var(--fg-60)] leading-[1.7]">
-                    {o.rationale}
-                  </p>
-                </article>
+                <MotionCard className="bg-[var(--bg)] h-full">
+                  <article className="p-7 md:p-8 h-full flex flex-col">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
+                        OUTLET 0{i + 1} / 03
+                      </span>
+                      <span className="eyebrow !text-[var(--fg-40)]">{o.format}</span>
+                    </div>
+                    <h3 className="font-display mt-8 text-[26px] md:text-[28px] leading-[1.05]">
+                      {o.name}
+                    </h3>
+                    <p className="mt-5 text-[13px] md:text-[14px] text-[var(--fg-60)] leading-[1.7]">
+                      {o.rationale}
+                    </p>
+                  </article>
+                </MotionCard>
               </SectionReveal>
             </li>
           ))}
@@ -119,26 +122,28 @@ export default function MediaPage() {
         <div className="mt-12 grid gap-px bg-[var(--hairline)] border border-[var(--hairline)] md:grid-cols-3">
           {interestGroups.map((g, i) => (
             <SectionReveal key={g.name} delay={i * 0.05}>
-              <div className="bg-[var(--bg)] p-7 md:p-8 h-full">
-                <div className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
-                  0{i + 1} / 03
+              <MotionCard className="bg-[var(--bg)] h-full">
+                <div className="p-7 md:p-8 h-full">
+                  <div className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums tracking-[0.06em]">
+                    0{i + 1} / 03
+                  </div>
+                  <div className="font-display mt-6 text-[26px] md:text-[28px] leading-[1.05]">
+                    {g.name}
+                  </div>
+                  <div className="mt-6 pt-6 border-t border-[var(--hairline)]">
+                    <div className="eyebrow !text-[var(--fg-40)]">Alignment</div>
+                    <p className="mt-3 text-[13px] md:text-[14px] text-[var(--fg-60)] leading-[1.7]">
+                      {g.alignment}
+                    </p>
+                  </div>
+                  <div className="mt-6 pt-6 border-t border-[var(--hairline)]">
+                    <div className="eyebrow !text-[var(--fg-40)]">Electoral Value</div>
+                    <p className="mt-3 text-[13px] md:text-[14px] text-[var(--fg-60)] leading-[1.7]">
+                      {g.electoralValue}
+                    </p>
+                  </div>
                 </div>
-                <div className="font-display mt-6 text-[26px] md:text-[28px] leading-[1.05]">
-                  {g.name}
-                </div>
-                <div className="mt-6 pt-6 border-t border-[var(--hairline)]">
-                  <div className="eyebrow !text-[var(--fg-40)]">Alignment</div>
-                  <p className="mt-3 text-[13px] md:text-[14px] text-[var(--fg-60)] leading-[1.7]">
-                    {g.alignment}
-                  </p>
-                </div>
-                <div className="mt-6 pt-6 border-t border-[var(--hairline)]">
-                  <div className="eyebrow !text-[var(--fg-40)]">Electoral Value</div>
-                  <p className="mt-3 text-[13px] md:text-[14px] text-[var(--fg-60)] leading-[1.7]">
-                    {g.electoralValue}
-                  </p>
-                </div>
-              </div>
+              </MotionCard>
             </SectionReveal>
           ))}
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import { ChevronDown } from "./Icons";
 import type { Issue } from "@/lib/data/platform";
@@ -8,12 +8,15 @@ const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 export default function IssueCard({ issue, index }: { issue: Issue; index: number }) {
   const [open, setOpen] = useState(false);
+  const reduced = useReducedMotion();
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8% 0px" }}
-      transition={{ duration: 0.7, delay: (index % 6) * 0.04, ease: EASE }}
+      whileHover={reduced ? undefined : { y: -2 }}
+      whileTap={reduced ? undefined : { scale: 0.995 }}
+      transition={{ duration: 0.5, delay: (index % 6) * 0.04, ease: EASE }}
       className={`card relative group ${open ? "border-[var(--hairline-strong)] bg-[var(--bg-elev-2)]" : ""}`}
     >
       {/* Accent left rail when open */}
