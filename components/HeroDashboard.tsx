@@ -112,8 +112,8 @@ export default function HeroDashboard() {
         </span>
       </div>
 
-      {/* EV gauge */}
-      <div className="px-6 pt-7 pb-6 border-b border-[var(--hairline)]">
+      {/* EV gauge — tightened so the dashboard fits within hero viewport */}
+      <div className="px-6 pt-5 pb-4 border-b border-[var(--hairline)]">
         <div className="flex items-baseline justify-between">
           <span className="eyebrow !text-[var(--fg-60)]">Path to 270</span>
           <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">
@@ -121,14 +121,14 @@ export default function HeroDashboard() {
           </span>
         </div>
 
-        <div className="mt-6 flex items-end justify-between gap-6">
+        <div className="mt-4 flex items-end justify-between gap-6">
           <div>
             <div className="flex items-baseline gap-3">
               <Counter
                 to={LOCKED}
                 duration={1.8}
                 delay={0.6}
-                className="font-display text-[88px] md:text-[112px] tabular-nums leading-[0.9]"
+                className="font-display text-[72px] md:text-[92px] tabular-nums leading-[0.9]"
               />
               <Trend trend="up" delta="+12 wk" />
             </div>
@@ -145,7 +145,7 @@ export default function HeroDashboard() {
         </div>
 
         {/* Progress bar with threshold tick */}
-        <div className="mt-6 relative">
+        <div className="mt-4 relative">
           <div className="h-[3px] bg-[var(--hairline)] overflow-hidden relative">
             <motion.div
               initial={{ width: 0 }}
@@ -216,14 +216,14 @@ export default function HeroDashboard() {
       </div>
 
       {/* Focus states */}
-      <div className="px-6 pt-5 pb-6">
+      <div className="px-6 pt-4 pb-4">
         <div className="flex items-baseline justify-between">
           <span className="eyebrow !text-[var(--fg-60)]">Focus states</span>
           <span className="font-mono text-[10px] tabular-nums text-[var(--fg-40)]">
             {TARGET} EV · {battlegrounds.length} states
           </span>
         </div>
-        <ul className="mt-4 divide-y divide-[var(--hairline)]">
+        <ul className="mt-3 divide-y divide-[var(--hairline)]">
           {battlegrounds.map((s, i) => {
             const t = trendByState[s.id] ?? { delta: "+0.0", trend: "flat" as const };
             return (
@@ -232,7 +232,7 @@ export default function HeroDashboard() {
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 1.1 + i * 0.05, ease: EASE }}
-                className="py-3 grid grid-cols-[auto_1fr_auto_auto] items-baseline gap-4"
+                className="py-2 grid grid-cols-[auto_1fr_auto_auto] items-baseline gap-4"
               >
                 <span className="font-mono text-[10px] text-[var(--fg-40)] tabular-nums w-6">
                   {String(i + 1).padStart(2, "0")}
