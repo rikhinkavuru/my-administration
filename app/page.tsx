@@ -102,8 +102,8 @@ export default function Home() {
         <span aria-hidden className="absolute top-20 left-6 lg:left-8 h-4 w-4 border-l border-t border-[var(--accent-red)] pointer-events-none" />
         <span aria-hidden className="absolute bottom-8 right-6 lg:right-8 h-4 w-4 border-r border-b border-[var(--accent-red)] pointer-events-none" />
 
-        <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-24 lg:pt-20 pb-12">
-          <motion.div style={{ y: titleY, opacity: titleOpacity }} className="lg:col-span-7">
+        <div className="container-page relative z-10 grid lg:grid-cols-12 gap-10 lg:gap-10 items-center pt-24 lg:pt-20 pb-12">
+          <motion.div style={{ y: titleY, opacity: titleOpacity }} className="lg:col-span-8">
             <motion.div
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
@@ -140,7 +140,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-10 max-w-xl text-[15px] md:text-[18px] text-[var(--fg-60)] leading-[1.6]"
+              className="mt-10 max-w-2xl text-[15px] md:text-[18px] text-[var(--fg-60)] leading-[1.6]"
             >
               {candidates.tagline} Limited government, free markets, strong national defense, and constitutional restoration — the agenda America needs in 2028.
             </motion.p>
@@ -164,7 +164,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-14 grid grid-cols-3 gap-px bg-[var(--hairline)] border-t border-b border-[var(--hairline)] max-w-md"
+              className="mt-14 grid grid-cols-3 gap-px bg-[var(--hairline)] border-t border-b border-[var(--hairline)] max-w-xl"
             >
               {(() => {
                 const lockedEV = evByClass["safe-r"] + evByClass["lean-r"];
@@ -193,7 +193,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5"
+            className="lg:col-span-4"
           >
             <HeroDashboard />
           </motion.div>
