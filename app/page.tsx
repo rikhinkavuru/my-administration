@@ -7,6 +7,7 @@ import HeroDashboard from "@/components/HeroDashboard";
 import StatBand from "@/components/StatBand";
 import Marquee from "@/components/Marquee";
 import JetSequence from "@/components/jet/JetSequence";
+import ArchiveBackdrop from "@/components/ArchiveBackdrop";
 import { candidates } from "@/lib/data/candidates";
 import { evByClass, states } from "@/lib/data/states";
 import { ArrowRight } from "@/components/Icons";
@@ -86,6 +87,8 @@ export default function Home() {
 
   return (
     <div>
+      {/* Faded archaic line-art parallax behind everything */}
+      <ArchiveBackdrop />
       {/* ============== HERO ============== */}
       <motion.section
         ref={heroRef}
